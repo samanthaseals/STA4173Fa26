@@ -1,0 +1,681 @@
+---
+title: "STA2023 Review:<br>Statistical Inference"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+- This lecture reviews the concepts of statistical estimation and inference:
+
+    - point estimation
+    - interval estimation
+    - hypothesis testing
+    
+- There is an interactive widget in this lecture's slides -- please see class website :)    
+
+## Point Estimation
+
+::: {.notebook-entry}
+::: {.notebook-tab}
+point estimate
+:::
+A **point estimate** is a sample statistic that estimates the value of a population parameter; this estimate is based on the sample data.
+:::
+
+- Sample statistics estimate population parameters.
+
+    - $\bar{x}$ estimates $\mu$
+    - $s$ estimates $\sigma$
+    - $\hat{p}_1 - \hat{p}_2$ estimates $\pi_1 - \pi_2$
+
+## Interval Estimation
+
+::: {.notebook-entry}
+::: {.notebook-tab}
+confidence interval
+:::
+A **confidence interval** is a *range* of plausible values for the parameter under investigation; this estimate is based on the sample data.
+:::
+
+- Lower bound: minimum plausible value for the parameter according to the data
+
+- Upper bound: maximum plausible value for the parameter according to the data
+
+- Confidence intervals are found for population parameters.
+
+    - CI for $\pi$
+    - CI for $\mu_1-\mu_2$
+    - CI for $\sigma^2$
+    
+## Interval Estimation
+
+::: {.notebook-entry}
+::: {.notebook-tab}
+level of estimation
+:::
+The **level of estimation** is the expected proportion of intervals that will contain the true value of the population parameter if the population is repeatedly sampled.
+:::
+
+- A common level of estimation is **95%**.
+
+    - If we were to draw 100 samples from the same population, we expect 95 of the estimated confidence intervals to contain the true value of the population parameter.
+    
+## Interval Estimation
+    
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| fig-alt: "Wider intervals correspond to higher confidence"
+#| fig-width: 10
+#| fig-height: 3
+#| out-width: "100%"
+#| dev.args: {bg: "transparent"}
+
+library(ggplot2)
+library(tibble)
+library(grid)  # for arrow()
+
+# --- positions along the number line (illustrative only) ---
+x_outer_low  <- 0   # wider interval, lower bound
+x_inner_low  <- 2   # narrower interval, lower bound
+x_point_est  <- 4   # point estimate
+x_inner_high <- 6   # narrower interval, upper bound
+x_outer_high <- 8   # wider interval, upper bound
+
+line_color <- "#2c7fb8"  # swap for UWF Heritage Blue (#005EA6) if you like
+
+# height of the dashed connector lines for each interval
+y_lower  <- 0.4   # narrower / lower-confidence interval
+y_higher <- 0.8   # wider / higher-confidence interval -- kept well above y_lower
+                   # so its label doesn't crowd "Lower level of confidence"
+
+label_pad <- 0.15  # gap between top of dashed line and its label
+arrow_inset <- 1  # gap between the label and where each arrow starts
+
+ggplot() +
+  # main number line
+  geom_segment(aes(x = 0, xend = 8, y = 0, yend = 0), linewidth = 0.6) +
+  # point estimate dot + label
+  annotate("point", x = x_point_est, y = 0, size = 2) +
+  annotate("text", x = x_point_est, y = -0.1, label = "Point estimate", size = 4) +
+  # lower-confidence dashed connectors + label
+  annotate("segment", x = x_inner_low,  xend = x_inner_low,
+           y = 0, yend = y_lower, color = line_color, linetype = "dashed") +
+  annotate("segment", x = x_inner_high, xend = x_inner_high,
+           y = 0, yend = y_lower, color = line_color, linetype = "dashed") +
+  annotate("text", x = (x_inner_low + x_inner_high) / 2, y = y_lower,
+           label = "Lower level\n of confidence", color = line_color, size = 4.2) +
+  annotate("segment",
+           x = (x_inner_low + x_inner_high) / 2 - arrow_inset, xend = x_inner_low,
+           y = y_lower, yend = y_lower,
+           color = line_color, linewidth = 0.5,
+           arrow = arrow(length = unit(0.15, "cm"))) +
+  annotate("segment",
+           x = (x_inner_low + x_inner_high) / 2 + arrow_inset, xend = x_inner_high,
+           y = y_lower, yend = y_lower,
+           color = line_color, linewidth = 0.5,
+           arrow = arrow(length = unit(0.15, "cm"))) +
+  # higher-confidence dashed connectors + label
+  annotate("segment", x = x_outer_low,  xend = x_outer_low,
+           y = 0, yend = y_higher, color = line_color, linetype = "dashed") +
+  annotate("segment", x = x_outer_high, xend = x_outer_high,
+           y = 0, yend = y_higher, color = line_color, linetype = "dashed") +
+  annotate("text", x = (x_outer_low + x_outer_high) / 2, y = y_higher,
+           label = "Higher level\n of confidence", color = line_color, size = 4.2) +
+  annotate("segment",
+           x = (x_outer_low + x_outer_high) / 2 - arrow_inset, xend = x_outer_low,
+           y = y_higher, yend = y_higher,
+           color = line_color, linewidth = 0.5,
+           arrow = arrow(length = unit(0.15, "cm"))) +
+  annotate("segment",
+           x = (x_outer_low + x_outer_high) / 2 + arrow_inset, xend = x_outer_high,
+           y = y_higher, yend = y_higher,
+           color = line_color, linewidth = 0.5,
+           arrow = arrow(length = unit(0.15, "cm"))) +
+  coord_cartesian(xlim = c(-0.5, 10.5), ylim = c(-0.6, 2.0), clip = "off") +
+  theme_void()
+```    
+
+## Confidence Intervals
+
+- Often, confidence intervals will take the form
+
+$$\text{point estimate} \ \pm \ \text{margin of error}$$
+
+- Lower bound = point estimate $-$ margin of error
+
+- Upper bound = point estimate $+$ margin of error
+
+- The margin of error is the critical value $\times$ standard error.
+
+    - The critical value will depend on the level of confidence and the sampling distribution of the point estimate.
+    
+    - The standard error corresponds to the point estimate.
+
+## Example 1
+
+- The Ponyville Spa claims average wait time for a treatment with Rarity and Fluttershy is 8 minutes, but guests believe it is longer.
+    
+    - Analyst determines that the 95% CI for $\mu$ is (8.09, 11.91).
+        
+    - We are 95% confident the true average wait time at the Ponyville Spa during the summer rush is between 8.09 and 11.91 minutes. 
+    
+- Takeaway: because the interval is larger than 8, the average wait time is likely longer than 8 minutes.
+
+## Example 2
+
+- Ponyville wonders if the nightly campfire sing-alongs are less popular at Sweet Apple Acres than at the Ponyville Schoolhouse.
+
+    - Analyst determines that the 95% CI for $\pi_{\text{Acres}} - \pi_{\text{School}}$ is (-0.321, $0.021).
+
+    - We are 95% confident the true difference in campfire attendance proportions (Acres - School) is between $-$0.321 and 0.021. 
+    
+- Takeaway: because the interval contains 0, we cannot conclude that one location's campfire is more popular than the other.
+    
+## Hypothesis Testing
+
+::: {.notebook-entry}
+::: {.notebook-tab}
+hypothesis testing
+:::
+**Hypothesis testing** is a statistical procedure that allows us to make inferences about population parameters based on sample data.
+:::
+
+- General steps:
+
+    1. Make a statement about the nature of the population. 
+    
+    2. Collect evidence to test the statement.
+    
+    3. Analyze the data to determine the plausibility of the statement.
+
+## Hypotheses
+
+::: {.notebook-entry}
+::: {.notebook-tab}
+hypothesis
+:::
+A statistical **hypothesis** is a statement regarding the population parameter.
+:::
+
+- We will be stating two hypotheses: the null and the alternative.
+
+    - **$H_0$: null hypothesis** a mathematical statement about the population parameter; this hypothesis is assumed *true* until evidence indicates otherwise.
+    
+    - **$H_1$: alternative hypothesis** a statement about the population parameter that contradicts the null hypothesis; this is also called the research hypothesis.
+    
+- Note! $H_0 + H_1$ should cover the real line, $\mathbb{R}$.
+
+    - Some textbooks teach that "$=$" is *always* used in $H_0$.
+    
+## Hypotheses
+
+- **One sample tests**
+
+    - **Two-tailed test**
+        - $H_0:$ parameter $=$ hypothesized value
+        - $H_1:$ parameter $\ne$ hypothesized value
+        
+    - **Left-tailed test**
+        - $H_0:$ parameter $\ge$ hypothesized value    
+        - $H_1:$ parameter $<$ hypothesized value
+        
+    - **Right-tailed test**
+        - $H_0:$ parameter $\le$ hypothesized value    
+        - $H_1:$ parameter $>$ hypothesized value     
+        
+## Hypotheses
+
+- Examples:
+
+    - "Ponies spend more than 50 bits/day at the Crystal Empire fair" $\to$ $H_1: \mu > 50$.
+    
+    - "80% of ponies are satisfied with their visit to the fair" $\to$ $H_1: \pi = 0.80$.    
+    
+    - "The variability in daily pony spending is less than $100" $\to$ $H_1: \sigma^2 < 100$.
+
+    - "The median wait time for a ride at the Ponyville Fair is greater than 30 minutes" $\to$ $H_1: M > 30$.
+    
+    - "Fewer than 25% of ponies purchase caramel apple treats" $\to$ $H_1: \pi < 0.25$.    
+        
+## Hypotheses
+
+- **Two sample tests**
+
+    - **Two-tailed test**
+        - $H_0:$ parameter<sub>1</sub> $-$ parameter<sub>2</sub> $=$ hypothesized difference
+        - $H_1:$ parameter<sub>1</sub> $-$ parameter<sub>2</sub> $\ne$ hypothesized difference
+        
+    - **Left-tailed test**
+        - $H_0:$ parameter<sub>1</sub> $-$ parameter<sub>2</sub> $\ge$ hypothesized difference
+        - $H_1:$ parameter<sub>1</sub> $-$ parameter<sub>2</sub> $<$ hypothesized difference
+        
+    - **Right-tailed test**
+        - $H_0:$ parameter<sub>1</sub> - parameter<sub>2</sub> $\le$ hypothesized difference
+        - $H_1:$ parameter<sub>1</sub> - parameter<sub>2</sub> $>$ hypothesized difference
+        
+## Hypotheses
+
+- Examples:
+
+    - "Ponies spend more at the Crystal Empire fair than at the Ponyville fair" $\to$ $H_1: \mu_{\text{CE}} > \mu_\text{PV}$.
+
+    - "The proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders" $\to$ $H_1: \pi_\text{SP} \ne \pi_\text{SD}$.
+
+    - "The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points" $\to$ $H_1: \pi_\text{SP} - \pi_\text{SD} < 0.10$.
+
+    - "The wait time for a ride is different in the morning vs. the afternoon on the same day" $\to$ $H_1: \mu_d \ne 0$, where $\mu_d =  \mu_\text{am} - \mu_\text{pm}$.
+    
+## Hypotheses
+
+- Once we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.
+
+    - "Ponies spend more than 50 bits/day at the Crystal Empire fair"
+        - $H_0: \mu \le 50$
+        - $H_1: \mu > 50$
+
+    - "The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points"
+        - $H_0: \pi_\text{SP} - \pi_\text{SD} \ge 0.10$
+        - $H_1: \pi_\text{SP} - \pi_\text{SD} < 0.10$
+        
+## Hypotheses
+
+- Once we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.        
+        
+    - "80% of ponies are satisfied with their visit to the fair"
+        - $H_0: \pi = 0.80$
+        - $H_1: \pi \ne 0.80$
+
+    - "Ponies spend more at the Crystal Empire fair than at the Ponyville fair"
+        - $H_0: \mu_{\text{CE}} \le \mu_\text{PV}$ $\to$ $H_0: \mu_{\text{CE}} - \mu_\text{PV} \le 0$
+        - $H_1: \mu_{\text{CE}} > \mu_\text{PV}$ $\to$ $H_1: \mu_{\text{CE}} - \mu_\text{PV} > 0$
+
+## Test Statistics
+
+- After stating our hypotheses, we will construct an appropriate test statistic. 
+
+    - A test statisic is a measure of the distance from what you observed to what you are assuming to he true.
+
+- The choice of test statistic depends on:
+
+    1. The hypotheses being tested.
+    
+    2. Assumptions made about the data.
+
+- The value of the test statistic depends on the sample data. 
+
+    - If we were to draw a different sample, our calculations would result in a different value for the test statistic.
+
+- We will use the test statistic on our way to drawing conclusions about the hypotheses.
+
+## *p*-Value
+
+- ***p*-value** the probability of observing our test statistic or one more extreme.
+
+    - More extreme?
+        
+        - If the alternative hypothesis is right-tailed, we will consider the right tail of the distribution.
+        
+        - If the alternative hypothesis is left-tailed, we will consider the left tail of the distribution.
+        
+        - If the alternative hypothesis is two-tailed, we will consider both tails of the distribution.
+
+- We use the *p*-value to determine if we reject the null (believe the alternative) or fail to reject the null (do not believe the alternative).
+
+## *p*-Value
+
+::: {.notebook-entry}
+::: {.notebook-tab}
+$p$-value
+:::
+The **p*-value** is the probability of observing the current test statistic or one more extreme.
+:::
+
+
+
+```{=html}
+<div id="pval-widget" style="width:92%; max-width:1400px; margin:0 auto;">
+  <div style="display:grid; grid-template-columns: minmax(280px, 30%) 1fr; grid-template-rows: auto auto; grid-template-areas: 'alt plot' 'slider pvalue'; column-gap:2em; row-gap:1.2em; align-items:center;">
+
+    <!-- alternative hypothesis -->
+    <div style="grid-area:alt; background:#f5f4f0; border-radius:10px; padding:1.2em 1.4em; text-align:left; align-self:stretch;">
+      <div style="font-weight:700; margin-bottom:0.6em; font-size:1em;">Alternative hypothesis:</div>
+      <label style="display:block; margin-bottom:0.5em; font-size:1em; white-space:nowrap;"><input type="radio" name="pvalTail" value="upper"> Upper-tailed</label>
+      <label style="display:block; margin-bottom:0.5em; font-size:1em; white-space:nowrap;"><input type="radio" name="pvalTail" value="lower"> Lower-tailed</label>
+      <label style="display:block; font-size:1em; white-space:nowrap;"><input type="radio" name="pvalTail" value="two" checked> Two-tailed </label>
+    </div>
+
+    <!-- plot -->
+    <div style="grid-area:plot; background:#f5f4f0; border-radius:10px; padding:0.8em;">
+      <svg id="pvalSvg" viewBox="0 0 700 260" width="700" height="260" style="display:block; margin:0 auto; width:100%; height:auto;">
+        <line x1="40" y1="220" x2="660" y2="220" stroke="#888" stroke-width="1"/>
+        <path id="pvalShadeLeft" fill="#7DB9D9" fill-opacity="0.7" d=""/>
+        <path id="pvalShadeRight" fill="#7DB9D9" fill-opacity="0.7" d=""/>
+        <path id="pvalCurve" fill="none" stroke="#005EA6" stroke-width="2.5" d=""/>
+        <line id="pvalRule" x1="0" y1="20" x2="0" y2="220" stroke="#222" stroke-width="1.5" stroke-dasharray="4,3"/>
+      </svg>
+    </div>
+
+    <!-- slider -->
+    <div style="grid-area:slider; background:#f5f4f0; border-radius:10px; padding:1em 1.2em; display:flex; align-items:center; gap:0.8em; align-self:stretch;">
+      <label for="pvalZ" style="font-size:1em; white-space:nowrap;">Test statistic</label>
+      <input id="pvalZ" type="range" min="-4" max="4" step="0.01" value="1.5" style="flex:1; min-width:80px;">
+      <span id="pvalZVal" style="font-weight:700; font-size:1.2em; width:3em; text-align:right;">1.50</span>
+    </div>
+
+    <!-- p-value -->
+    <div style="grid-area:pvalue; text-align:center; font-weight:700; font-size:1.25em; color:#005EA6;">
+      p-value = <span id="pvalOut">0.1336</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  function erf(x) {
+    const sign = x < 0 ? -1 : 1;
+    x = Math.abs(x);
+    const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741,
+          a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    const t = 1 / (1 + p * x);
+    const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+    return sign * y;
+  }
+  function normPdf(x) { return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI); }
+  function normCdf(x) { return 0.5 * (1 + erf(x / Math.sqrt(2))); }
+
+  const xMin = -4, xMax = 4, yMin = 0, yMax = 0.45;
+  const pxLeft = 40, pxRight = 660, pyTop = 20, pyBottom = 220;
+
+  function xToPx(x) { return pxLeft + (x - xMin) / (xMax - xMin) * (pxRight - pxLeft); }
+  function yToPx(y) { return pyBottom - (y - yMin) / (yMax - yMin) * (pyBottom - pyTop); }
+
+  function curvePoints(x0, x1, step) {
+    const pts = [];
+    for (let x = x0; x <= x1 + 1e-9; x += step) {
+      pts.push([xToPx(x), yToPx(normPdf(x))]);
+    }
+    return pts;
+  }
+
+  function areaPath(x0, x1) {
+    const pts = curvePoints(x0, x1, 0.05);
+    if (pts.length === 0) return "";
+    let d = `M ${pts[0][0]},${yToPx(0)} `;
+    pts.forEach(p => { d += `L ${p[0]},${p[1]} `; });
+    d += `L ${pts[pts.length - 1][0]},${yToPx(0)} Z`;
+    return d;
+  }
+
+  const curveEl = document.getElementById('pvalCurve');
+  const shadeLeftEl = document.getElementById('pvalShadeLeft');
+  const shadeRightEl = document.getElementById('pvalShadeRight');
+  const ruleEl = document.getElementById('pvalRule');
+  const zSlider = document.getElementById('pvalZ');
+  const zValEl = document.getElementById('pvalZVal');
+  const pvalOutEl = document.getElementById('pvalOut');
+
+  // Draw the static curve once
+  const fullPts = curvePoints(xMin, xMax, 0.05);
+  curveEl.setAttribute('d', 'M ' + fullPts.map(p => p.join(',')).join(' L '));
+
+  function getTail() {
+    const checked = document.querySelector('input[name="pvalTail"]:checked');
+    return checked ? checked.value : 'two';
+  }
+
+  function update() {
+    const z = parseFloat(zSlider.value);
+    zValEl.textContent = z.toFixed(2);
+    const tail = getTail();
+
+    let pvalue;
+    shadeLeftEl.setAttribute('d', '');
+    shadeRightEl.setAttribute('d', '');
+
+    if (tail === 'upper') {
+      pvalue = 1 - normCdf(z);
+      shadeRightEl.setAttribute('d', areaPath(z, xMax));
+    } else if (tail === 'lower') {
+      pvalue = normCdf(z);
+      shadeLeftEl.setAttribute('d', areaPath(xMin, z));
+    } else {
+      pvalue = 2 * (1 - normCdf(Math.abs(z)));
+      shadeLeftEl.setAttribute('d', areaPath(xMin, -Math.abs(z)));
+      shadeRightEl.setAttribute('d', areaPath(Math.abs(z), xMax));
+    }
+
+    const zx = xToPx(z);
+    ruleEl.setAttribute('x1', zx);
+    ruleEl.setAttribute('x2', zx);
+
+    pvalOutEl.textContent = pvalue.toFixed(4);
+  }
+
+  zSlider.addEventListener('input', update);
+  document.querySelectorAll('input[name="pvalTail"]').forEach(function(r) {
+    r.addEventListener('change', update);
+  });
+
+  update();
+})();
+</script>
+```
+
+## *p*-Values
+
+- Mathematically, we are asking
+
+    - Right-tailed test: $P[\text{distribution} \ge \text{test statistic}]$
+    
+    - Left-tailed test: $P[\text{distribution} \le \text{test statistic}]$
+    
+    - Two-tailed test: $P[\text{distribution} \ne \text{test statistic}]$
+
+## Rejection Regions
+
+- We use rejection regions to determine if we reject the null or fail to reject the null.
+
+- Classical approach: critical values and statistical tables. 
+
+- Modern approach: $p$-values.
+
+    - ***p*-value** the probability of observing our test statistic or one more extreme.
+
+- All rejection regions will take the same form:
+
+<center><span style="font-size:2em;">Reject $H_0$ if $p < \alpha$.</span></center>
+
+## Errors in Hypothesis Testing
+
+- Wait, what is $\alpha$? 
+
+    - $\alpha$ is the **significance level** of the test. 
+
+- A Type I error ($\alpha$) means that we reject the null when we should not. 
+
+    - $\alpha = P[\text{reject } H_0 \text{ when } H_0 \text{ is true}]$
+
+- A Type II error ($\beta$) means that we fail to reject the null when we should not. 
+
+    - $\beta = P[\text{fail to reject } H_0 \text{ when } H_1 \text{ is true}]$
+    
+- We should choose $\alpha$ based on the level of error we are willing to withstand.
+
+    - The $\alpha$ that is commonly used is $\alpha=0.05$.
+    
+    - Sometimes, smaller $\alpha$ is used. e.g., clinical trial $\to$  $\alpha=0.01$.
+
+## Drawing a Conclusion 
+
+- We draw a conclusion by following the instructions of our rejection region.
+
+- If $p < \alpha$, we **reject** the null hypothesis.
+    - There **is** sufficient evidence to suggest that the alternative is true.
+
+- If $p \ge \alpha$, we **fail to reject** the null hypothesis.
+    - There **is not** sufficient evidence to suggest that the alternative is true.
+
+- Note the language -- "fail to reject" is not the same as "accept."    
+
+<br><center><span style="font-size:2em;">We **never** "accept" $H_0$.</span></center>    
+
+## Interpretation of Results
+
+- We will always report our results in the context of the problem.
+
+- Examples:
+
+    - There is sufficient evidence to suggest that the average daily spending of ponies at the Crystal Empire fair is greater than 50 bits.
+
+    - There is not sufficient evidence to suggest that the proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders.
+
+## Putting it Together
+
+- For class purposes, you will be reporting all hypothesis test pieces.
+
+    - Hypotheses
+    - Test Statistic and $p$-Value
+    - Rejection Region
+    - Conclusion and Interpretation
+
+## Example 1
+
+- The Ponyville Spa claims average wait time for a treatment with Rarity and Fluttershy is 8 minutes, but guests believe it is longer.
+
+- **Hypotheses**
+
+    - $H_0: \mu \le 8$
+    - $H_1: \mu > 8$ 
+
+- **Test Statistic and $p$-Value**
+
+    - $t = 2.14$
+    - $p = 0.021$
+    
+## Example 1
+
+- The Ponyville Spa claims average wait time for a treatment with Rarity and Fluttershy is 8 minutes, but guests believe it is longer.  
+
+- **Test Statistic and $p$-Value**
+
+    - $t = 2.14$
+    - $p = 0.021$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha; \ \alpha = 0.05$
+    
+- **Conclusion and Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that the average wait time at the Beach Pool bar is greater than 8 minutes during summer break.
+
+## Example 2 
+
+- Ponyville wonders if the nightly campfire sing-alongs are less popular at Sweet Apple Acres than at the Ponyville Schoolhouse.
+
+- **Hypotheses**
+
+    - $H_0: \pi_{\text{Acres}} \ge \pi_{\text{Schoolhouse}}$
+    - $H_1: \pi_{\text{Acres}} < \pi_{\text{Schoolhouse}}$
+    
+- **Test Statistic and $p$-Value**
+
+    - $z = 1.64$
+    - $p = 0.051$    
+    
+## Example 2
+
+- Ponyville wonders if the nightly campfire sing-alongs are less popular at Sweet Apple Acres than at the Ponyville Schoolhouse.
+
+- **Test Statistic and $p$-Value**
+
+    - $z = 1.64$
+    - $p = 0.051$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha; \ \alpha = 0.05$
+    
+- **Conclusion and Interpretation**
+
+    - Fail to reject $H_0$. There is not sufficient evidence to suggest that a smaller proportion of ponies attend nightly campfire sing-alongs at Sweet Apple Acres as compared to the Ponyville Schoolhouse.
+    
+## Example 3
+
+- For the purpose of ribbon distribution, the lead organizer at the Ponyville Fair asks if cabin type (Cutie Mark Crusaders, Element of Harmony, Wonderbolts, or Crystal Empire) affects meadow preference (Sweet Apple Orchard, Everfree Edge, or Sparkle Springs).
+
+- **Hypotheses**
+
+    - $H_0:$ cabin type does not affect meadow preference
+    - $H_1:$ cabin type affects meadow preference
+    
+- **Test Statistic and $p$-Value**
+
+    - $\chi^2 = 9.87$
+    - $p = 0.020$    
+    
+## Example 3
+
+- For the purpose of ribbon distribution, the lead organizer at the Ponyville Fair asks if cabin type (Cutie Mark Crusaders, Element of Harmony, Wonderbolts, or Crystal Empire) affects meadow preference (Sweet Apple Orchard, Everfree Edge, or Sparkle Springs).
+
+- **Test Statistic and $p$-Value**
+
+    - $\chi^2 = 9.87$
+    - $p = 0.020$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha; \ \alpha = 0.05$
+    
+- **Conclusion and Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that cabin type depends on meadow preference.
+    
+## Practical vs. Statistical Significance
+
+- Hypothesis testing depends on sample size.
+
+    - As the sample size increases, our test statistics increase.
+    - As test statistics increase, our $p$-values decrease.
+    - As $p$-values decrease, we are more likely to reject the null hypothesis. 
+
+- We must ask ourselves if the value we are testing against makes *practical* sense. 
+
+    - Would you care about a new weight loss medication where the average amount of weight lost was 1 lb over 6 months?   
+
+    - Would you care about a new teaching method that only raised final exam scores by 2 points?
+    
+## Wrap Up
+
+- **point estimation:** best guess at the population parameter.
+
+- **interval estimation:** range of plausible values of the population parameter.
+
+- **hypothesis testing:** formal way to evaluate evidence against a claim.
+
+- As we move forward, we will see how all of these concepts are connected.
+
+    - Both confidence intervals and hypothesis tests are based on the same sampling distributions of point estimates.
+    
+    - In statistical theory, interval estimates are derived from test statistics. 
