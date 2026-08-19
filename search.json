@@ -60,7 +60,7 @@
     "href": "lectures/01-2-inference.html#example-2",
     "title": "STA2023 Review:Statistical Inference",
     "section": "Example 2",
-    "text": "Example 2\n\nPonyville wonders if the nightly campfire sing-alongs are less popular at Sweet Apple Acres than at the Ponyville Schoolhouse.\n\nAnalyst determines that the 95% CI for \\pi_{\\text{Acres}} - \\pi_{\\text{School}} is (-0.321, $0.021).\nWe are 95% confident the true difference in campfire attendance proportions (Acres - School) is between $-$0.321 and 0.021.\n\nTakeaway: because the interval contains 0, we cannot conclude that one location’s campfire is more popular than the other."
+    "text": "Example 2\n\nPonyville wonders if the nightly campfire sing-alongs are less popular at Sweet Apple Acres than at the Ponyville Schoolhouse.\n\nAnalyst determines that the 95% CI for \\pi_{\\text{Acres}} - \\pi_{\\text{School}} is (– 0.321, 0.021).\nWe are 95% confident the true difference in campfire attendance proportions (Acres – School) is between –0.321 and 0.021.\n\nTakeaway: because the interval contains 0, we cannot conclude that one location’s campfire is more popular than the other."
   },
   {
     "objectID": "lectures/01-2-inference.html#hypothesis-testing",
@@ -88,7 +88,7 @@
     "href": "lectures/01-2-inference.html#hypotheses-2",
     "title": "STA2023 Review:Statistical Inference",
     "section": "Hypotheses",
-    "text": "Hypotheses\n\nExamples:\n\n“Ponies spend more than 50 bits/day at the Crystal Empire fair” \\to H_1: \\mu &gt; 50.\n“80% of ponies are satisfied with their visit to the fair” \\to H_1: \\pi = 0.80.\n“The variability in daily pony spending is less than $100” \\to H_1: \\sigma^2 &lt; 100.\n“The median wait time for a ride at the Ponyville Fair is greater than 30 minutes” \\to H_1: M &gt; 30.\n“Fewer than 25% of ponies purchase caramel apple treats” \\to H_1: \\pi &lt; 0.25."
+    "text": "Hypotheses\n\nExamples:\n\n“Ponies spend more than 50 bits/day at the Crystal Empire fair”\n\nH_1: \\mu &gt; 50.\n\n“80% of ponies are satisfied with their visit to the fair”\n\nH_1: \\pi = 0.80.\n\n“The variability in daily pony spending is less than $100”\n\nH_1: \\sigma^2 &lt; 100."
   },
   {
     "objectID": "lectures/01-2-inference.html#hypotheses-3",
@@ -102,49 +102,35 @@
     "href": "lectures/01-2-inference.html#hypotheses-4",
     "title": "STA2023 Review:Statistical Inference",
     "section": "Hypotheses",
-    "text": "Hypotheses\n\nExamples:\n\n“Ponies spend more at the Crystal Empire fair than at the Ponyville fair” \\to H_1: \\mu_{\\text{CE}} &gt; \\mu_\\text{PV}.\n“The proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders” \\to H_1: \\pi_\\text{SP} \\ne \\pi_\\text{SD}.\n“The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points” \\to H_1: \\pi_\\text{SP} - \\pi_\\text{SD} &lt; 0.10.\n“The wait time for a ride is different in the morning vs. the afternoon on the same day” \\to H_1: \\mu_d \\ne 0, where \\mu_d =  \\mu_\\text{am} - \\mu_\\text{pm}."
+    "text": "Hypotheses\n\nExamples:\n\n“Ponies spend more at the Crystal Empire fair than at the Ponyville fair”\n\nH_1: \\mu_{\\text{CE}} &gt; \\mu_\\text{PV}.\n\n“The proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders”\n\nH_1: \\pi_\\text{SP} \\ne \\pi_\\text{SD}.\n\n“The wait time for a ride is different in the morning vs. the afternoon on the same day”\n\nH_1: \\mu_d \\ne 0, where \\mu_d =  \\mu_\\text{am} - \\mu_\\text{pm}."
   },
   {
     "objectID": "lectures/01-2-inference.html#hypotheses-5",
     "href": "lectures/01-2-inference.html#hypotheses-5",
     "title": "STA2023 Review:Statistical Inference",
     "section": "Hypotheses",
-    "text": "Hypotheses\n\nOnce we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.\n\n“Ponies spend more than 50 bits/day at the Crystal Empire fair”\n\nH_0: \\mu \\le 50\nH_1: \\mu &gt; 50\n\n“The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points”\n\nH_0: \\pi_\\text{SP} - \\pi_\\text{SD} \\ge 0.10\nH_1: \\pi_\\text{SP} - \\pi_\\text{SD} &lt; 0.10"
-  },
-  {
-    "objectID": "lectures/01-2-inference.html#hypotheses-6",
-    "href": "lectures/01-2-inference.html#hypotheses-6",
-    "title": "STA2023 Review:Statistical Inference",
-    "section": "Hypotheses",
-    "text": "Hypotheses\n\nOnce we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.\n\n“80% of ponies are satisfied with their visit to the fair”\n\nH_0: \\pi = 0.80\nH_1: \\pi \\ne 0.80\n\n“Ponies spend more at the Crystal Empire fair than at the Ponyville fair”\n\nH_0: \\mu_{\\text{CE}} \\le \\mu_\\text{PV} \\to H_0: \\mu_{\\text{CE}} - \\mu_\\text{PV} \\le 0\nH_1: \\mu_{\\text{CE}} &gt; \\mu_\\text{PV} \\to H_1: \\mu_{\\text{CE}} - \\mu_\\text{PV} &gt; 0"
+    "text": "Hypotheses\n\nOnce we have the alternative hypotheses, we know the null hypothesis is in the “opposite direction.”\n\n“Ponies spend more than 50 bits/day at the Crystal Empire fair”\n\nH_0: \\mu \\le 50\nH_1: \\mu &gt; 50\n\n“80% of ponies are satisfied with their visit to the fair”\n\nH_0: \\pi = 0.80\nH_1: \\pi \\ne 0.80\n\n“Ponies spend more at the Crystal Empire fair than at the Ponyville fair”\n\nH_0: \\mu_{\\text{CE}} \\le \\mu_\\text{PV} \\to H_0: \\mu_{\\text{CE}} - \\mu_\\text{PV} \\le 0\nH_1: \\mu_{\\text{CE}} &gt; \\mu_\\text{PV} \\to H_1: \\mu_{\\text{CE}} - \\mu_\\text{PV} &gt; 0"
   },
   {
     "objectID": "lectures/01-2-inference.html#test-statistics",
     "href": "lectures/01-2-inference.html#test-statistics",
     "title": "STA2023 Review:Statistical Inference",
     "section": "Test Statistics",
-    "text": "Test Statistics\n\nAfter stating our hypotheses, we will construct an appropriate test statistic.\n\nA test statisic is a measure of the distance from what you observed to what you are assuming to he true.\n\nThe choice of test statistic depends on:\n\nThe hypotheses being tested.\nAssumptions made about the data.\n\nThe value of the test statistic depends on the sample data.\n\nIf we were to draw a different sample, our calculations would result in a different value for the test statistic.\n\nWe will use the test statistic on our way to drawing conclusions about the hypotheses."
+    "text": "Test Statistics\n\nAfter stating our hypotheses, we will construct an appropriate test statistic.\n\nA test statisic is a measure of the distance from what you observed to what you are assuming to he true.\n\nThe choice of test statistic depends on:\n\nThe hypotheses being tested.\nAssumptions made about the data.\n\nThe value of the test statistic depends on the sample data.\n\nIf we were to draw a different sample, our calculations would result in a different value for the test statistic."
   },
   {
     "objectID": "lectures/01-2-inference.html#p-value",
     "href": "lectures/01-2-inference.html#p-value",
     "title": "STA2023 Review:Statistical Inference",
     "section": "p-Value",
-    "text": "p-Value\n\np-value the probability of observing our test statistic or one more extreme.\n\nMore extreme?\n\nIf the alternative hypothesis is right-tailed, we will consider the right tail of the distribution.\nIf the alternative hypothesis is left-tailed, we will consider the left tail of the distribution.\nIf the alternative hypothesis is two-tailed, we will consider both tails of the distribution.\n\n\nWe use the p-value to determine if we reject the null (believe the alternative) or fail to reject the null (do not believe the alternative)."
+    "text": "p-Value\n\n\np-value\n\nThe p-value is the probability of observing our test statistic or one more extreme.\n\n\nMathematically,\n\nRight-tailed test: P[\\text{distribution} \\ge \\text{test statistic}]\nLeft-tailed test: P[\\text{distribution} \\le \\text{test statistic}]\nTwo-tailed test: P[\\text{distribution} \\ne \\text{test statistic}]"
   },
   {
     "objectID": "lectures/01-2-inference.html#p-value-1",
     "href": "lectures/01-2-inference.html#p-value-1",
     "title": "STA2023 Review:Statistical Inference",
     "section": "p-Value",
-    "text": "p-Value\n\n\np-value\n\nThe **p*-value** is the probability of observing the current test statistic or one more extreme.\n\n\n  \n\n    \n    \n      Alternative hypothesis:\n       Upper-tailed\n       Lower-tailed\n       Two-tailed \n    \n\n    \n    \n      \n        \n        \n        \n        \n        \n      \n    \n\n    \n    \n      Test statistic\n      \n      1.50\n    \n\n    \n    \n      p-value = 0.1336"
-  },
-  {
-    "objectID": "lectures/01-2-inference.html#p-values",
-    "href": "lectures/01-2-inference.html#p-values",
-    "title": "STA2023 Review:Statistical Inference",
-    "section": "p-Values",
-    "text": "p-Values\n\nMathematically, we are asking\n\nRight-tailed test: P[\\text{distribution} \\ge \\text{test statistic}]\nLeft-tailed test: P[\\text{distribution} \\le \\text{test statistic}]\nTwo-tailed test: P[\\text{distribution} \\ne \\text{test statistic}]"
+    "text": "p-Value\n\n  \n\n    \n    \n      Alternative hypothesis:\n       Upper-tailed\n       Lower-tailed\n       Two-tailed \n    \n\n    \n    \n      \n        \n        \n        \n        \n        \n      \n    \n\n    \n    \n      Test statistic\n      \n      1.50\n    \n\n    \n    \n      p-value = 0.1336"
   },
   {
     "objectID": "lectures/01-2-inference.html#rejection-regions",

@@ -1591,8 +1591,8 @@ margin-right: 0; }
 <ul>
 <li><p>Ponyville wonders if the nightly campfire sing-alongs are less popular at Sweet Apple Acres than at the Ponyville Schoolhouse.</p>
 <ul>
-<li><p>Analyst determines that the 95% CI for <span class="math inline">\pi_{\text{Acres}} - \pi_{\text{School}}</span> is (-0.321, $0.021).</p></li>
-<li><p>We are 95% confident the true difference in campfire attendance proportions (Acres - School) is between $-$0.321 and 0.021.</p></li>
+<li><p>Analyst determines that the 95% CI for <span class="math inline">\pi_{\text{Acres}} - \pi_{\text{School}}</span> is (– 0.321, 0.021).</p></li>
+<li><p>We are 95% confident the true difference in campfire attendance proportions (Acres – School) is between –0.321 and 0.021.</p></li>
 </ul></li>
 <li><p>Takeaway: because the interval contains 0, we cannot conclude that one location’s campfire is more popular than the other.</p></li>
 </ul>
@@ -1664,11 +1664,18 @@ margin-right: 0; }
 <ul>
 <li><p>Examples:</p>
 <ul>
-<li><p>“Ponies spend more than 50 bits/day at the Crystal Empire fair” <span class="math inline">\to</span> <span class="math inline">H_1: \mu &gt; 50</span>.</p></li>
-<li><p>“80% of ponies are satisfied with their visit to the fair” <span class="math inline">\to</span> <span class="math inline">H_1: \pi = 0.80</span>.</p></li>
-<li><p>“The variability in daily pony spending is less than $100” <span class="math inline">\to</span> <span class="math inline">H_1: \sigma^2 &lt; 100</span>.</p></li>
-<li><p>“The median wait time for a ride at the Ponyville Fair is greater than 30 minutes” <span class="math inline">\to</span> <span class="math inline">H_1: M &gt; 30</span>.</p></li>
-<li><p>“Fewer than 25% of ponies purchase caramel apple treats” <span class="math inline">\to</span> <span class="math inline">H_1: \pi &lt; 0.25</span>.</p></li>
+<li>“Ponies spend more than 50 bits/day at the Crystal Empire fair”
+<ul>
+<li><span class="math inline">H_1: \mu &gt; 50</span>.</li>
+</ul></li>
+<li>“80% of ponies are satisfied with their visit to the fair”
+<ul>
+<li><span class="math inline">H_1: \pi = 0.80</span>.</li>
+</ul></li>
+<li>“The variability in daily pony spending is less than $100”
+<ul>
+<li><span class="math inline">H_1: \sigma^2 &lt; 100</span>.</li>
+</ul></li>
 </ul></li>
 </ul>
 </section>
@@ -1700,36 +1707,31 @@ margin-right: 0; }
 <ul>
 <li><p>Examples:</p>
 <ul>
-<li><p>“Ponies spend more at the Crystal Empire fair than at the Ponyville fair” <span class="math inline">\to</span> <span class="math inline">H_1: \mu_{\text{CE}} &gt; \mu_\text{PV}</span>.</p></li>
-<li><p>“The proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders” <span class="math inline">\to</span> <span class="math inline">H_1: \pi_\text{SP} \ne \pi_\text{SD}</span>.</p></li>
-<li><p>“The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points” <span class="math inline">\to</span> <span class="math inline">H_1: \pi_\text{SP} - \pi_\text{SD} &lt; 0.10</span>.</p></li>
-<li><p>“The wait time for a ride is different in the morning vs. the afternoon on the same day” <span class="math inline">\to</span> <span class="math inline">H_1: \mu_d \ne 0</span>, where <span class="math inline">\mu_d =  \mu_\text{am} - \mu_\text{pm}</span>.</p></li>
+<li><p>“Ponies spend more at the Crystal Empire fair than at the Ponyville fair”</p>
+<ul>
+<li><span class="math inline">H_1: \mu_{\text{CE}} &gt; \mu_\text{PV}</span>.</li>
+</ul></li>
+<li><p>“The proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders”</p>
+<ul>
+<li><span class="math inline">H_1: \pi_\text{SP} \ne \pi_\text{SD}</span>.</li>
+</ul></li>
+<li><p>“The wait time for a ride is different in the morning vs. the afternoon on the same day”</p>
+<ul>
+<li><span class="math inline">H_1: \mu_d \ne 0</span>, where <span class="math inline">\mu_d =  \mu_\text{am} - \mu_\text{pm}</span>.</li>
+</ul></li>
 </ul></li>
 </ul>
 </section>
 <section id="hypotheses-5" class="slide level2">
 <h2>Hypotheses</h2>
 <ul>
-<li><p>Once we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.</p>
+<li><p>Once we have the alternative hypotheses, we know the null hypothesis is in the “opposite direction.”</p>
 <ul>
 <li>“Ponies spend more than 50 bits/day at the Crystal Empire fair”
 <ul>
 <li><span class="math inline">H_0: \mu \le 50</span></li>
 <li><span class="math inline">H_1: \mu &gt; 50</span></li>
 </ul></li>
-<li>“The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points”
-<ul>
-<li><span class="math inline">H_0: \pi_\text{SP} - \pi_\text{SD} \ge 0.10</span></li>
-<li><span class="math inline">H_1: \pi_\text{SP} - \pi_\text{SD} &lt; 0.10</span></li>
-</ul></li>
-</ul></li>
-</ul>
-</section>
-<section id="hypotheses-6" class="slide level2">
-<h2>Hypotheses</h2>
-<ul>
-<li><p>Once we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.</p>
-<ul>
 <li>“80% of ponies are satisfied with their visit to the fair”
 <ul>
 <li><span class="math inline">H_0: \pi = 0.80</span></li>
@@ -1759,32 +1761,27 @@ margin-right: 0; }
 <ul>
 <li>If we were to draw a different sample, our calculations would result in a different value for the test statistic.</li>
 </ul></li>
-<li><p>We will use the test statistic on our way to drawing conclusions about the hypotheses.</p></li>
 </ul>
 </section>
 <section id="p-value" class="slide level2">
 <h2><em>p</em>-Value</h2>
+<div class="notebook-entry">
+<div class="notebook-tab">
+<p><em>p</em>-value</p>
+</div>
+<p>The <strong><em>p</em>-value</strong> is the probability of observing our test statistic or one more extreme.</p>
+</div>
 <ul>
-<li><p><strong><em>p</em>-value</strong> the probability of observing our test statistic or one more extreme.</p>
+<li><p>Mathematically,</p>
 <ul>
-<li><p>More extreme?</p>
-<ul>
-<li><p>If the alternative hypothesis is right-tailed, we will consider the right tail of the distribution.</p></li>
-<li><p>If the alternative hypothesis is left-tailed, we will consider the left tail of the distribution.</p></li>
-<li><p>If the alternative hypothesis is two-tailed, we will consider both tails of the distribution.</p></li>
+<li><p>Right-tailed test: <span class="math inline">P[\text{distribution} \ge \text{test statistic}]</span></p></li>
+<li><p>Left-tailed test: <span class="math inline">P[\text{distribution} \le \text{test statistic}]</span></p></li>
+<li><p>Two-tailed test: <span class="math inline">P[\text{distribution} \ne \text{test statistic}]</span></p></li>
 </ul></li>
-</ul></li>
-<li><p>We use the <em>p</em>-value to determine if we reject the null (believe the alternative) or fail to reject the null (do not believe the alternative).</p></li>
 </ul>
 </section>
 <section id="p-value-1" class="slide level2">
 <h2><em>p</em>-Value</h2>
-<div class="notebook-entry">
-<div class="notebook-tab">
-<p><span class="math inline">p</span>-value</p>
-</div>
-<p>The **p*-value** is the probability of observing the current test statistic or one more extreme.</p>
-</div>
 <div id="pval-widget" style="width:92%; max-width:1400px; margin:0 auto;">
   <div style="display:grid; grid-template-columns: minmax(280px, 30%) 1fr; grid-template-rows: auto auto; grid-template-areas: &#39;alt plot&#39; &#39;slider pvalue&#39;; column-gap:2em; row-gap:1.2em; align-items:center;">
 
@@ -1912,17 +1909,6 @@ margin-right: 0; }
   update();
 })();
 </script>
-</section>
-<section id="p-values" class="slide level2">
-<h2><em>p</em>-Values</h2>
-<ul>
-<li><p>Mathematically, we are asking</p>
-<ul>
-<li><p>Right-tailed test: <span class="math inline">P[\text{distribution} \ge \text{test statistic}]</span></p></li>
-<li><p>Left-tailed test: <span class="math inline">P[\text{distribution} \le \text{test statistic}]</span></p></li>
-<li><p>Two-tailed test: <span class="math inline">P[\text{distribution} \ne \text{test statistic}]</span></p></li>
-</ul></li>
-</ul>
 </section>
 <section id="rejection-regions" class="slide level2">
 <h2>Rejection Regions</h2>
@@ -3406,7 +3392,7 @@ window.QuartoSupport = function () {
       }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
+          var filterRegex = new RegExp("https:\/\/samanthaseals\.github\.io\/STA4173Fa26\/");
         var isInternal = (href) => {
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
