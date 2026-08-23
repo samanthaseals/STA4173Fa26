@@ -185,9 +185,9 @@ $$\text{point estimate} \ \pm \ \text{margin of error}$$
 
 - Ponyville wonders if the nightly campfire sing-alongs are less popular at Sweet Apple Acres than at the Ponyville Schoolhouse.
 
-    - Analyst determines that the 95% CI for $\pi_{\text{Acres}} - \pi_{\text{School}}$ is (-0.321, $0.021).
+    - Analyst determines that the 95% CI for $\pi_{\text{Acres}} - \pi_{\text{School}}$ is (-- 0.321, 0.021).
 
-    - We are 95% confident the true difference in campfire attendance proportions (Acres - School) is between $-$0.321 and 0.021. 
+    - We are 95% confident the true difference in campfire attendance proportions (Acres -- School) is between --0.321 and 0.021. 
     
 - Takeaway: because the interval contains 0, we cannot conclude that one location's campfire is more popular than the other.
     
@@ -247,16 +247,15 @@ A statistical **hypothesis** is a statement regarding the population parameter.
 
 - Examples:
 
-    - "Ponies spend more than 50 bits/day at the Crystal Empire fair" $\to$ $H_1: \mu > 50$.
+    - "Ponies spend more than 50 bits/day at the Crystal Empire fair"
+        - $H_1: \mu > 50$.
     
-    - "80% of ponies are satisfied with their visit to the fair" $\to$ $H_1: \pi = 0.80$.    
+    - "80% of ponies are satisfied with their visit to the fair" 
+        - $H_1: \pi = 0.80$.    
     
-    - "The variability in daily pony spending is less than $100" $\to$ $H_1: \sigma^2 < 100$.
+    - "The variability in daily pony spending is less than $100" 
+        - $H_1: \sigma^2 < 100$.
 
-    - "The median wait time for a ride at the Ponyville Fair is greater than 30 minutes" $\to$ $H_1: M > 30$.
-    
-    - "Fewer than 25% of ponies purchase caramel apple treats" $\to$ $H_1: \pi < 0.25$.    
-        
 ## Hypotheses
 
 - **Two sample tests**
@@ -277,29 +276,24 @@ A statistical **hypothesis** is a statement regarding the population parameter.
 
 - Examples:
 
-    - "Ponies spend more at the Crystal Empire fair than at the Ponyville fair" $\to$ $H_1: \mu_{\text{CE}} > \mu_\text{PV}$.
+    - "Ponies spend more at the Crystal Empire fair than at the Ponyville fair" 
+    
+        - $H_1: \mu_{\text{CE}} > \mu_\text{PV}$.
 
-    - "The proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders" $\to$ $H_1: \pi_\text{SP} \ne \pi_\text{SD}$.
-
-    - "The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points" $\to$ $H_1: \pi_\text{SP} - \pi_\text{SD} < 0.10$.
-
-    - "The wait time for a ride is different in the morning vs. the afternoon on the same day" $\to$ $H_1: \mu_d \ne 0$, where $\mu_d =  \mu_\text{am} - \mu_\text{pm}$.
+    - "The proportion of ponies who purchase VIP cloud-seats differs between season-pass holders and single-day ticket holders" 
+        - $H_1: \pi_\text{SP} \ne \pi_\text{SD}$.
+        
+    - "The wait time for a ride is different in the morning vs. the afternoon on the same day"
+    
+        - $H_1: \mu_d \ne 0$, where $\mu_d =  \mu_\text{am} - \mu_\text{pm}$.
     
 ## Hypotheses
 
-- Once we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.
+- Once we have the alternative hypotheses, we know the null hypothesis is in the "opposite direction."
 
     - "Ponies spend more than 50 bits/day at the Crystal Empire fair"
         - $H_0: \mu \le 50$
         - $H_1: \mu > 50$
-
-    - "The difference in VIP cloud-seat purchase rates between season-pass holders and single-day guests is less than 10 percentage points"
-        - $H_0: \pi_\text{SP} - \pi_\text{SD} \ge 0.10$
-        - $H_1: \pi_\text{SP} - \pi_\text{SD} < 0.10$
-        
-## Hypotheses
-
-- Once we have the alternative hypotheses, we know the null hypothesis is in the opposite direction.        
         
     - "80% of ponies are satisfied with their visit to the fair"
         - $H_0: \pi = 0.80$
@@ -325,31 +319,24 @@ A statistical **hypothesis** is a statement regarding the population parameter.
 
     - If we were to draw a different sample, our calculations would result in a different value for the test statistic.
 
-- We will use the test statistic on our way to drawing conclusions about the hypotheses.
-
-## *p*-Value
-
-- ***p*-value** the probability of observing our test statistic or one more extreme.
-
-    - More extreme?
-        
-        - If the alternative hypothesis is right-tailed, we will consider the right tail of the distribution.
-        
-        - If the alternative hypothesis is left-tailed, we will consider the left tail of the distribution.
-        
-        - If the alternative hypothesis is two-tailed, we will consider both tails of the distribution.
-
-- We use the *p*-value to determine if we reject the null (believe the alternative) or fail to reject the null (do not believe the alternative).
-
 ## *p*-Value
 
 ::: {.notebook-entry}
 ::: {.notebook-tab}
-$p$-value
+*p*-value
 :::
-The **p*-value** is the probability of observing the current test statistic or one more extreme.
+The ***p*-value** is the probability of observing our test statistic or one more extreme.
 :::
 
+- Mathematically, 
+
+    - Right-tailed test: $P[\text{distribution} \ge \text{test statistic}]$
+    
+    - Left-tailed test: $P[\text{distribution} \le \text{test statistic}]$
+    
+    - Two-tailed test: $P[\text{distribution} \ne \text{test statistic}]$
+
+## *p*-Value
 
 
 ```{=html}
@@ -482,15 +469,6 @@ The **p*-value** is the probability of observing the current test statistic or o
 </script>
 ```
 
-## *p*-Values
-
-- Mathematically, we are asking
-
-    - Right-tailed test: $P[\text{distribution} \ge \text{test statistic}]$
-    
-    - Left-tailed test: $P[\text{distribution} \le \text{test statistic}]$
-    
-    - Two-tailed test: $P[\text{distribution} \ne \text{test statistic}]$
 
 ## Rejection Regions
 
