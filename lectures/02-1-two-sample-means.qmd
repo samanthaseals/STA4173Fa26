@@ -18,6 +18,7 @@ format:
     html-math-method: katex
     code-fold: false
     code-tools: false
+    code-annotations: hover
     incremental: false
 editor: source
 ---
@@ -32,50 +33,66 @@ editor: source
 - Today we will focus on the following scenarios today:
     - Two-sample means, independent data ($\mu_1-\mu_2$)
     - Two-sample means, dependent data ($\mu_d$)
+    
+## Introduction: Data
+
+- The Wonderbolts have opened a new Reserve Camp, where 30 cadets spend two weeks training for a shot at the main squad.
+
+- On arrival, each cadet is assigned to one of two training squadrons:
+    - Thunder Squadron
+    - Lightning Squadron
+
+- The two squadrons train separately and compete against each other in a series of trials.
+
+    - Independent data
+
+- Every cadet is also measured once at the start of camp and once again at the end, after two weeks of identical drills.
+
+    - Dependent data
 
 
 ## Introduction: Data
 
-- We are using data from the kingdom of [Equestria](https://en.wikipedia.org/wiki/Equestria) from [My Little Pony](https://en.wikipedia.org/wiki/My_Little_Pony:_Friendship_Is_Magic).
-
-- [Mane Six](https://equestripedia.org/wiki/Mane_Six):
-    - Twilight Sparkle (Unicorn $\to$ Alicorn)
-    - Applejack (Earth Pony)
-    - Fluttershy (Pegasus)
-    - Pinkie Pie (Earth Pony)
-    - Rainbow Dash (Pegasus)
-    - Rarity (Unicorn)
+- Eyeballing the dataset,
 
 ```{r}
 #| echo: false
 library(ssstats)
 library(tidyverse)
 
-set.seed(8651)
-wing_flap <- tibble(pony_names = c("Rainbow Dash", "Soarin", "Spitfire", "Cloudchaser", "Fleetfoot", "Lightning Dust", "Windy Whistles", "Stormy Skies", "Gusty Gale", "Zephyr Breeze", "Skydancer", "Aero Ace", "Nimbus Sprint", "Breeze Wing", "Flash Fly", "Twister Tail", "Sirensong", "Aero Wave", "Sky Dancer", "Gale Gust", "Storm Strider", "Cyclone Swift", "Wind Whirl", "Jet Stream", "Flurry Flap"),
-                    wing_flap_rate = round(rnorm(n = length(pony_names), mean = 50, sd = 8),1),
-                    target = if_else(wing_flap_rate>=50, "Above", "Below"),
-                    apples = if_else(target == "Above", round(rnorm(n = length(pony_names), mean = 25, sd = 2)), round(rnorm(n = length(pony_names), mean = 15, sd = 3))),
-                    pre_training_wfr = round(rnorm(n = length(pony_names), mean = 50, sd = 8),1),
-                    post_training_wfr =round(rnorm(n = length(pony_names), mean = 50, sd = 4),1))
+wonderbolt_camp <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/wonderbolt_camp.csv")
+head(wonderbolt_camp)
 ```
+
 
     
 ## Independent Data
 
-- **Independent data:** Observations in one group (or sample) do not influence or relate to observations in another group.
-    - Examples:
-        - Comparing the cruising speeds of a random sample of Pegasi vs. a random sample of Unicorns flying a short course.
-        - Measuring friendship lesson quiz scores for a group of Cutie Mark Crusaders vs. a group of Wonderbolts Cadets.
-        - Examining the graduation rates between Unicorns and Pegasi.
+::: {.notebook-entry}
+::: {.notebook-tab}
+independent data
+:::
+Data is considered **independent** when observations in one group (or sample) do not influence or relate to observations in another group.
+:::
+
+- Examples:
+    - Comparing the cruising speeds of a random sample of Pegasi vs. a random sample of Unicorns flying a short course.
+    - Measuring friendship lesson quiz scores for a group of Cutie Mark Crusaders vs. a group of Wonderbolts Cadets.
+    - Examining the graduation rates between Unicorns and Pegasi.
         
 ## Dependent Data        
 
-- **Dependent (paired) data:** Each observation in the first sample is paired with exactly one observation in the second sample. 
-  - Examples:
-      - Students' magic‐proficiency scores before and after Princess Celestia's advanced spell workshop.
-      - Applejack's apple‐yield (in bushels) from Sweet Apple Acres in Spring vs. Fall for the last 10 years.
-      - Comparing the "Wonderbolts Tryouts" performance scores for Spitfire and Skyflare (twins).
+::: {.notebook-entry}
+::: {.notebook-tab}
+dependent data
+:::
+Data is considered **dependent** when each observation in the first sample is *paired* with exactly one observation in the second sample.
+:::
+
+- Examples:
+    - Students' magic‐proficiency scores before and after Princess Celestia's advanced spell workshop.
+    - Applejack's apple‐yield (in bushels) from Sweet Apple Acres in Spring vs. Fall for the last 10 years.
+    - Comparing the "Wonderbolts Tryouts" performance scores for Spitfire and Skyflare (twins).
       
 ## Independent vs. Dependent Data      
 
@@ -101,62 +118,6 @@ $$
     - $t_{\alpha/2}$ has $\min(n_1-1, n_2-1)$ degrees of freedom
     - $s_i^2$ is the sample variance for group $i$
     - $n_i$ is the sample size of group $i$
-
-## Confidence Intervals: Two Independent Means (R)
-
-- We will use the `independent_mean_CI` function from `library(ssstats)` to find the confidence interval.
-
-- Generic syntax:
-
-```{r}
-#| eval: false
-dataset_name %>% independent_mean_CI(grouping = grouping_variable,
-                                     continuous = continuous_variable, 
-                                     confidence = confidence_level)
-```
-
-## Confidence Intervals: Two Independent Means
-
-- The Pegasus trainers insist that a healthy Pony munches through 25 apples per day to stay strong and energetic. Looking for differences between those that are above and below target wing-flap rates, a researcher visits the apple stands at Sweet Apple Acres and records the exact number of apples each of the Pegasi in training eats in a typical day. 
-
-- Use the wing-flap data to estimate the difference in apple consumption (*apples*) betwen those that are above or below the target rate (*target*). Estimate using a 95% confidence interval.
-
-- How should we change the following code?
-
-```{r}
-#| eval: false
-dataset_name %>% independent_mean_CI(grouping = grouping_variable,
-                                     continuous = continuous_variable, 
-                                     confidence = confidence_level)
-```
-
-## Confidence Intervals: Two Independent Means
-
-- The Pegasus trainers insist that a healthy Pony munches through 25 apples per day to stay strong and energetic. Looking for differences between those that are above and below target wing-flap rates, a researcher visits the apple stands at Sweet Apple Acres and records the exact number of apples each of the Pegasi in training eats in a typical day. 
-
-- Use the wing-flap data to estimate the difference in apple consumption (*apples*) betwen those that are above or below the target rate (*target*). Estimate using a 95% confidence interval.
-
-- Our updated code should look like:
-
-```{r}
-#| eval: false
-wing_flap %>% independent_mean_CI(grouping = target,
-                                  continuous = apples, 
-                                  confidence = 0.95)
-```
-
-## Confidence Intervals: Two Independent Means
-
-- Running the code,
-
-```{r}
-wing_flap %>% independent_mean_CI(grouping = target,
-                                  continuous = apples, 
-                                  confidence = 0.95)
-```
-
-- Thus, the 95% CI for $\mu_{\text{above}} - \mu_{\text{below}}$ is (8.13, 11.98).
-    - The pegasi above the target wing-flap rate eat, on average, somewhere between 8 and 12 more apples than those below the target wing-flap rate.
     
 ## Hypothesis Testing: Two Independent Means
 
@@ -177,7 +138,7 @@ wing_flap %>% independent_mean_CI(grouping = target,
 **Test Statistic:**
 
 $$
-t_0 = \frac{(\bar{x}_1-\bar{x}_2)-\mu_0}{{\sqrt{\frac{s_1^2}{n_1} + \frac{s^2_2}{n_2}}}}
+t_0 = \frac{(\bar{x}_1-\bar{x}_2)-\mu_0}{{\sqrt{\frac{s_1^2}{n_1} + \frac{s^2_2}{n_2}}}} \sim t_{\text{df}}
 $$
 
 - where
@@ -185,181 +146,216 @@ $$
     - $\mu_0$ is the hypothesized difference
     - $s_i^2$ is the sample variance for group $i$
     - $n_i$ is the sample size of group $i$    
-    - $\text{df} = \text{min}(n_1-1, n_2-1)$
-    
-## Hypothesis Testing: Two Independent Means
+    - $\text{df} = \text{min}(n_1-1, n_2-1)$    
 
-***p*-Value:**
+## Two Independent Means (`R`)
 
-- **$p$-value: Two Tailed**
-
-$$p = 2\times P\left[t_{\text{df}} \ge |t_0|\right]$$
-
-- **$p$-value: Left Tailed**    
-
-$$p = P\left[t_{\text{df}} \le t_0\right]$$
-    
-- **$p$-value: Right Tailed**    
-
-$$p = P\left[t_{\text{df}} \ge t_0\right]$$
-
-## Hypothesis Testing: Two Independent Means (R)
-
-- We will use the `independent_mean_HT` function from `library(ssstats)` to perform the necessary calculations for the hypothesis test.
+- We will use the `independent_means` function from `library(ssstats)` to perform statistical inference.
 
 - Generic syntax:
 
 ```{r}
 #| eval: false
-dataset_name %>% independent_mean_HT(grouping = grouping_variable,
-                                     continuous = continuous_variable, 
-                                     mu = hypothesized_value, 
-                                     alternative = "alternative_direction", 
-                                     alpha = specified_alpha)
+dataset_name |> independent_means( # <1>
+  outcome = outcome_variable, # <2>
+  grouping = grouping_variable, # <3>
+  alternative = "two" | "less" | "greater", # <4>
+  mu = hypothesized_difference, # <5>
+  alpha = alpha_level # <6>
+  ) 
+```
+1. Pipes your dataset into `independent_means()`.
+2. `outcome`: the continuous variable you want to compare between the two groups.
+3. `grouping`: the categorical variable that splits your data into the two groups being compared.
+4. `alternative`: the direction of the test; default is `two`.
+5. `mu`: the hypothesized difference between the two groups under $H_0$; default is 0.
+6. `alpha`: the significance level; default is 0.05.
+
+## Example 1
+
+- Every cadet runs a timed sprint course as part of camp trials.
+
+- The coaches want us to determine if the Thunder Squadron and Lightning Squadron are finishing the sprint course at different times.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, sprint_time_sec) |> head(n=5)
 ```
 
-- For the entered variable (*continuous*), we will see:
-    - Hypotheses (based on *hypothesized_value* and *alternative*)
-    - Test statistic and p-value
-    - Conclusion
-    
-- **Note!** When looking at the grouping variable, R will subtract in alphabetic/numeric order. 
 
-## Hypothesis Testing: Two Independent Means
 
-- Perform the appropriate hypothesis test to determine if the above target pegasi are eating 5 or more apples than the below target pegasi. Test at the $\alpha=0.05$ level.
+## Example 1
 
-- What is the direction of the test? How do you know? <br><br><br><br>
+- The coaches want us to determine if the Thunder Squadron and Lightning Squadron are finishing the sprint course at different times.
 
-- What is the hypothesized value? How do you know? <br><br><br><br>
+- What is the direction of the test? How do you know? <br><br><br>
+
+- What is the hypothesized value? How do you know? <br><br><br>
 
 - What are the corresponding hypotheses?
 
-## Hypothesis Testing: Two Independent Means
 
-- Perform the appropriate hypothesis test to determine if the above target pegasi are eating 5 or more apples than the below target pegasi. Test at the $\alpha=0.05$ level.
+## Example 1
 
-- How should we change the following code?
+- The coaches want us to determine if the Thunder Squadron and Lightning Squadron are finishing the sprint course at different times.
 
-```{r}
-#| eval: false
-dataset_name %>% independent_mean_HT(grouping = grouping_variable,
-                                     continuous = continuous_variable, 
-                                     mu = hypothesized_value, 
-                                     alternative = "alternative_direction", 
-                                     alpha = specified_alpha)
-```
-
-## Hypothesis Testing: Two Independent Means
-
-- Perform the appropriate hypothesis test to determine if the above target pegasi are eating 5 or more apples than the below target pegasi. Test at the $\alpha=0.05$ level.
-
-- Our updated code should look like:
+- We will use the `independent_means()` function,
 
 ```{r}
 #| eval: false
-wing_flap %>% independent_mean_HT(grouping = target,
-                                  continuous = apples, 
-                                  mu = 5, 
-                                  alternative = "greater", 
-                                  alpha = 0.05)
+wonderbolt_camp |> independent_means(outcome = sprint_time_sec,
+                                     grouping = squadron, 
+                                     alternative = "two",
+                                     mu = 0,
+                                     alpha = 0.05) 
 ```
 
-## Hypothesis Testing: Two Independent Means
+## Example 1
 
 - Running the code,
 
 ```{r}
-wing_flap %>% independent_mean_HT(grouping = target,
-                                  continuous = apples, 
-                                  mu = 5, 
-                                  alternative = "greater", 
-                                  alpha = 0.05)
+#| echo: false
+wonderbolt_camp |> independent_means(outcome = sprint_time_sec,
+                                     grouping = squadron, 
+                                     alternative = "two",
+                                     mu = 0,
+                                     alpha = 0.05) 
 ```
 
-## Hypothesis Testing: Two Independent Means
+## Example 1
 
 - **Hypotheses:**
-    - $H_0: \ \mu_{\text{above}} - \mu_{\text{below}} \le 5$
-    - $H_1: \ \mu_{\text{above}} - \mu_{\text{below}} > 5$
+    - $H_0: \ \mu_{\text{L}} - \mu_{\text{T}} = 0$
+    - $H_1: \ \mu_{\text{L}} - \mu_{\text{T}} \ne 0$
 
 - **Test Statistic and *p*-Value**
-    - $t_0 = 5.445$, $p < 0.001$
+    - $t_0 = 2.384$, $p = 0.024$
     
 - **Rejection Region**
     - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
     
 - **Conclusion and interpretation**
-    - Reject $H_0$ ($p \text{ vs } \alpha \to p < 0.001 < 0.05$). There is sufficient evidence to suggest that ponies above target, on average, eat 5 more apples than those below target.
-
-## Two Dependent Means: Summary Statistics
-
--   We are now interested in comparing two **dependent** groups.
-
--   We assume that the two groups come from the same population and are going to examine the difference,
-
-$$
-d = y_{i, 1} - y_{i, 2}
-$$
-
--   After drawing samples, we have the following,
-    -   $\bar{d}$ estimates $\mu_d$,
-    -   $s^2_d$ estimates $\sigma^2_d$, and
-    -   $n$ is the sample size.
+    - Reject $H_0$. There is sufficient evidence to suggest that there is a difference between the Lightning and Thunder squadrons.
     
-## Two Dependent Means: Summary Statistics (R)  
+## Example 1
 
-- We will use the `dependent_mean_median` function from `library(ssstats)` to find the summary statistics for this data.
+- We are also given summary information from the output.
 
-- Generic syntax:
+- In particular, we saw that
+
+$$
+\bar{y}_{\text{L}} = 44.46 \ \ \text{\&} \ \ \bar{y}_{\text{T}} = 41.82
+$$
+
+- Then, our point estimate for $\mu_{\text{L}} - \mu_{\text{T}}$ is $2.65$.
+
+- How good is this estimate? Let's examine the 95% CI for $\mu_{\text{L}} - \mu_{\text{T}}$:
+
+$$(0.37, 4.92)$$
+
+## Example 2
+
+- At camp, judges score each cadet's aerial loop maneuver on a 0–100 accuracy scale during trials.
+
+- Based on her gut feeling, the head judge believes that, on average, the Thunder Squadron is performing more accurate loop maneuvers.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, loop_accuracy_pct) |> head(n=5)
+```
+
+## Example 2
+
+- Based on her gut feeling, the head judge believes that, on average, the Thunder Squadron is performing more accurate loop maneuvers.
+
+- What is the direction of the test? How do you know? <br><br><br>
+
+- What is the hypothesized value? How do you know? <br><br><br>
+
+- What are the corresponding hypotheses?
+
+## Example 2
+
+- A quick note about `R` and subtraction!
+
+- Remember that we are estimating $\mu_1 - \mu_2$ -- how does `R` determine $1$ and $2$?
+
+- `R` is going to subtract in <u>alphabetical order</u>. 
+
+    - In our case, with "Thunder" & "Lightning", we are estimating $\mu_{\text{L}} - \mu_{\text{T}}$
+
+- If the Thunder Squadron is more accurate $\to$ higher score $\to$
+
+    - $H_0: \mu_{\text{L}} \ge \mu_{\text{T}}$
+    - $H_1: \mu_{\text{L}} < \mu_{\text{T}}$
+    
+- When specifying the direction in `R`, we will use the `less` option.    
+
+## Example 2
+
+- Based on her gut feeling, the head judge believes that, on average, the Thunder Squadron is performing more accurate loop maneuvers.
+
+- We will use the `independent_means()` function,
+
 
 ```{r}
 #| eval: false
-dataset_name %>% dependent_mean_median(col1 = first_variable,
-                                       col2 = second_variable)
+wonderbolt_camp |> independent_means(outcome = loop_accuracy_pct,
+                                     grouping = squadron, 
+                                     alternative = "less",
+                                     mu = 0,
+                                     alpha = 0.05) 
 ```
 
-- Note that this will compute summary statistics for:
-    - $x_d = x_1-x_2$
-    - $x_1$
-    - $x_2$
-
-## Two Dependent Means: Summary Statistics
-
-- Princess Celestia has invited two groups of flyers to take part in a brand-new "SkyStride" aerial training camp. Before the camp begins, each pony perches on a floating platform while a team of Wonderbolt engineers use magical sensors to record their baseline wing-flap rate (flaps per second) as they hover in place (*pre_training_wfr*).
-
-- Over two weeks, trainees attend identical flight drills: precision loops, cloud-weaving obstacle courses, and high-altitude sprints. At camp's end, each flyer returns to the sensor platforms for post-training measurements (*post_training_wfr*).
-
-- Let's find the summary statistics. How should this code be edited?
-
-```{r}
-#| eval: false
-dataset_name %>% dependent_mean_median(col1 = first_variable,
-                                       col2 = second_variable)
-```
-
-## Two Dependent Means: Summary Statistics
-
-- Princess Celestia has invited two groups of flyers to take part in a brand-new "SkyStride" aerial training camp. Before the camp begins, each pony perches on a floating platform while a team of Wonderbolt engineers use magical sensors to record their baseline wing-flap rate (flaps per second) as they hover in place (*pre_training_wfr*).
-
-- Over two weeks, trainees attend identical flight drills: precision loops, cloud-weaving obstacle courses, and high-altitude sprints. At camp's end, each flyer returns to the sensor platforms for post-training measurements (*post_training_wfr*).
-
-- Our code is as follows:
-
-```{r}
-#| eval: false
-wing_flap %>% dependent_mean_median(col1 = pre_training_wfr, 
-                                    col2 = post_training_wfr)
-```
-
-## Two Dependent Means: Summary Statistics
+## Example 2
 
 - Running the code,
 
 ```{r}
-wing_flap %>% dependent_mean_median(col1 = pre_training_wfr, 
-                                    col2 = post_training_wfr)
+#| echo: false
+wonderbolt_camp |> independent_means(outcome = loop_accuracy_pct,
+                                     grouping = squadron, 
+                                     alternative = "less",
+                                     mu = 0,
+                                     alpha = 0.05) 
 ```
+
+## Example 2
+
+- **Hypotheses:**
+    - $H_0: \ \mu_{\text{L}} - \mu_{\text{T}} \ge 0$
+    - $H_1: \ \mu_{\text{L}} - \mu_{\text{T}} < 0$
+
+- **Test Statistic and *p*-Value**
+    - $t_0 = -1.255$, $p = 0.111$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion and interpretation**
+    - Fail to reject $H_0$. There is sufficient evidence to suggest that there is a difference between the Lightning and Thunder squadrons.
+    
+## Example 2
+
+- We are also given summary information from the output.
+
+- In particular, we saw that
+
+$$
+\bar{y}_{\text{L}} =  78.41 \ \ \text{\&} \ \ \bar{y}_{\text{T}} =  81.29
+$$
+
+- Then, our point estimate for $\mu_{\text{L}} - \mu_{\text{T}}$ is $-2.88$.
+
+- How good is this estimate? Let's examine the 95% CI for $\mu_{\text{L}} - \mu_{\text{T}}$:
+
+$$(-7.61, 1.85)$$
+
 
 ## Confidence Intervals: Two Dependent Means
 
@@ -372,95 +368,6 @@ $$ \bar{d} \pm t_{\alpha/2} \frac{s_d}{\sqrt{n}} $$
     - $t_{\alpha/2}$ has $n-1$ degrees of freedom
     - $s_d$ is the sample standard deviation of the *difference*
     - $n$ is the number of pairs of observations
-
-## Confidence Intervals: Two Dependent Means (R)
-
-- We will use the `dependent_mean_CI` function from `library(ssstats)` to find the confidence interval.
-
-- Generic syntax:
-
-```{r}
-#| eval: false
-dataset_name %>% dependent_mean_CI(col1 = first_group,
-                                   col2 = second_group,
-                                   confidence = confidence_level)
-```
-
-
-## Confidence Intervals: Two Dependent Means
-
-- We now want to find the 99% CI for the average improvement in wing-flap rate.
-    - Hint: improvement can be measured with *post* - *pre*.
-    - Hint 2: post measurement: *post_training_wfr*, pre measurement: *pre_training_wfr*.
-
-- How should we change the following code?
-
-```{r}
-#| eval: false
-dataset_name %>% dependent_mean_CI(col1 = first_group,
-                                   col2 = second_group,
-                                   confidence = confidence_level)
-```
-
-## Confidence Intervals: Two Dependent Means
-
-- We now want to find the 99% CI for the average improvement in wing-flap rate.
-    - Hint: improvement can be measured with *post* - *pre*.
-    - Hint 2: post measurement: *post_training_wfr*, pre measurement: *pre_training_wfr*.
-
-- Our updated code should look like:
-
-```{r}
-#| eval: false
-wing_flap %>% dependent_mean_CI(col1 = post_training_wfr,
-                                col2 = pre_training_wfr,
-                                confidence = 0.99)
-```
-
-## Confidence Intervals: Two Dependent Means
-
-- Running the code,
-
-```{r}
-wing_flap %>% dependent_mean_CI(col1 = post_training_wfr,
-                                col2 = pre_training_wfr,
-                                confidence = 0.99)
-```
-
-- The 99% confidence interval for $\mu_d$ is (-7.16, 5.33).
-
-## Confidence Intervals: Two Dependent Means
-
-- What happens if we flip the order?
-
-```{r}
-#| eval: false
-wing_flap %>% dependent_mean_CI(col1 = pre_training_wfr,
-                                col2 = post_training_wfr,
-                                confidence = 0.99)
-```
-
-## Confidence Intervals: Two Dependent Means
-
-- What happens if we flip the order?
-
-```{r}
-wing_flap %>% dependent_mean_CI(col1 = pre_training_wfr,
-                                col2 = post_training_wfr,
-                                confidence = 0.99)
-```
-
-- The 99% confidence interval for $\mu_d$ is (-5.33, 7.16).
-
-## Confidence Intervals: Two Dependent Means
-
-- When looking at post - pre, the CI was (-7.16, 5.33).
-
-- When looking at pre - post, the CI was (-5.33, 7.16).
-
-- What is the relationship? <br><br><br><br><br><br>
-
-- Why does the order matter?
 
 ## Hypothesis Testing: Two Dependent Means
 
@@ -493,101 +400,261 @@ $$
     - $s_d$ is the sample standard deviation of the *difference*
     - $n$ is the number of pairs of observations
     - $\text{df} = n-1$
-
-## Hypothesis Testing: Two Dependent Means
-
-***p*-Value:**
-
-- **$p$-value: Two Tailed**
-
-$$p = 2\times P\left[t_{\text{df}} \ge |t_0|\right]$$
-
-- **$p$-value: Left Tailed**    
-
-$$p = P\left[t_{\text{df}} \le t_0\right]$$
     
-- **$p$-value: Right Tailed**    
+## Two Dependent Means (`R`)
 
-$$p = P\left[t_{\text{df}} \ge t_0\right]$$
-
-
-## Hypothesis Testing: Two Dependent Means (R)
-
-- We will use the `dependent_mean_HT` function from `library(ssstats)` to perform the necessary calculations for the hypothesis test.
+- We will use the `dependent_means` function from `library(ssstats)` to perform statistical inference.
 
 - Generic syntax:
 
 ```{r}
 #| eval: false
-dataset_name %>% dependent_mean_HT(col1 = first_group,
-                                   col2 = second_group,
-                                   alternative = "alternative_direction",
-                                   mu = hypothesized_diff,
-                                   alpha = alpha_level)
+dataset_name |> dependent_means( # <1>
+  col1 = first_variable, # <2>
+  col2 = second_variable, # <3>
+  alternative = "two" | "less" | "greater", # <4>
+  mu = hypothesized_difference, # <5>
+  alpha = alpha_level # <6>
+  ) 
+```
+1. Pipes your dataset into `dependent_means()`.
+2. `col1`: the first paired measurement in the difference $d = \text{col1} - \text{col2}$.
+3. `col2`: the second paired measurement in the difference $d = \text{col1} - \text{col2}$.
+4. `alternative`: the direction of the test; default is `two`.
+5. `mu`: the hypothesized difference between the two groups under $H_0$; default is 0.
+6. `alpha`: the significance level; default is 0.05.
+
+## Example 3
+
+- Each cadet's aerial accuracy is scored when they arrive at camp, and scored again at the end after two weeks of drills.
+
+- Coaches want to know whether cadets are actually flying more accurately by the end of camp.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, accuracy_score_pre, accuracy_score_post) |> head(n=5)
 ```
 
-## Hypothesis Testing: Two Dependent Means
+## Example 3
 
-- Perform the appropriate hypothesis test to determine if there is a difference in wing-flap rate pre- and post-training. Test at the $\alpha=0.01$ level.
+- Coaches want to know whether cadets are actually flying more accurately by the end of camp.
 
-- What is the direction of the test? How do you know? <br><br><br><br>
+- What is the direction of the test? How do you know? <br><br><br>
 
-- What is the hypothesized value? How do you know? <br><br><br><br>
+- What is the hypothesized value? How do you know? <br><br><br>
 
 - What are the corresponding hypotheses?
 
-## Hypothesis Testing: Two Dependent Means
+## Example 3
 
-- Perform the appropriate hypothesis test to determine if there is a difference in wing-flap rate pre- and post-training. Test at the $\alpha=0.01$ level.
+- Coaches want to know whether cadets are actually flying more accurately by the end of camp.
 
-- How should we change the following code?
+- We will use the `dependent_means()` function,
 
-```{r}
-#| eval: false
-dataset_name %>% dependent_mean_HT(col1 = first_group,
-                                   col2 = second_group,
-                                   alternative = "alternative_direction",
-                                   mu = hypothesized_diff,
-                                   alpha = alpha_level)
-```
-
-## Hypothesis Testing: Two Dependent Means
-
-- Perform the appropriate hypothesis test to determine if there is a difference in wing-flap rate pre- and post-training. Test at the $\alpha=0.01$ level.
-
-- Our updated code should look like:
 
 ```{r}
 #| eval: false
-wing_flap %>% dependent_mean_HT(col1 = post_training_wfr,
-                                col2 = pre_training_wfr,
-                                alpha = 0.01)
+wonderbolt_camp |> dependent_means(col1 = accuracy_score_post,
+                                   col2 = accuracy_score_pre,
+                                   alternative = "greater", 
+                                   mu = 0,
+                                   alpha = 0.05) 
 ```
 
-## Hypothesis Testing: Two Dependent Means
+## Example 3
 
 - Running the code,
 
 ```{r}
-wing_flap %>% dependent_mean_HT(col1 = post_training_wfr,
-                                col2 = pre_training_wfr,
-                                alpha = 0.01)
+#| echo: false
+wonderbolt_camp |> dependent_means(col1 = accuracy_score_post,
+                                   col2 = accuracy_score_pre,
+                                   alternative = "greater", 
+                                   mu = 0,
+                                   alpha = 0.05) 
 ```
 
-## Hypothesis Testing: Two Dependent Means
+## Example 3
 
 - **Hypotheses:**
-    - $H_0: \ \mu_{d} = 0$, where $\mu_d = \mu_{\text{pre}} - \mu_{\text{post}}$
-    - $H_1: \ \mu_d \ne 0$
+    - $H_0: \ \mu_{\text{post}} - \mu_{\text{pre}} \le 0$
+    - $H_1: \ \mu_{\text{post}} - \mu_{\text{pre}} > 0$
 
 - **Test Statistic and *p*-Value**
-    - $t_0 = -0.859$, $p = 0.399$
+    - $t_0 = 7.143$, $p < 0.001$
     
 - **Rejection Region**
-    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.01$
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
     
 - **Conclusion and interpretation**
-    - Fail to reject $H_0$ ($p \text{ vs } \alpha \to p = 0.399 > 0.05$). There is not sufficient evidence to suggest that training changed wing-flap rates.
+    - Reject $H_0$. There is sufficient evidence to suggest that there is a difference between the Lightning and Thunder squadrons.
+    
+## Example 3
+
+- We are also given summary information from the output.
+
+- In particular, we saw that our point estimate for $\mu_{\text{post}} - \mu_{\text{pre}}$ is $6.73$.
+
+- How good is this estimate? Let's examine the 95% CI for $\mu_{\text{post}} - \mu_{\text{pre}}$:
+
+$$(4.80, 8.65)$$
+
+
+## Example 4
+
+- Each cadet's recovery time after a hard trial is timed at the start of camp and again at the end.
+
+- Coaches want to know whether cadets are recovering faster by the end of camp.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, recovery_time_min_pre, recovery_time_min_post) |> head(n=5)
+```
+
+## Example 4
+
+- Coaches want to know whether cadets are recovering faster by the end of camp.
+
+- What is the direction of the test? How do you know? <br><br><br>
+
+- What is the hypothesized value? How do you know? <br><br><br>
+
+- What are the corresponding hypotheses?
+
+## Example 4
+
+- Coaches want to know whether cadets are recovering faster by the end of camp.
+
+- We will use the `dependent_means()` function,
+
+```{r}
+#| eval: false
+wonderbolt_camp |> dependent_means(col1 = recovery_time_min_post,
+                                   col2 = recovery_time_min_pre,
+                                   alternative = "less", 
+                                   mu = 0,
+                                   alpha = 0.05) 
+```
+
+## Example 4
+
+- Running the code,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> dependent_means(col1 = recovery_time_min_post,
+                                   col2 = recovery_time_min_pre,
+                                   alternative = "less", 
+                                   mu = 0,
+                                   alpha = 0.05) 
+```
+
+## Example 4
+
+- **Hypotheses:**
+    - $H_0: \ \mu_{\text{post}} - \mu_{\text{pre}} \ge 0$
+    - $H_1: \ \mu_{\text{post}} - \mu_{\text{pre}} < 0$
+
+- **Test Statistic and *p*-Value**
+    - $t_0 = -5.254$, $p < 0.001$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion and interpretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that cadets are recovering faster at the end of camp.
+    
+## Example 4
+
+- We are also given summary information from the output.
+
+- In particular, we saw that our point estimate for $\mu_{\text{post}} - \mu_{\text{pre}}$ is $-3.26$.
+
+- How good is this estimate? Let's examine the 95% CI for $\mu_{\text{post}} - \mu_{\text{pre}}$:
+
+$$(-4.53, -1.99)$$
+
+## Let's Practice! 1
+
+- Spectators toss bits to cadets who pull off a standout run during trials.
+
+- Camp organizers want to know whether one squadron is out-earning the other in prize bits.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, prize_bits_won) |> head(n=5)
+```
+
+## Let's Practice! 2
+
+- Spectators tip cadets with bits after their runs. The amount tipped is recorded once early in camp and once again near the end.
+
+- Camp organizers want to know whether cadets are earning more in tips as they improve over camp.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, tip_bits_pre, tip_bits_post) |> head(n=5)
+```
+
+## Let's Practice! 3
+
+- A sound crew records the peak crowd noise (in decibels) during each cadet's run.
+
+- Camp organizers are curious whether one squadron draws a louder crowd reaction than the other.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, cheer_decibels) |> head(n=5)
+```
+
+## Let's Practice! 4
+
+- The camp medic tracks how many days each cadet spends recovering from an injury over the two-week camp.
+
+- Coaches want to know whether one squadron's training style is leading to more injury days than the other's.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, injury_days) |> head(n=5)
+```
+
+## Let's Practice! 5
+
+- Each cadet's wing-flap rate while hovering in place is measured on arrival, then measured again after two weeks of drills.
+
+- Coaches want to know whether training actually changes a cadet's wing-flap rate.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, wing_flap_rate_pre, wing_flap_rate_post) |> head(n=5)
+```
+
+## Let's Practice! 6
+
+- Each cadet rates how confident they feel about their flying on a self-reported scale, once at the start of camp and once at the end.
+
+- Camp staff want to know whether two weeks of training changes how confident cadets feel.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, confidence_rating_pre, confidence_rating_post) |> head(n=5)
+```
 
 ## Wrap Up        
 
@@ -595,9 +662,4 @@ wing_flap %>% dependent_mean_HT(col1 = post_training_wfr,
     - Independent *t*-test
     - Dependent *t*-test
     
-- Next week:
-    - Monday/Tuesday: lab
-        - Quiz: two-sample means
-    - Wednesday/Thursday: lecture
-        - Assumptions on *t*-tests
-        - Alternatives to *t*-tests
+- Wednesday: `R` lab -- bring a laptop!
