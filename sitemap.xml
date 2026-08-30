@@ -1,27 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://samanthaseals.github.io/STA4173Fa26/syllabus.html</loc>
-    <lastmod>2026-08-16T15:00:53.996Z</lastmod>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-13-lab.html</loc>
+    <lastmod>2025-11-19T23:09:47.895Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/STA4173Fa26/lectures/02-1-two-sample-means.html</loc>
-    <lastmod>2026-08-23T15:40:59.287Z</lastmod>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-10-lab.html</loc>
+    <lastmod>2025-11-12T17:26:46.709Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/STA4173Fa26/lectures/01-1-estimation.html</loc>
-    <lastmod>2026-08-16T14:26:44.322Z</lastmod>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-07-lab.html</loc>
+    <lastmod>2025-10-20T14:29:25.207Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/STA4173Fa26/index.html</loc>
-    <lastmod>2026-08-15T15:21:52.462Z</lastmod>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-04-lab.html</loc>
+    <lastmod>2025-09-15T14:59:38.912Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/schedule.html</loc>
+    <lastmod>2026-08-30T14:37:06.710Z</lastmod>
   </url>
   <url>
     <loc>https://samanthaseals.github.io/STA4173Fa26/lectures/01-2-inference.html</loc>
     <lastmod>2026-08-19T04:30:47.268Z</lastmod>
   </url>
   <url>
-    <loc>https://samanthaseals.github.io/STA4173Fa26/schedule.html</loc>
-    <lastmod>2026-08-24T15:38:26.319Z</lastmod>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/index.html</loc>
+    <lastmod>2026-08-15T15:21:52.462Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/lectures/01-1-estimation.html</loc>
+    <lastmod>2026-08-16T14:26:44.322Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/lectures/02-1-two-sample-means.html</loc>
+    <lastmod>2026-08-23T15:40:59.287Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/syllabus.html</loc>
+    <lastmod>2026-08-16T15:00:53.996Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-02-workshop.html</loc>
+    <lastmod>2026-08-26T05:10:50.512Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-05-lab.html</loc>
+    <lastmod>2025-10-07T18:13:41.802Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-09-lab.html</loc>
+    <lastmod>2025-10-29T15:55:59.843Z</lastmod>
+  </url>
+  <url>
+    <loc>https://samanthaseals.github.io/STA4173Fa26/workshops/week-11-lab.html</loc>
+    <lastmod>2025-11-12T18:15:20.842Z</lastmod>
   </url>
 </urlset>
