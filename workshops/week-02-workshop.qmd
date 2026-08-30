@@ -1,0 +1,183 @@
+---
+title: "Workshop: Two-Sample Means"
+author: "your name here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    self-contained: true
+    df-print: paged
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    incremental: false
+editor: source
+---
+
+This week, we are working with the Totally Serious Pop Culture Research Institute™ to answer their research questions.
+
+Let's call in the packages we need,
+
+```{r}
+library(tidyverse)
+library(ssstats)
+```
+
+# Study 1: The Playlist Wars
+
+The Totally Serious Pop Culture Research Institute is conducting an investigation into a question that has divided humanity for generations: Does Main Character Energy or Villain Era produce superior productivity? Researchers recruited 50 participants. Each participant completed a series of puzzles while listening to a Main Character Energy playlist. Each participant then completed another equivalent set of puzzles while listening to a Villain Era playlist. The number of puzzles completed under each playlist was recorded for every participant. 
+
+The researchers want to determine whether participants perform differently under the two playlist conditions.
+
+```{r}
+playlist_wars <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/playlist_wars.csv")
+```
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+
+# Study 2: The Cape Effect
+
+The Totally Serious Pop Culture Research Institute is investigating whether superhero attire can increase confidence.
+
+Researchers recruited 60 participants and randomly assigned each person to one of two conditions. Participants in the Cape condition were asked to wear a superhero cape while completing a short task. Participants in the No Cape condition completed the same task while wearing their normal clothing. After completing the task, participants rated their confidence on a scale from 0 to 100, with higher scores indicating greater confidence.
+
+The researchers want to determine whether average confidence differs between participants who wore a cape and participants who did not.
+
+```{r}
+cape_effect <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/cape_effect.csv")
+```
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+
+
+
+
+
+
+
+# Study 3: Hero vs. Villain Productivity
+
+Researchers at the Totally Serious Pop Culture Research Institute have become concerned that people may be dramatically underestimating the effect of their fictional character identity on productivity. They recruited 80 participants and randomly assigned each participant to one of two groups. Participants assigned to the Hero group were given a short motivational prompt encouraging them to imagine themselves as the hero of an epic story. Participants assigned to the Villain group were given a prompt encouraging them to imagine themselves as the villain. Participants then had 10 minutes to complete as many puzzles as possible. The researchers recorded the number of puzzles each participant completed.
+
+The researchers want to determine whether average productivity differs between people assigned to the Hero and Villain conditions.
+
+```{r}
+hero_villain <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/hero_villain.csv")
+```
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Study 4: The Main Character Trailer Effect
+
+The Totally Serious Pop Culture Research Institute has discovered what researchers are calling "Main Character Energy." They want to know whether an extremely dramatic movie trailer can produce it. Researchers recruited 50 participants. Before watching the trailer, each participant rated their current level of excitement on a scale from 0 to 100. Participants then watched a dramatic movie trailer containing explosions, dramatic music, slow-motion running, and at least one mysterious person saying, "Everything changes tonight." Immediately after watching the trailer, participants rated their excitement again using the same 0–100 scale.
+
+The researchers want to determine whether participants' average excitement changed after watching the trailer.
+
+```{r}
+trailer_effect <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/trailer_effect.csv")
+```
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ <!-- please replace the word "statistic" with the type of test statistic you have (e.g., F, t, etc.) -->
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$. <!-- pick the appropriate one... do not leave as is -->
+- There is or is not sufficient evidence to conclude... <!-- pick the appropriate choice & write the conclusion in the problem's context -->
+
