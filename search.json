@@ -42,11 +42,284 @@
     "text": "Two Dependent Means\n\nWe now want to find the 99% CI for the average improvement in wing-flap rate.\n\nHint: improvement can be measured with post - pre.\nHint 2: post measurement: post_training_wfr, pre measurement: pre_training_wfr.\n\n\n\nThe 99% confidence interval for \\mu_d is (lower_bound, upper_bound).\n\n\nPerform the appropriate hypothesis test to determine if there is a difference in wing-flap rate pre- and post-training. Test at the \\alpha=0.01 level.\n\n\nHypotheses:\n\nH_0:\nH_1:\n\nTest Statistic and p-Value\n\nt_0 =, p =\n\nRejection Region\n\nReject H_0 if p &lt; \\alpha; $= $\n\nConclusion and interpretation\n\nReject or Fail to reject H_0 (p \\text{ vs } \\alpha \\to). There is or is not sufficient evidence to suggest the alternative hypothesis in words (not math)."
   },
   {
-    "objectID": "schedule.html",
-    "href": "schedule.html",
-    "title": "Tentative Schedule",
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "Abbreviated Syllabus",
     "section": "",
-    "text": "Week 1 (08/17 & 08/19)\n\n\n\n\n\nClass meetings:\n\nMonday: Review of STA2023: Describing Data (slides & qmd)\nWednesday: Review of STA2023: Statistical Inference (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 2 (08/24 & 08/26)\n\n\n\n\n\nClass meetings:\n\nMonday: Independent and dependent means (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 3 (08/31 & 09/02)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop\n\nRemember to bring a laptop to class!\n\nWednesday: Independent and dependent medians (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 4 (09/07 & 09/09)\n\n\n\n\n\nClass meetings:\n\nMonday: No meeting (Labor Day)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 5 (09/14 & 09/16)\n\n\n\n\n\nClass meetings:\n\nMonday: One-way ANOVA (slides & qmd)\nWednesday: Two-way ANOVA (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 6 (09/21 & 09/23)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop\n\nRemember to bring a laptop to class!\n\nWednesday: Test - Modules 1 and 2\n\n\n\n\n\n\n\n\n\n\nWeek 7 (09/28 & 09/30)\n\n\n\n\n\nClass meetings:\n\nMonday: Independent and dependent proportions (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 8 (10/05 & 10/07)\n\n\n\n\n\nClass meetings:\n\nMonday: Goodness-of-fit and tests for independence (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 9 (10/12 & 10/14)\n\n\n\n\n\nClass meetings:\n\nMonday: Review - Module 3\nWednesday: Test - Module 3\n\n\n\n\n\n\n\n\n\n\nWeek 10 (10/19 & 10/21)\n\n\n\n\n\nClass meetings:\n\nMonday: Correlation and simple linear regression (slides & qmd)\nWednesday: Multiple regression (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 11 (10/26 & 10/28)\n\n\n\n\n\nClass meetings:\n\nMonday: Categorical predictors (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 12 (11/02 & 11/04)\n\n\n\n\n\nClass meetings:\n\nMonday: Logistic regression (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 13 (11/09 & 11/11)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop for project\n\nRemember to bring a laptop to class!\n\nWednesday: No meeting (Veteran’s Day)\n\n\n\n\n\n\n\n\n\n\nWeek 14 (11/16 & 11/18)\n\n\n\n\n\nClass meetings:\n\nMonday: Review - Module 4\nWednesday: Test - Module 4\n\n\n\n\n\n\n\n\n\n\nThanksgiving (11/23 & 11/24)\n\n\n\n\n\n🦃 🦃 🦃\nWishing you a restful break filled with good food, company, and rest.\n🥧 🥧 🥧\nSee you next week!\n🦃 🦃 🦃\n\n\n\n\n\n\n\n\n\nWeek 15 (11/30 & 12/02)\n\n\n\n\n\nClass meetings:\n\nMonday: Presentation of projects\nWednesday: Review and catch up\n\n\n\n\n\n\n\n\n\n\nExam Week\n\n\n\n\n\n\nFinal exam: Wednesday, 12/09, 11:00 am – 1:30 pm."
+    "text": "Note: this is an abbreviated syllabus. The full syllabus is available through Classmate and/or Canvas.\n\nInstructor Information\n\nDr. Samantha Seals\nOffice: 4/344\n\n\n\nMeeting Times and Location\n\nMW 1:00-2:15 pm\nClassroom: 74/109\n\n\n\nOffice Hours\n\nMonday: 9:00-11:00 am\nTuesday: 9:00-11:00 am\nTuesday: 2:00-4:00 pm\nOther times by appointment\n\n\n\nGrading and Evaluation\nThe course grade will be determined as follows:\n\nClass participation (10%): Students will complete written examples in class. One example will be used as an exit ticket at the end of the class.\nWorkshop participation (20%): Some lecture meetings will be R workshops, where students will analyze data and submit a written report. The resulting file should be submitted to the appropriate assignment on Canvas (see Canvas for due dates).\nExams (30%): Three will be given:\n\n09/23 (Weds): Modules 1 and 2 (\\(t\\)-tests and ANOVA)\n10/14 (Weds): Module 3 (categorical analysis)\n11/18 (Weds): Module 4 (regression analysis)\n\nProject (10%): Students will complete and present a project related to regression analysis.\n\n11/09 (Mon): R workshop for project\n\n11/16 (Mon): Project presentations\n\nFinal Exam (30%): The final exam will be a concepts-based written exam. While there may be some basic calculations needed, students will not be processing raw data.\n\n12/09 (Mon): Final Exam, 11:00 am – 1:30 pm\n\n\n\n\nLate Policy\nAssignments have due dates, however, the Canvas assignments will not close until the end of the semester. All students are automatically granted “extensions” without question.\nNote that if there is not a submission at the initial grading submission (after the initial deadline), a zero (0) will be assigned. This is only for record keeping purposes. There is no penalty for submitting late and a full grade will be given upon review of your submission.\nExtensions are not available for the project or final exam."
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#introduction-topics",
+    "href": "lectures/04-1-two-sample-medians.html#introduction-topics",
+    "title": "Two-Sample Medians",
+    "section": "Introduction: Topics",
+    "text": "Introduction: Topics\n\nWe previously have reviewed estimation and basic statistical inference.\n\nPoint estimation\nConfidence intervals\nHypothesis testing\n\nToday we will focus on the following scenarios today:\n\nTwo-sample medians, independent data (M_1-M_2)\nTwo-sample medians, dependent data (M_d)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#introduction-data",
+    "href": "lectures/04-1-two-sample-medians.html#introduction-data",
+    "title": "Two-Sample Medians",
+    "section": "Introduction: Data",
+    "text": "Introduction: Data\n\nThe Wonderbolts have opened a new Reserve Camp, where 30 cadets spend two weeks training for a shot at the main squad.\nOn arrival, each cadet is assigned to one of two training squadrons:\n\nThunder Squadron\nLightning Squadron\n\nThe two squadrons train separately and compete against each other in a series of trials.\n\nIndependent data\n\nEvery cadet is also measured once at the start of camp and once again at the end, after two weeks of identical drills.\n\nDependent data"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#introduction-data-1",
+    "href": "lectures/04-1-two-sample-medians.html#introduction-data-1",
+    "title": "Two-Sample Medians",
+    "section": "Introduction: Data",
+    "text": "Introduction: Data\n\nEyeballing the dataset,\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncadet_name\nsquadron\nsprint_time_sec\nloop_accuracy_pct\nprize_bits_won\ncheer_decibels\ninjury_days\nwing_flap_rate_pre\nwing_flap_rate_post\naccuracy_score_pre\naccuracy_score_post\nconfidence_rating_pre\nconfidence_rating_post\nrecovery_time_min_pre\nrecovery_time_min_post\ntip_bits_pre\ntip_bits_post\n\n\n\n\nRainbow Dash\nThunder Squadron\n39.6\n86.4\n5\n91.8\n0\n49.2\n49.8\n79.7\n94.4\n7\n8\n21.6\n19.8\n4\n23\n\n\nSoarin\nThunder Squadron\n40.0\n83.2\n86\n87.1\n2\n76.1\n75.6\n75.5\n85.9\n8\n9\n3.1\n1.0\n18\n45\n\n\nSpitfire\nThunder Squadron\n38.7\n81.8\n12\n89.6\n1\n55.9\n59.6\n73.1\n71.4\n8\n10\n17.2\n14.5\n3\n8\n\n\nCloudchaser\nThunder Squadron\n40.0\n73.7\n20\n89.6\n3\n45.1\n47.6\n56.5\n61.9\n5\n5\n6.9\n2.7\n17\n53\n\n\nFleetfoot\nThunder Squadron\n39.4\n85.3\n16\n89.3\n3\n44.6\n39.4\n61.8\n63.5\n7\n8\n33.5\n30.7\n13\n30\n\n\nLightning Dust\nThunder Squadron\n45.8\n86.4\n22\n92.4\n2\n48.3\n58.0\n66.4\n73.0\n5\n7\n6.1\n1.6\n4\n10"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#the-normality-assumption",
+    "href": "lectures/04-1-two-sample-medians.html#the-normality-assumption",
+    "title": "Two-Sample Medians",
+    "section": "The Normality Assumption",
+    "text": "The Normality Assumption\n\nAll t-tests assume approximate normality of the data.\n\nIn the case of one-sample t-tests, the measure of interest must somewhat follow a normal distribution.\nIn the case of two-sample t-tests, the measure of interest in each group must somewhat follow a normal distribution.\n\nNote that a paired t-test is technically a one-sample t-test, so we will examine normality of the difference."
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots",
+    "href": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots",
+    "title": "Two-Sample Medians",
+    "section": "Normality Assumption: Quantile-Quantile Plots",
+    "text": "Normality Assumption: Quantile-Quantile Plots\n\nThere are formal tests for normality (see article here), however, we will not use them.\n\nTests for normality are not well-endorsed by statisticians.\n\nInstead, we will assess normality using a quantile-quantile (Q-Q) plot.\nA Q-Q plot helps us visually check if our data follows a specific distribution (here, the normal).\n\nIt compares the quantiles of our sample data to the quantiles of a theoretical distribution (the normal).\n\nHow do we read Q-Q plots?\n\nEach dot represents one observation in our dataset.\nIf the data follow a normal distribution, we will observe that the dots fall roughly along a straight diagonal line.\nWe focus on the “middle” of the graph."
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-1",
+    "href": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-1",
+    "title": "Two-Sample Medians",
+    "section": "Normality Assumption: Quantile-Quantile Plots",
+    "text": "Normality Assumption: Quantile-Quantile Plots"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-2",
+    "href": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-2",
+    "title": "Two-Sample Medians",
+    "section": "Normality Assumption: Quantile-Quantile Plots",
+    "text": "Normality Assumption: Quantile-Quantile Plots"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-3",
+    "href": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-3",
+    "title": "Two-Sample Medians",
+    "section": "Normality Assumption: Quantile-Quantile Plots",
+    "text": "Normality Assumption: Quantile-Quantile Plots"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-4",
+    "href": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-4",
+    "title": "Two-Sample Medians",
+    "section": "Normality Assumption: Quantile-Quantile Plots",
+    "text": "Normality Assumption: Quantile-Quantile Plots"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#normality-assumption-r",
+    "href": "lectures/04-1-two-sample-medians.html#normality-assumption-r",
+    "title": "Two-Sample Medians",
+    "section": "Normality Assumption (R)",
+    "text": "Normality Assumption (R)\n\nWe will check this graphically.\nFor independent data,\n\n\ndataset_name |&gt; independent_qq(outcome = outcome_variable,\n                               grouping = grouping_variable)\n\n\nFor dependent data,\n\n\ndataset_name |&gt; dependent_qq(col1 = first_measurement,\n                             col2 = second_measurement)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-1",
+    "href": "lectures/04-1-two-sample-medians.html#example-1",
+    "title": "Two-Sample Medians",
+    "section": "Example 1",
+    "text": "Example 1\n\nEvery cadet runs a timed sprint course as part of camp trials.\nThe coaches want us to determine if the Thunder Squadron and Lightning Squadron are finishing the sprint course at different times.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nsquadron\nsprint_time_sec\n\n\n\n\nRainbow Dash\nThunder Squadron\n39.6\n\n\nSoarin\nThunder Squadron\n40.0\n\n\nSpitfire\nThunder Squadron\n38.7\n\n\nCloudchaser\nThunder Squadron\n40.0\n\n\nFleetfoot\nThunder Squadron\n39.4"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-1-1",
+    "href": "lectures/04-1-two-sample-medians.html#example-1-1",
+    "title": "Two-Sample Medians",
+    "section": "Example 1",
+    "text": "Example 1\n\nChecking the normality assumption,\n\n\nwonderbolt_camp |&gt; independent_qq(outcome = sprint_time_sec,\n                                  grouping = squadron)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-2",
+    "href": "lectures/04-1-two-sample-medians.html#example-2",
+    "title": "Two-Sample Medians",
+    "section": "Example 2",
+    "text": "Example 2\n\nAt camp, judges score each cadet’s aerial loop maneuver on a 0–100 accuracy scale during trials.\nBased on her gut feeling, the head judge believes that, on average, the Thunder Squadron is performing more accurate loop maneuvers.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nsquadron\nloop_accuracy_pct\n\n\n\n\nRainbow Dash\nThunder Squadron\n86.4\n\n\nSoarin\nThunder Squadron\n83.2\n\n\nSpitfire\nThunder Squadron\n81.8\n\n\nCloudchaser\nThunder Squadron\n73.7\n\n\nFleetfoot\nThunder Squadron\n85.3"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-2-1",
+    "href": "lectures/04-1-two-sample-medians.html#example-2-1",
+    "title": "Two-Sample Medians",
+    "section": "Example 2",
+    "text": "Example 2\n\nChecking the normality assumption,\n\n\nwonderbolt_camp |&gt; independent_qq(outcome = loop_accuracy_pct,\n                                  grouping = squadron)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-3",
+    "href": "lectures/04-1-two-sample-medians.html#example-3",
+    "title": "Two-Sample Medians",
+    "section": "Example 3",
+    "text": "Example 3\n\nEach cadet’s aerial accuracy is scored when they arrive at camp, and scored again at the end after two weeks of drills.\nCoaches want to know whether cadets are actually flying more accurately by the end of camp.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\naccuracy_score_pre\naccuracy_score_post\n\n\n\n\nRainbow Dash\n79.7\n94.4\n\n\nSoarin\n75.5\n85.9\n\n\nSpitfire\n73.1\n71.4\n\n\nCloudchaser\n56.5\n61.9\n\n\nFleetfoot\n61.8\n63.5"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-3-1",
+    "href": "lectures/04-1-two-sample-medians.html#example-3-1",
+    "title": "Two-Sample Medians",
+    "section": "Example 3",
+    "text": "Example 3\n\nChecking the normality assumption,\n\n\nwonderbolt_camp |&gt; dependent_qq(col1 = accuracy_score_pre,\n                                col2 = accuracy_score_post)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-4",
+    "href": "lectures/04-1-two-sample-medians.html#example-4",
+    "title": "Two-Sample Medians",
+    "section": "Example 4",
+    "text": "Example 4\n\nEach cadet’s recovery time after a hard trial is timed at the start of camp and again at the end.\nCoaches want to know whether cadets are recovering faster by the end of camp.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nrecovery_time_min_pre\nrecovery_time_min_post\n\n\n\n\nRainbow Dash\n21.6\n19.8\n\n\nSoarin\n3.1\n1.0\n\n\nSpitfire\n17.2\n14.5\n\n\nCloudchaser\n6.9\n2.7\n\n\nFleetfoot\n33.5\n30.7"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-4-1",
+    "href": "lectures/04-1-two-sample-medians.html#example-4-1",
+    "title": "Two-Sample Medians",
+    "section": "Example 4",
+    "text": "Example 4\n\nChecking the normality assumption,\n\n\nwonderbolt_camp |&gt; dependent_qq(col1 = recovery_time_min_pre,\n                                col2 = recovery_time_min_post)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#introduction-two-independent-medians",
+    "href": "lectures/04-1-two-sample-medians.html#introduction-two-independent-medians",
+    "title": "Two-Sample Medians",
+    "section": "Introduction: Two Independent Medians",
+    "text": "Introduction: Two Independent Medians\n\nThe Wilcoxon Rank Sum test is a nonparametric alternative to the two-sample t-test.\nInstead of comparing group means, we will now turn to comparing the ranks of the data.\nLet us first consider a simple example, x: \\ 1, 7, 10, 2, 6, 8\nOur first step is to reorder the data: x: \\ 1, 2, 6, 7, 8, 10\nThen, we replace with the ranks: R: \\ 1, 2, 3, 4, 5, 6"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#two-independent-medians-ranking-data",
+    "href": "lectures/04-1-two-sample-medians.html#two-independent-medians-ranking-data",
+    "title": "Two-Sample Medians",
+    "section": "Two Independent Medians: Ranking Data",
+    "text": "Two Independent Medians: Ranking Data\n\nWhat if all data values are not unique? We will assign the average rank for that group.\nFor example, x: 9, 8, 8, 0, 3, 4, 4, 8\nLet’s reorder: x: 0, 3, 4, 4, 8, 8, 8, 9\nRank ignoring ties: R: 1, 2, 3, 4, 5, 6, 7, 8\nNow, the final rank: R: 1, 2, 3.5, 3.5, 6, 6, 6, 8"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-independent-medians",
+    "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-independent-medians",
+    "title": "Two-Sample Medians",
+    "section": "Hypothesis Testing: Two Independent Medians",
+    "text": "Hypothesis Testing: Two Independent Medians\n\nHypotheses: Two Tailed\n\nH_0: \\ M_1-M_2 = M_0\nH_1: \\ M_1-M_2 \\ne M_0\n\nHypotheses: Left Tailed\n\nH_0: \\ M_1-M_2 \\ge M_0\nH_1: \\ M_1-M_2 &lt; M_0\n\nHypotheses: Right Tailed\n\nH_0: \\ M_1-M_2 \\le M_0\nH_1: \\ M_1-M_2 &gt; M_0"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-independent-medians-1",
+    "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-independent-medians-1",
+    "title": "Two-Sample Medians",
+    "section": "Hypothesis Testing: Two Independent Medians",
+    "text": "Hypothesis Testing: Two Independent Medians\n\nT_0 = \\sum R_{\\text{1}} - \\frac{n_1(n_1+1)}{2}\n\n\nT = \\sum R_{\\text{sample 1}} - \\frac{n_1(n_1+1)}{2}\nwhere\n\n\\sum R_1 is the sum of the ranks for the first group\nn_1 is the sample size of the first group\n\nNote that p = (calculated by R :))"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#two-independent-medians-r",
+    "href": "lectures/04-1-two-sample-medians.html#two-independent-medians-r",
+    "title": "Two-Sample Medians",
+    "section": "Two Independent Medians (R)",
+    "text": "Two Independent Medians (R)\n\nWe will use the independent_medians function from library(ssstats) to perform the necessary calculations for the hypothesis test.\nGeneric syntax:\n\n\ndataset_name %&gt;% independent_medians(continuous = continuous_variable,\n                                     grouping = grouping_variable,\n                                     alternative = \"two\" | \"greater\" | \"less\",\n                                     m = hypothesized_difference,\n                                     alpha = specified_alpha)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-1-2",
+    "href": "lectures/04-1-two-sample-medians.html#example-1-2",
+    "title": "Two-Sample Medians",
+    "section": "Example 1",
+    "text": "Example 1\n\nThe coaches want us to determine if the Thunder Squadron and Lightning Squadron are finishing the sprint course at different times.\nWe will use the independent_medians() function,\n\n\nwonderbolt_camp |&gt; independent_medians(outcome = sprint_time_sec,\n                                       grouping = squadron, \n                                       alternative = \"two\",\n                                       m = 0,\n                                       alpha = 0.05)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-1-3",
+    "href": "lectures/04-1-two-sample-medians.html#example-1-3",
+    "title": "Two-Sample Medians",
+    "section": "Example 1",
+    "text": "Example 1\n\nRunning the code,\n\n\n\nIndependent medians\n\nM[Lightning Squadron] = 45.05\nM[Thunder Squadron] = 41.35\nHodges-Lehmann estimate of median difference: 2.8\n\n95% CI for M[Lightning Squadron] − M[Thunder Squadron]: (0.4, 5.5)\n\nHypotheses:\nH₀: M[Lightning Squadron] − M[Thunder Squadron] = 0\nH₁: M[Lightning Squadron] − M[Thunder Squadron] ≠ 0\nTest statistic: W = 168\np-value: 0.019\nConclusion: Reject the null hypothesis (p = 0.019 &lt; α = 0.050)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-1-4",
+    "href": "lectures/04-1-two-sample-medians.html#example-1-4",
+    "title": "Two-Sample Medians",
+    "section": "Example 1",
+    "text": "Example 1\n\nHypotheses:\n\nH_0: \\ M_{\\text{L}} - M_{\\text{T}} = 0\nH_1: \\ M_{\\text{L}} - M_{\\text{T}} \\ne 0\n\nTest Statistic and p-Value\n\nW_0 = 168, p = 0.019\n\nRejection Region\n\nReject H_0 if p &lt; \\alpha; \\alpha = 0.05\n\nConclusion and interpretation\n\nReject H_0. There is sufficient evidence to suggest that there is a difference between the Lightning and Thunder squadrons."
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians",
+    "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians",
+    "title": "Two-Sample Medians",
+    "section": "Hypothesis Testing: Two Dependent Medians",
+    "text": "Hypothesis Testing: Two Dependent Medians\n\nHypotheses: Two Tailed\n\nH_0: \\ \\mu_d=\\mu_0\nH_1: \\ \\mu_d \\ne \\mu_0\n\nHypotheses: Left Tailed\n\nH_0: \\ \\mu_d \\ge \\mu_0\nH_1: \\ \\mu_d &lt; \\mu_0\n\nHypotheses: Right Tailed\n\nH_0: \\ \\mu_d \\le \\mu_0\nH_1: \\ \\mu_d &gt; \\mu_0\n\nNote! \\mu_d = \\mu_1 - \\mu_2"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-1",
+    "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-1",
+    "title": "Two-Sample Medians",
+    "section": "Hypothesis Testing: Two Dependent Medians",
+    "text": "Hypothesis Testing: Two Dependent Medians\nTest statistic:\n\nt_0 = \\frac{\\bar{d}-\\mu_0}{\\frac{s_d}{\\sqrt{n}}} \\sim t_{\\text{df}}\n\n\nwhere\n\n\\bar{d} = \\text{mean}(x_1-x_2) is the point estimate for \\mu_d = \\mu_1-\\mu_2\n\\mu_0 is the hypothesized difference\ns_d is the sample standard deviation of the difference\nn is the number of pairs of observations\n\\text{df} = n-1"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#two-dependent-means-r",
+    "href": "lectures/04-1-two-sample-medians.html#two-dependent-means-r",
+    "title": "Two-Sample Medians",
+    "section": "Two Dependent Means (R)",
+    "text": "Two Dependent Means (R)\n\nWe will use the dependent_medians function from library(ssstats) to perform statistical inference.\nGeneric syntax:\n\n\ndataset_name |&gt; dependent_medians(col1 = first_variable,\n2                                  col2 = second_variable,\n3                                  alternative = \"two\" | \"less\" | \"greater\",\n4                                  m = hypothesized_difference,\n5                                  alpha = alpha_level)\n\n\n2\n\ncol1: the first paired measurement in the difference d = \\text{col1} - \\text{col2}.\n\n3\n\ncol2: the second paired measurement in the difference d = \\text{col1} - \\text{col2}.\n\n4\n\nalternative: the direction of the test; default is two.\n\n5\n\nm: the hypothesized difference between the two groups under H_0; default is 0."
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-4-2",
+    "href": "lectures/04-1-two-sample-medians.html#example-4-2",
+    "title": "Two-Sample Medians",
+    "section": "Example 4",
+    "text": "Example 4\n\nEach cadet’s recovery time after a hard trial is timed at the start of camp and again at the end.\nCoaches want to know whether cadets are recovering faster by the end of camp.\nWe will use the dependent_means() function,\n\n\nwonderbolt_camp |&gt; dependent_medians(col1 = recovery_time_min_post,\n                                     col2 = recovery_time_min_pre,\n                                     alternative = \"less\", \n                                     m = 0,\n                                     alpha = 0.05)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-4-3",
+    "href": "lectures/04-1-two-sample-medians.html#example-4-3",
+    "title": "Two-Sample Medians",
+    "section": "Example 4",
+    "text": "Example 4\n\nRunning the code,\n\n\n\nPaired (dependent) medians\n\nComplete pairs: 30\nEffective pairs (non-zero differences): 30\n\nM[recovery_time_min_post] = 7.6\nM[recovery_time_min_pre] = 12.6\nHodges-Lehmann estimate of median difference: -2.4\n\n95% CI for M[recovery_time_min_post] − M[recovery_time_min_pre]: (-3.3, -1.95)\n\nHypotheses:\nH₀: M[recovery_time_min_post] − M[recovery_time_min_pre] ≥ 0\nH₁: M[recovery_time_min_post] − M[recovery_time_min_pre] &lt; 0\nTest statistic: T = 0\np-value: &lt; 0.001\nConclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.050)"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#example-4-4",
+    "href": "lectures/04-1-two-sample-medians.html#example-4-4",
+    "title": "Two-Sample Medians",
+    "section": "Example 4",
+    "text": "Example 4\n\nHypotheses:\n\nH_0: \\ \\mu_{\\text{post}} - \\mu_{\\text{pre}} \\ge 0\nH_1: \\ \\mu_{\\text{post}} - \\mu_{\\text{pre}} &lt; 0\n\nTest Statistic and p-Value\n\nT_0 = 0, p &lt; 0.001\n\nRejection Region\n\nReject H_0 if p &lt; \\alpha; \\alpha = 0.05\n\nConclusion and interpretation\n\nReject H_0. There is sufficient evidence to suggest that cadets are recovering faster at the end of camp."
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#lets-practice-1",
+    "href": "lectures/04-1-two-sample-medians.html#lets-practice-1",
+    "title": "Two-Sample Medians",
+    "section": "Let’s Practice! 1",
+    "text": "Let’s Practice! 1\n\nSpectators toss bits to cadets who pull off a standout run during trials.\nCamp organizers want to know whether one squadron is out-earning the other in prize bits.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nsquadron\nprize_bits_won\n\n\n\n\nRainbow Dash\nThunder Squadron\n5\n\n\nSoarin\nThunder Squadron\n86\n\n\nSpitfire\nThunder Squadron\n12\n\n\nCloudchaser\nThunder Squadron\n20\n\n\nFleetfoot\nThunder Squadron\n16"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#lets-practice-2",
+    "href": "lectures/04-1-two-sample-medians.html#lets-practice-2",
+    "title": "Two-Sample Medians",
+    "section": "Let’s Practice! 2",
+    "text": "Let’s Practice! 2\n\nSpectators tip cadets with bits after their runs. The amount tipped is recorded once early in camp and once again near the end.\nCamp organizers want to know whether cadets are earning more in tips as they improve over camp.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\ntip_bits_pre\ntip_bits_post\n\n\n\n\nRainbow Dash\n4\n23\n\n\nSoarin\n18\n45\n\n\nSpitfire\n3\n8\n\n\nCloudchaser\n17\n53\n\n\nFleetfoot\n13\n30"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#lets-practice-3",
+    "href": "lectures/04-1-two-sample-medians.html#lets-practice-3",
+    "title": "Two-Sample Medians",
+    "section": "Let’s Practice! 3",
+    "text": "Let’s Practice! 3\n\nA sound crew records the peak crowd noise (in decibels) during each cadet’s run.\nCamp organizers are curious whether one squadron draws a louder crowd reaction than the other.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nsquadron\ncheer_decibels\n\n\n\n\nRainbow Dash\nThunder Squadron\n91.8\n\n\nSoarin\nThunder Squadron\n87.1\n\n\nSpitfire\nThunder Squadron\n89.6\n\n\nCloudchaser\nThunder Squadron\n89.6\n\n\nFleetfoot\nThunder Squadron\n89.3"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#lets-practice-4",
+    "href": "lectures/04-1-two-sample-medians.html#lets-practice-4",
+    "title": "Two-Sample Medians",
+    "section": "Let’s Practice! 4",
+    "text": "Let’s Practice! 4\n\nThe camp medic tracks how many days each cadet spends recovering from an injury over the two-week camp.\nCoaches want to know whether one squadron’s training style is leading to more injury days than the other’s.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nsquadron\ninjury_days\n\n\n\n\nRainbow Dash\nThunder Squadron\n0\n\n\nSoarin\nThunder Squadron\n2\n\n\nSpitfire\nThunder Squadron\n1\n\n\nCloudchaser\nThunder Squadron\n3\n\n\nFleetfoot\nThunder Squadron\n3"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#lets-practice-5",
+    "href": "lectures/04-1-two-sample-medians.html#lets-practice-5",
+    "title": "Two-Sample Medians",
+    "section": "Let’s Practice! 5",
+    "text": "Let’s Practice! 5\n\nEach cadet’s wing-flap rate while hovering in place is measured on arrival, then measured again after two weeks of drills.\nCoaches want to know whether training actually changes a cadet’s wing-flap rate.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nwing_flap_rate_pre\nwing_flap_rate_post\n\n\n\n\nRainbow Dash\n49.2\n49.8\n\n\nSoarin\n76.1\n75.6\n\n\nSpitfire\n55.9\n59.6\n\n\nCloudchaser\n45.1\n47.6\n\n\nFleetfoot\n44.6\n39.4"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#lets-practice-6",
+    "href": "lectures/04-1-two-sample-medians.html#lets-practice-6",
+    "title": "Two-Sample Medians",
+    "section": "Let’s Practice! 6",
+    "text": "Let’s Practice! 6\n\nEach cadet rates how confident they feel about their flying on a self-reported scale, once at the start of camp and once at the end.\nCamp staff want to know whether two weeks of training changes how confident cadets feel.\nLooking at the data,\n\n\n\n\n\n\n\ncadet_name\nconfidence_rating_pre\nconfidence_rating_post\n\n\n\n\nRainbow Dash\n7\n8\n\n\nSoarin\n8\n9\n\n\nSpitfire\n8\n10\n\n\nCloudchaser\n5\n5\n\n\nFleetfoot\n7\n8"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#wrap-up",
+    "href": "lectures/04-1-two-sample-medians.html#wrap-up",
+    "title": "Two-Sample Medians",
+    "section": "Wrap Up",
+    "text": "Wrap Up\n\nToday’s lecture:\n\nIndependent t-test\nDependent t-test\n\nWednesday: R lab – bring a laptop!"
   },
   {
     "objectID": "lectures/01-2-inference.html#introduction",
@@ -959,11 +1232,11 @@
     "text": "Wrap Up\n\nToday’s lecture:\n\nIndependent t-test\nDependent t-test\n\nWednesday: R lab – bring a laptop!"
   },
   {
-    "objectID": "syllabus.html",
-    "href": "syllabus.html",
-    "title": "Abbreviated Syllabus",
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Tentative Schedule",
     "section": "",
-    "text": "Note: this is an abbreviated syllabus. The full syllabus is available through Classmate and/or Canvas.\n\nInstructor Information\n\nDr. Samantha Seals\nOffice: 4/344\n\n\n\nMeeting Times and Location\n\nMW 1:00-2:15 pm\nClassroom: 74/109\n\n\n\nOffice Hours\n\nMonday: 9:00-11:00 am\nTuesday: 9:00-11:00 am\nTuesday: 2:00-4:00 pm\nOther times by appointment\n\n\n\nGrading and Evaluation\nThe course grade will be determined as follows:\n\nClass participation (10%): Students will complete written examples in class. One example will be used as an exit ticket at the end of the class.\nWorkshop participation (20%): Some lecture meetings will be R workshops, where students will analyze data and submit a written report. The resulting file should be submitted to the appropriate assignment on Canvas (see Canvas for due dates).\nExams (30%): Three will be given:\n\n09/23 (Weds): Modules 1 and 2 (\\(t\\)-tests and ANOVA)\n10/14 (Weds): Module 3 (categorical analysis)\n11/18 (Weds): Module 4 (regression analysis)\n\nProject (10%): Students will complete and present a project related to regression analysis.\n\n11/09 (Mon): R workshop for project\n\n11/16 (Mon): Project presentations\n\nFinal Exam (30%): The final exam will be a concepts-based written exam. While there may be some basic calculations needed, students will not be processing raw data.\n\n12/09 (Mon): Final Exam, 11:00 am – 1:30 pm\n\n\n\n\nLate Policy\nAssignments have due dates, however, the Canvas assignments will not close until the end of the semester. All students are automatically granted “extensions” without question.\nNote that if there is not a submission at the initial grading submission (after the initial deadline), a zero (0) will be assigned. This is only for record keeping purposes. There is no penalty for submitting late and a full grade will be given upon review of your submission.\nExtensions are not available for the project or final exam."
+    "text": "Week 1 (08/17 & 08/19)\n\n\n\n\n\nClass meetings:\n\nMonday: Review of STA2023: Describing Data (slides & qmd)\nWednesday: Review of STA2023: Statistical Inference (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 2 (08/24 & 08/26)\n\n\n\n\n\nClass meetings:\n\nMonday: Independent and dependent means (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 3 (08/31 & 09/02)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop\n\nRemember to bring a laptop to class!\n\nWednesday: Dr. Seals out\n\n\n\n\n\n\n\n\n\n\nWeek 4 (09/07 & 09/09)\n\n\n\n\n\nClass meetings:\n\nMonday: No meeting (Labor Day)\nWednesday: Independent and dependent medians (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 5 (09/14 & 09/16)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop\n\nRemember to bring a laptop to class!\n\nWednesday: One-way ANOVA and Kruskal-Wallis (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 6 (09/21 & 09/23)\n\n\n\n\n\nClass meetings:\n\nMonday: Posthoc testing (slides & qmd)\nWednesday: Test - Module 1\n\n\n\n\n\n\n\n\n\n\nWeek 7 (09/28 & 09/30)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop\n\nRemember to bring a laptop to class!\n\nWednesday: Two-way ANOVA (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 8 (10/05 & 10/07)\n\n\n\n\n\nClass meetings:\n\nMonday: Posthoc Testing and Profile Plots (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 9 (10/12 & 10/14)\n\n\n\n\n\nClass meetings:\n\nMonday: Independent and dependent proportions (slides & qmd)\nWednesday: Test - Module 2\n\n\n\n\n\n\n\n\n\n\nWeek 10 (10/19 & 10/21)\n\n\n\n\n\nClass meetings:\n\nMonday: Goodness-of-fit and tests for independence (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 11 (10/26 & 10/28)\n\n\n\n\n\nClass meetings:\n\nMonday: New! Test - Module 3\nWednesday: Correlation and simple linear regression (slides & qmd)\n\n\n\n\n\n\n\n\n\n\nWeek 12 (11/02 & 11/04)\n\n\n\n\n\nClass meetings:\n\nMonday: Multiple regression (slides & qmd)\nWednesday: R workshop\n\nRemember to bring a laptop to class!\n\n\n\n\n\n\n\n\n\n\n\nWeek 13 (11/09 & 11/11)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop for project\n\nRemember to bring a laptop to class!\n\nWednesday: No meeting (Veteran’s Day)\n\n\n\n\n\n\n\n\n\n\nWeek 14 (11/16 & 11/18)\n\n\n\n\n\nClass meetings:\n\nMonday: R workshop for project\n\nRemember to bring a laptop to class!\n\nWednesday: Test - Module 4\n\n\n\n\n\n\n\n\n\n\nThanksgiving (11/23 & 11/24)\n\n\n\n\n\n🦃 🦃 🦃\nWishing you a restful break filled with good food, company, and rest.\n🥧 🥧 🥧\nSee you next week!\n🦃 🦃 🦃\n\n\n\n\n\n\n\n\n\nWeek 15 (11/30 & 12/02)\n\n\n\n\n\nClass meetings:\n\nMonday: Presentation of projects\nWednesday: Review and catch up\n\n\n\n\n\n\n\n\n\n\nExam Week\n\n\n\n\n\n\nFinal exam: Wednesday, 12/09, 11:00 am – 1:30 pm."
   },
   {
     "objectID": "workshops/week-02-workshop.html",
