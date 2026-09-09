@@ -81,7 +81,7 @@
     "href": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots",
     "title": "Two-Sample Medians",
     "section": "Normality Assumption: Quantile-Quantile Plots",
-    "text": "Normality Assumption: Quantile-Quantile Plots\n\nThere are formal tests for normality (see article here), however, we will not use them.\n\nTests for normality are not well-endorsed by statisticians.\n\nInstead, we will assess normality using a quantile-quantile (Q-Q) plot.\nA Q-Q plot helps us visually check if our data follows a specific distribution (here, the normal).\n\nIt compares the quantiles of our sample data to the quantiles of a theoretical distribution (the normal).\n\nHow do we read Q-Q plots?\n\nEach dot represents one observation in our dataset.\nIf the data follow a normal distribution, we will observe that the dots fall roughly along a straight diagonal line.\nWe focus on the “middle” of the graph."
+    "text": "Normality Assumption: Quantile-Quantile Plots\n\nThere are formal tests for normality (see article here), however, we will not use them.\n\nInstead, we will assess normality using a quantile-quantile (Q-Q) plot.\n\nA Q-Q plot helps us visually check if our data follows a specific distribution (here, the normal).\n\nHow do we read Q-Q plots?\n\nEach dot represents one observation in our dataset.\nIf the data follow a normal distribution, we will observe that the dots fall roughly along a straight diagonal line.\nWe focus on the “middle” of the graph."
   },
   {
     "objectID": "lectures/04-1-two-sample-medians.html#normality-assumption-quantile-quantile-plots-1",
@@ -231,25 +231,46 @@
     "text": "Example 1\n\nHypotheses:\n\nH_0: \\ M_{\\text{L}} - M_{\\text{T}} = 0\nH_1: \\ M_{\\text{L}} - M_{\\text{T}} \\ne 0\n\nTest Statistic and p-Value\n\nW_0 = 168, p = 0.019\n\nRejection Region\n\nReject H_0 if p &lt; \\alpha; \\alpha = 0.05\n\nConclusion and interpretation\n\nReject H_0. There is sufficient evidence to suggest that there is a difference between the Lightning and Thunder squadrons."
   },
   {
+    "objectID": "lectures/04-1-two-sample-medians.html#introduction-two-dependent-medians",
+    "href": "lectures/04-1-two-sample-medians.html#introduction-two-dependent-medians",
+    "title": "Two-Sample Medians",
+    "section": "Introduction: Two Dependent Medians",
+    "text": "Introduction: Two Dependent Medians\n\nThe Wilcoxon Signed Rank test is a nonparametric alternative to the dependent t-test.\nInstead of examining the mean of the difference, we will now turn to examining the ranks of the differences.\nBefore ranking, we will find the difference between the paired observations and eliminate any 0 differences.\n\nNote 1: elimniating 0 differences is the big difference between the other tests!\nNote 2: because we are eliminating 0 differences, this means that our sample size will update to the number of pairs with a non-0 difference."
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#two-dependent-medians-ranking-data",
+    "href": "lectures/04-1-two-sample-medians.html#two-dependent-medians-ranking-data",
+    "title": "Two-Sample Medians",
+    "section": "Two Dependent Medians: Ranking Data",
+    "text": "Two Dependent Medians: Ranking Data\n\nWhen ranking, we the differences are ranked based on the absolute value of the difference.\nThen, ranks can be identified as “positive” or “negative” based on the direction of the difference.\n\n\n\n\nX\nY\nD\n|D|\nRank\n\n\n\n\n5\n8\n-3\n3\n- 1.5\n\n\n8\n5\n3\n3\n+ 1.5\n\n\n4\n4\n0\n0\n———\n\n\n\n\nIn this (very basic) example, we started with n=3, but reduced to n=2 due to the 0 difference of the third observation."
+  },
+  {
     "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians",
     "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians",
     "title": "Two-Sample Medians",
     "section": "Hypothesis Testing: Two Dependent Medians",
-    "text": "Hypothesis Testing: Two Dependent Medians\n\nHypotheses: Two Tailed\n\nH_0: \\ \\mu_d=\\mu_0\nH_1: \\ \\mu_d \\ne \\mu_0\n\nHypotheses: Left Tailed\n\nH_0: \\ \\mu_d \\ge \\mu_0\nH_1: \\ \\mu_d &lt; \\mu_0\n\nHypotheses: Right Tailed\n\nH_0: \\ \\mu_d \\le \\mu_0\nH_1: \\ \\mu_d &gt; \\mu_0\n\nNote! \\mu_d = \\mu_1 - \\mu_2"
+    "text": "Hypothesis Testing: Two Dependent Medians\n\nHypotheses: Two Tailed\n\nH_0: \\ M_d=M_0\nH_1: \\ M_d \\ne M_0\n\nHypotheses: Left Tailed\n\nH_0: \\ M_d \\ge M_0\nH_1: \\ M_d &lt; M_0\n\nHypotheses: Right Tailed\n\nH_0: \\ M_d \\le M_0\nH_1: \\ M_d &gt; M_0\n\nNote! M_d = M_1 - M_2"
   },
   {
     "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-1",
     "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-1",
     "title": "Two-Sample Medians",
     "section": "Hypothesis Testing: Two Dependent Medians",
-    "text": "Hypothesis Testing: Two Dependent Medians\nTest statistic:\n\nt_0 = \\frac{\\bar{d}-\\mu_0}{\\frac{s_d}{\\sqrt{n}}} \\sim t_{\\text{df}}\n\n\nwhere\n\n\\bar{d} = \\text{mean}(x_1-x_2) is the point estimate for \\mu_d = \\mu_1-\\mu_2\n\\mu_0 is the hypothesized difference\ns_d is the sample standard deviation of the difference\nn is the number of pairs of observations\n\\text{df} = n-1"
+    "text": "Hypothesis Testing: Two Dependent Medians\nTest statistic:"
   },
   {
-    "objectID": "lectures/04-1-two-sample-medians.html#two-dependent-means-r",
-    "href": "lectures/04-1-two-sample-medians.html#two-dependent-means-r",
+    "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-2",
+    "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-2",
     "title": "Two-Sample Medians",
-    "section": "Two Dependent Means (R)",
-    "text": "Two Dependent Means (R)\n\nWe will use the dependent_medians function from library(ssstats) to perform statistical inference.\nGeneric syntax:\n\n\ndataset_name |&gt; dependent_medians(col1 = first_variable,\n2                                  col2 = second_variable,\n3                                  alternative = \"two\" | \"less\" | \"greater\",\n4                                  m = hypothesized_difference,\n5                                  alpha = alpha_level)\n\n\n2\n\ncol1: the first paired measurement in the difference d = \\text{col1} - \\text{col2}.\n\n3\n\ncol2: the second paired measurement in the difference d = \\text{col1} - \\text{col2}.\n\n4\n\nalternative: the direction of the test; default is two.\n\n5\n\nm: the hypothesized difference between the two groups under H_0; default is 0."
+    "section": "Hypothesis Testing: Two Dependent Medians",
+    "text": "Hypothesis Testing: Two Dependent Medians\n\nTest Statistic\n\n\nT_0 =\n\\begin{cases}\n  R_+ = \\text{sum of positive ranks} & \\text{if left-tailed} \\\\\n  R_- = \\text{sum of negative ranks} & \\text{if right-tailed} \\\\\n  \\min(R_+, R_-) & \\text{if two-tailed}\n\\end{cases}"
+  },
+  {
+    "objectID": "lectures/04-1-two-sample-medians.html#two-dependent-medians-r",
+    "href": "lectures/04-1-two-sample-medians.html#two-dependent-medians-r",
+    "title": "Two-Sample Medians",
+    "section": "Two Dependent Medians (R)",
+    "text": "Two Dependent Medians (R)\n\nWe will use the dependent_medians function from library(ssstats) to perform statistical inference.\nGeneric syntax:\n\n\ndataset_name |&gt; dependent_medians(col1 = first_variable,\n2                                  col2 = second_variable,\n3                                  alternative = \"two\" | \"less\" | \"greater\",\n4                                  m = hypothesized_difference,\n5                                  alpha = alpha_level)\n\n\n2\n\ncol1: the first paired measurement in the difference d = \\text{col1} - \\text{col2}.\n\n3\n\ncol2: the second paired measurement in the difference d = \\text{col1} - \\text{col2}.\n\n4\n\nalternative: the direction of the test; default is two.\n\n5\n\nm: the hypothesized difference between the two groups under H_0; default is 0."
   },
   {
     "objectID": "lectures/04-1-two-sample-medians.html#example-4-2",
@@ -270,7 +291,7 @@
     "href": "lectures/04-1-two-sample-medians.html#example-4-4",
     "title": "Two-Sample Medians",
     "section": "Example 4",
-    "text": "Example 4\n\nHypotheses:\n\nH_0: \\ \\mu_{\\text{post}} - \\mu_{\\text{pre}} \\ge 0\nH_1: \\ \\mu_{\\text{post}} - \\mu_{\\text{pre}} &lt; 0\n\nTest Statistic and p-Value\n\nT_0 = 0, p &lt; 0.001\n\nRejection Region\n\nReject H_0 if p &lt; \\alpha; \\alpha = 0.05\n\nConclusion and interpretation\n\nReject H_0. There is sufficient evidence to suggest that cadets are recovering faster at the end of camp."
+    "text": "Example 4\n\nHypotheses:\n\nH_0: \\ M_{\\text{post}} - M_{\\text{pre}} \\ge 0\nH_1: \\ M_{\\text{post}} - M_{\\text{pre}} &lt; 0\n\nTest Statistic and p-Value\n\nT_0 = 0, p &lt; 0.001\n\nRejection Region\n\nReject H_0 if p &lt; \\alpha; \\alpha = 0.05\n\nConclusion and interpretation\n\nReject H_0. There is sufficient evidence to suggest that cadets are recovering faster at the end of camp."
   },
   {
     "objectID": "lectures/04-1-two-sample-medians.html#lets-practice-1",
@@ -319,7 +340,7 @@
     "href": "lectures/04-1-two-sample-medians.html#wrap-up",
     "title": "Two-Sample Medians",
     "section": "Wrap Up",
-    "text": "Wrap Up\n\nToday’s lecture:\n\nIndependent t-test\nDependent t-test\n\nWednesday: R lab – bring a laptop!"
+    "text": "Wrap Up\n\nToday’s lecture:\n\nIndependent Wilcoxon (rank sum)\nDependent Wilcoxon (signed rank)\n\nMonday: R lab – bring a laptop!"
   },
   {
     "objectID": "lectures/01-2-inference.html#introduction",
