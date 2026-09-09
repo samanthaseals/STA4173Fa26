@@ -256,13 +256,6 @@
     "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-1",
     "title": "Two-Sample Medians",
     "section": "Hypothesis Testing: Two Dependent Medians",
-    "text": "Hypothesis Testing: Two Dependent Medians\nTest statistic:"
-  },
-  {
-    "objectID": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-2",
-    "href": "lectures/04-1-two-sample-medians.html#hypothesis-testing-two-dependent-medians-2",
-    "title": "Two-Sample Medians",
-    "section": "Hypothesis Testing: Two Dependent Medians",
     "text": "Hypothesis Testing: Two Dependent Medians\n\nTest Statistic\n\n\nT_0 =\n\\begin{cases}\n  R_+ = \\text{sum of positive ranks} & \\text{if left-tailed} \\\\\n  R_- = \\text{sum of negative ranks} & \\text{if right-tailed} \\\\\n  \\min(R_+, R_-) & \\text{if two-tailed}\n\\end{cases}"
   },
   {
