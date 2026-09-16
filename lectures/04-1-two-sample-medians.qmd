@@ -1,0 +1,616 @@
+---
+title: "Two-Sample Medians"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+        
+## Introduction: Topics
+
+- We previously have reviewed estimation and basic statistical inference.
+    - Point estimation
+    - Confidence intervals
+    - Hypothesis testing
+    
+- Today we will focus on the following scenarios today:
+    - Two-sample medians, independent data ($M_1-M_2$)
+    - Two-sample medians, dependent data ($M_d$)
+    
+## Introduction: Data
+
+- The Wonderbolts have opened a new Reserve Camp, where 30 cadets spend two weeks training for a shot at the main squad.
+
+- On arrival, each cadet is assigned to one of two training squadrons:
+    - Thunder Squadron
+    - Lightning Squadron
+
+- The two squadrons train separately and compete against each other in a series of trials.
+
+    - Independent data
+
+- Every cadet is also measured once at the start of camp and once again at the end, after two weeks of identical drills.
+
+    - Dependent data
+
+
+## Introduction: Data
+
+- Eyeballing the dataset,
+
+```{r}
+#| echo: false
+library(ssstats)
+library(tidyverse)
+
+wonderbolt_camp <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/wonderbolt_camp.csv")
+head(wonderbolt_camp)
+```
+
+## The Normality Assumption
+
+- All *t*-tests assume approximate normality of the data.
+
+    - In the case of one-sample *t*-tests, the measure of interest must somewhat follow a normal distribution.
+
+    - In the case of two-sample *t*-tests, the measure of interest *in each group* must somewhat follow a normal distribution.
+    
+- Note that a paired *t*-test is technically a one-sample *t*-test, so we will examine normality of the difference. 
+
+## Normality Assumption: Quantile-Quantile Plots
+
+- There are formal tests for normality ([see article here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3693611/)), however, we will not use them.\
+    
+- Instead, we will assess normality using a quantile-quantile (Q-Q) plot.
+
+    - A Q-Q plot helps us visually check if our data follows a specific distribution (here, the normal).
+
+- How do we read Q-Q plots?
+
+    - Each dot represents one observation in our dataset.
+    
+    - If the data follow a normal distribution, we will observe that the dots fall roughly along a straight diagonal line.
+    - We focus on the "middle" of the graph.
+    
+## Normality Assumption: Quantile-Quantile Plots
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+library(ssstats)
+library(tidyverse)
+library(ggpubr)
+set.seed(187782)
+pegasi_flaps <- tibble(flaps = rnorm(100, mean = 120, sd = 10))
+qq <- pegasi_flaps %>% ggplot(aes(sample = flaps)) +
+  stat_qq_line(color = "gray", linewidth = 1) +
+  stat_qq() +
+  labs(x = "Theoretical Quantiles",
+       y = "Sample Quantiles",
+       title = "Quantile-Quantile Plot") +
+  theme_bw()
+
+hist <- pegasi_flaps %>% ggplot(aes(x = flaps)) +
+  geom_histogram(fill = "gray", color = "black", bins = 10) +
+  labs(title = "Histogram", x = "") + 
+  theme_bw()
+
+ggarrange(qq, hist, ncol = 2)
+```
+
+## Normality Assumption: Quantile-Quantile Plots
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+set.seed(881)
+pegasi_flaps <- tibble(flaps = rexp(100, rate = 1/50))
+qq <- pegasi_flaps %>% ggplot(aes(sample = flaps)) +
+  stat_qq_line(color = "gray", linewidth = 1) +
+  stat_qq() +
+  labs(x = "Theoretical Quantiles",
+       y = "Sample Quantiles",
+       title = "Quantile-Quantile") +
+  theme_bw()
+
+hist <- pegasi_flaps %>% ggplot(aes(x = flaps)) +
+  geom_histogram(fill = "gray", color = "black", bins = 10) +
+  labs(title = "Histogram", x = "") + 
+  theme_bw()
+
+ggarrange(qq, hist, ncol = 2)
+```
+
+## Normality Assumption: Quantile-Quantile Plots
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+set.seed(188277)
+pegasi_flaps <- tibble(flaps = rt(100, df = 3) * 10 + 50)
+qq <- pegasi_flaps %>% ggplot(aes(sample = flaps)) +
+  stat_qq_line(color = "gray", linewidth = 1) +
+  stat_qq() +
+  labs(x = "Theoretical Quantiles",
+       y = "Sample Quantiles",
+       title = "Quantile-Quantile") +
+  theme_bw()
+
+
+hist <- pegasi_flaps %>% ggplot(aes(x = flaps)) +
+  geom_histogram(fill = "gray", color = "black", bins = 10) +
+  labs(title = "Histogram", x = "") + 
+  theme_bw()
+
+ggarrange(qq, hist, ncol = 2)
+```
+
+
+## Normality Assumption: Quantile-Quantile Plots
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+set.seed(658236)
+pegasi_flaps <- tibble(flaps = rbeta(100, shape1 = 5, shape2 = 1) * 100)
+qq <- pegasi_flaps %>% ggplot(aes(sample = flaps)) +
+  stat_qq_line(color = "gray", linewidth = 1) +
+  stat_qq() +
+  labs(x = "Theoretical Quantiles",
+       y = "Sample Quantiles",
+       title = "Quantile-Quantile") +
+  theme_bw()
+
+hist <- pegasi_flaps %>% ggplot(aes(x = flaps)) +
+  geom_histogram(fill = "gray", color = "black", bins = 10) +
+  labs(title = "Histogram", x = "") + 
+  theme_bw()
+
+ggarrange(qq, hist, ncol = 2)
+```
+
+## Normality Assumption (`R`)
+
+- We will check this graphically.
+
+- For independent data,
+
+```{r}
+#| eval: false
+dataset_name |> independent_qq(outcome = outcome_variable,
+                               grouping = grouping_variable)
+```
+
+- For dependent data,
+
+```{r}
+#| eval: false
+dataset_name |> dependent_qq(col1 = first_measurement,
+                             col2 = second_measurement)
+```
+
+## Example 1
+
+- Every cadet runs a timed sprint course as part of camp trials.
+
+- The coaches want us to determine if the Thunder Squadron and Lightning Squadron are finishing the sprint course at different times.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, sprint_time_sec) |> head(n=5)
+```
+
+## Example 1
+
+- Checking the normality assumption,
+
+```{r}
+#| fig-align: 'center'
+wonderbolt_camp |> independent_qq(outcome = sprint_time_sec,
+                                  grouping = squadron)
+```
+
+## Example 2
+
+- At camp, judges score each cadet's aerial loop maneuver on a 0–100 accuracy scale during trials.
+
+- Based on her gut feeling, the head judge believes that, on average, the Thunder Squadron is performing more accurate loop maneuvers.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, loop_accuracy_pct) |> head(n=5)
+```
+
+## Example 2
+
+- Checking the normality assumption,
+
+```{r}
+#| fig-align: 'center'
+wonderbolt_camp |> independent_qq(outcome = loop_accuracy_pct,
+                                  grouping = squadron)
+```
+
+## Example 3
+
+- Each cadet's aerial accuracy is scored when they arrive at camp, and scored again at the end after two weeks of drills.
+
+- Coaches want to know whether cadets are actually flying more accurately by the end of camp.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, accuracy_score_pre, accuracy_score_post) |> head(n=5)
+```
+
+## Example 3
+
+- Checking the normality assumption,
+
+```{r}
+#| fig-align: 'center'
+wonderbolt_camp |> dependent_qq(col1 = accuracy_score_pre,
+                                col2 = accuracy_score_post)
+```
+
+## Example 4
+
+- Each cadet's recovery time after a hard trial is timed at the start of camp and again at the end.
+
+- Coaches want to know whether cadets are recovering faster by the end of camp.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, recovery_time_min_pre, recovery_time_min_post) |> head(n=5)
+```
+
+## Example 4
+
+- Checking the normality assumption,
+
+```{r}
+#| fig-align: 'center'
+wonderbolt_camp |> dependent_qq(col1 = recovery_time_min_pre,
+                                col2 = recovery_time_min_post)
+```
+
+## Introduction: Two Independent Medians
+
+- The Wilcoxon Rank Sum test is a nonparametric alternative to the two-sample *t*-test.
+
+- Instead of comparing group means, we will now turn to comparing the ranks of the data.
+
+- Let us first consider a simple example, $x: \ 1, 7, 10, 2, 6, 8$
+
+- Our first step is to reorder the data: $x: \ 1, 2, 6, 7, 8, 10$
+
+- Then, we replace with the ranks: $R: \ 1, 2, 3, 4, 5, 6$
+
+## Two Independent Medians: Ranking Data
+
+- What if all data values are not unique? We will assign the <u>average</u> rank for that group.
+
+- For example, $x: 9, 8, 8, 0, 3, 4, 4, 8$
+
+- Let's reorder: $x: 0, 3, 4, 4, 8, 8, 8, 9$
+
+- Rank ignoring ties: $R: 1, 2, 3, 4, 5, 6, 7, 8$
+
+- Now, the final rank: $R: 1, 2, 3.5, 3.5, 6, 6, 6, 8$
+
+## Hypothesis Testing: Two Independent Medians
+
+- **Hypotheses: Two Tailed**
+    - $H_0: \ M_1-M_2 = M_0$
+    - $H_1: \ M_1-M_2 \ne M_0$
+    
+- **Hypotheses: Left Tailed**    
+    - $H_0: \ M_1-M_2 \ge M_0$
+    - $H_1: \ M_1-M_2 < M_0$
+    
+- **Hypotheses: Right Tailed**    
+    - $H_0: \ M_1-M_2 \le M_0$
+    - $H_1: \ M_1-M_2 > M_0$  
+    
+## Hypothesis Testing: Two Independent Medians
+
+$$
+T_0 = \sum R_{\text{1}} - \frac{n_1(n_1+1)}{2}
+$$
+
+- $T = \sum R_{\text{sample 1}} - \frac{n_1(n_1+1)}{2}$
+
+- where
+    - $\sum R_1$ is the sum of the ranks for the first group
+    - $n_1$ is the sample size of the first group 
+    
+- Note that $p =$ (calculated by R :))    
+
+## Two Independent Medians (R)
+
+- We will use the `independent_medians` function from `library(ssstats)` to perform the necessary calculations for the hypothesis test.
+
+- Generic syntax:
+
+```{r}
+#| eval: false
+dataset_name %>% independent_medians(continuous = continuous_variable,
+                                     grouping = grouping_variable,
+                                     alternative = "two" | "greater" | "less",
+                                     m = hypothesized_difference,
+                                     alpha = specified_alpha)
+```
+
+
+## Example 1
+
+- The coaches want us to determine if the Thunder Squadron and Lightning Squadron are finishing the sprint course at different times.
+
+- We will use the `independent_medians()` function,
+
+```{r}
+#| eval: false
+wonderbolt_camp |> independent_medians(outcome = sprint_time_sec,
+                                       grouping = squadron, 
+                                       alternative = "two",
+                                       m = 0,
+                                       alpha = 0.05) 
+```
+
+## Example 1
+
+- Running the code,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> independent_medians(outcome = sprint_time_sec,
+                                     grouping = squadron, 
+                                     alternative = "two",
+                                     m = 0,
+                                     alpha = 0.05) 
+```
+
+## Example 1
+
+- **Hypotheses:**
+    - $H_0: \ M_{\text{L}} - M_{\text{T}} = 0$
+    - $H_1: \ M_{\text{L}} - M_{\text{T}} \ne 0$
+
+- **Test Statistic and *p*-Value**
+    - $W_0 = 168$, $p = 0.019$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion and interpretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that there is a difference between the Lightning and Thunder squadrons.
+    
+## Introduction: Two Dependent Medians
+
+- The Wilcoxon Signed Rank test is a nonparametric alternative to the dependent *t*-test.
+
+- Instead of examining the mean of the difference, we will now turn to examining the ranks of the differences.
+
+- Before ranking, we will find the difference between the paired observations and eliminate any 0 differences.
+
+    - Note 1: elimniating 0 differences is the big difference between the other tests! 
+    - Note 2: because we are eliminating 0 differences, this means that our sample size will update to the number of pairs with a non-0 difference.
+    
+## Two Dependent Medians: Ranking Data    
+    
+- When ranking, we the differences are ranked based on the absolute value of the difference.
+
+- Then, ranks can be identified as "positive" or "negative" based on the direction of the difference.
+
+| *X* | *Y* | *D* | \|*D*\| | Rank |
+|-----|-----|-----|---------|------|
+| 5   | 8   | -3  | 3       | $-$ 1.5 |
+| 8   | 5   | 3   | 3       | $+$ 1.5  |
+| 4   | 4   | 0   | 0       | ---------   |
+
+- In this (very basic) example, we started with $n=3$, but reduced to $n=2$ due to the 0 difference of the third observation.    
+
+## Hypothesis Testing: Two Dependent Medians
+
+- **Hypotheses: Two Tailed**
+    - $H_0: \ M_d=M_0$
+    - $H_1: \ M_d \ne M_0$
+    
+- **Hypotheses: Left Tailed**    
+    - $H_0: \ M_d \ge M_0$
+    - $H_1: \ M_d < M_0$
+    
+- **Hypotheses: Right Tailed**    
+    - $H_0: \ M_d \le M_0$
+    - $H_1: \ M_d > M_0$  
+    
+- **Note!** $M_d = M_1 - M_2$    
+
+## Hypothesis Testing: Two Dependent Medians
+
+- **Test Statistic**
+
+$$
+T_0 =
+\begin{cases}
+  R_+ = \text{sum of positive ranks} & \text{if left-tailed} \\
+  R_- = \text{sum of negative ranks} & \text{if right-tailed} \\
+  \min(R_+, R_-) & \text{if two-tailed}
+\end{cases}
+$$
+
+## Two Dependent Medians (`R`)
+
+- We will use the `dependent_medians` function from `library(ssstats)` to perform statistical inference.
+
+- Generic syntax:
+
+```{r}
+#| eval: false
+dataset_name |> dependent_medians(col1 = first_variable, # <1>
+                                  col2 = second_variable, # <2>
+                                  alternative = "two" | "less" | "greater", # <3>
+                                  m = hypothesized_difference, # <4>
+                                  alpha = alpha_level) # <5>
+```
+2. `col1`: the first paired measurement in the difference $d = \text{col1} - \text{col2}$.
+3. `col2`: the second paired measurement in the difference $d = \text{col1} - \text{col2}$.
+4. `alternative`: the direction of the test; default is `two`.
+5. `m`: the hypothesized difference between the two groups under $H_0$; default is 0.
+6. `alpha`: the significance level; default is 0.05.
+
+## Example 4
+
+- Each cadet's recovery time after a hard trial is timed at the start of camp and again at the end.
+
+- Coaches want to know whether cadets are recovering faster by the end of camp.
+
+- We will use the `dependent_means()` function,
+
+```{r}
+#| eval: false
+wonderbolt_camp |> dependent_medians(col1 = recovery_time_min_post,
+                                     col2 = recovery_time_min_pre,
+                                     alternative = "less", 
+                                     m = 0,
+                                     alpha = 0.05) 
+```
+
+## Example 4
+
+- Running the code,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> dependent_medians(col1 = recovery_time_min_post,
+                                   col2 = recovery_time_min_pre,
+                                   alternative = "less", 
+                                   m = 0,
+                                   alpha = 0.05) 
+```
+
+## Example 4
+
+- **Hypotheses:**
+    - $H_0: \ M_{\text{post}} - M_{\text{pre}} \ge 0$
+    - $H_1: \ M_{\text{post}} - M_{\text{pre}} < 0$
+
+- **Test Statistic and *p*-Value**
+    - $T_0 = 0$, $p < 0.001$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion and interpretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that cadets are recovering faster at the end of camp.
+    
+
+## Let's Practice! 1
+
+- Spectators toss bits to cadets who pull off a standout run during trials.
+
+- Camp organizers want to know whether one squadron is out-earning the other in prize bits.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, prize_bits_won) |> head(n=5)
+```
+
+## Let's Practice! 2
+
+- Spectators tip cadets with bits after their runs. The amount tipped is recorded once early in camp and once again near the end.
+
+- Camp organizers want to know whether cadets are earning more in tips as they improve over camp.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, tip_bits_pre, tip_bits_post) |> head(n=5)
+```
+
+## Let's Practice! 3
+
+- A sound crew records the peak crowd noise (in decibels) during each cadet's run.
+
+- Camp organizers are curious whether one squadron draws a louder crowd reaction than the other.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, cheer_decibels) |> head(n=5)
+```
+
+## Let's Practice! 4
+
+- The camp medic tracks how many days each cadet spends recovering from an injury over the two-week camp.
+
+- Coaches want to know whether one squadron's training style is leading to more injury days than the other's.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, squadron, injury_days) |> head(n=5)
+```
+
+## Let's Practice! 5
+
+- Each cadet's wing-flap rate while hovering in place is measured on arrival, then measured again after two weeks of drills.
+
+- Coaches want to know whether training actually changes a cadet's wing-flap rate.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, wing_flap_rate_pre, wing_flap_rate_post) |> head(n=5)
+```
+
+## Let's Practice! 6
+
+- Each cadet rates how confident they feel about their flying on a self-reported scale, once at the start of camp and once at the end.
+
+- Camp staff want to know whether two weeks of training changes how confident cadets feel.
+
+- Looking at the data,
+
+```{r}
+#| echo: false
+wonderbolt_camp |> select(cadet_name, confidence_rating_pre, confidence_rating_post) |> head(n=5)
+```
+
+## Wrap Up        
+
+- Today's lecture:
+    - Independent Wilcoxon (rank sum)
+    - Dependent Wilcoxon (signed rank)
+    
+- Monday: `R` lab -- bring a laptop!
