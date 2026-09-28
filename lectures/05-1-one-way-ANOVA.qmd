@@ -1,0 +1,787 @@
+---
+title: "One-Way ANOVA"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+
+## Introduction: Analysis of Variance
+
+- We have previously discussed testing the difference between two groups.
+
+    - What about when there are three or more groups? 
+
+- We will use a method called **an**alysis **o**f **va**riance (ANOVA).
+
+    - This method partitions the variance of the outcome into variance due to the groups and variance due to "other" factors.
+
+- Fun fact: the two-sample *t*-test is a special case of ANOVA.
+
+    - If you perform ANOVA when comparing two means, you will obtain the same results as the two-sample *t*-test.    
+    
+## `R` Setup    
+
+```{r}
+library(tidyverse)
+library(ssstats)
+apple_harvest <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/apple_harvest.csv")
+baltimare_harbor <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/baltimare_harbor.csv")
+boutique_gems <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/boutique_gems.csv")
+klugetown_bazaar <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/klugetown_bazaar.csv")
+ponyville_diner_tips <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/ponyville_diner_tips.csv")
+wonderbolts_laptimes <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/wonderbolts_laptimes.csv")
+```
+
+## Analysis of Variance
+
+- Consider comparing $k$ groups. 
+
+<style>
+  .anova-table {
+    width: 100%;
+    max-width: 1100px;
+    margin: 30px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-family: "Aptos", "Avenir Next", Arial, sans-serif;
+    font-size: 26px;
+    color: #263238;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+  }
+
+  .anova-table th {
+    background: #263f5c;
+    color: white;
+    font-weight: 600;
+    padding: 18px 20px;
+    text-align: center;
+    border-bottom: 4px solid #8fb3cc;
+  }
+
+  .anova-table th:first-child {
+    width: 18%;
+  }
+
+  .anova-table th:nth-child(2) {
+    width: 48%;
+  }
+
+  .anova-table th:nth-child(3),
+  .anova-table th:nth-child(4) {
+    width: 17%;
+  }
+
+  .anova-table td {
+    padding: 14px 20px;
+    text-align: center;
+    border-bottom: 1px solid #d9e1e8;
+  }
+
+  .anova-table tbody tr:nth-child(even) {
+    background: #f4f7fa;
+  }
+
+  .anova-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .anova-table .treatment {
+    font-weight: 600;
+    color: #263f5c;
+  }
+
+  .anova-table .observations {
+    font-family: "Cambria Math", "STIX Two Math", serif;
+    font-style: italic;
+    letter-spacing: 1px;
+  }
+
+  .anova-table .summary {
+    background: #edf3f7;
+    font-family: "Cambria Math", "STIX Two Math", serif;
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .anova-table .dots {
+    color: #78909c;
+    font-style: normal;
+  }
+
+  .anova-table .symbol {
+    font-family: "Cambria Math", "STIX Two Math", serif;
+    font-style: italic;
+  }
+
+  .anova-table sub {
+    font-size: 0.65em;
+  }
+</style>
+
+<table class="anova-table">
+  <thead>
+    <tr>
+      <th>Treatment<br>(Level)</th>
+      <th>Observations</th>
+      <th>Total</th>
+      <th>Average</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td class="treatment">1</td>
+      <td class="observations">
+        y<sub>11</sub>&nbsp;&nbsp;
+        y<sub>12</sub>&nbsp;&nbsp;
+        <span class="dots">⋯</span>&nbsp;&nbsp;
+        y<sub>1n</sub>
+      </td>
+      <td class="summary">
+        y<sub>1·</sub>
+      </td>
+      <td class="summary">
+        ȳ<sub>1·</sub>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="treatment">2</td>
+      <td class="observations">
+        y<sub>21</sub>&nbsp;&nbsp;
+        y<sub>22</sub>&nbsp;&nbsp;
+        <span class="dots">⋯</span>&nbsp;&nbsp;
+        y<sub>2n</sub>
+      </td>
+      <td class="summary">
+        y<sub>2·</sub>
+      </td>
+      <td class="summary">
+        ȳ<sub>2·</sub>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="treatment dots">⋮</td>
+      <td class="observations dots">⋮</td>
+      <td class="summary dots">⋮</td>
+      <td class="summary dots">⋮</td>
+    </tr>
+
+    <tr>
+      <td class="treatment">k</td>
+      <td class="observations">
+        y<sub>k1</sub>&nbsp;&nbsp;
+        y<sub>k2</sub>&nbsp;&nbsp;
+        <span class="dots">⋯</span>&nbsp;&nbsp;
+        y<sub>kn</sub>
+      </td>
+      <td class="summary">
+        y<sub>k·</sub>
+      </td>
+      <td class="summary">
+        ȳ<sub>k·</sub>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## ANOVA Tables
+
+- We will see our ANOVA results displayed in a table.
+
+- Here is what we are working towards:
+
+<table class="anova-table">
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>df</th>
+      <th>SS</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="treatment">Treatment</td>
+      <td class="summary">df<sub>Trt</sub></td>
+      <td class="summary">SS<sub>Trt</sub></td>
+      <td class="summary">MS<sub>Trt</sub></td>
+      <td class="summary">F<sub>Trt</sub></td>
+      <td class="summary"><em>p</em><sub>Trt</sub></td>
+    </tr>
+    <tr>
+      <td class="treatment">Residuals</td>
+      <td class="summary">df<sub>E</sub></td>
+      <td class="summary">SS<sub>E</sub></td>
+      <td class="summary">MS<sub>E</sub></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="treatment">Total</td>
+      <td class="summary">df<sub>Tot</sub></td>
+      <td class="summary">SS<sub>Tot</sub></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+## ANOVA: Sums of Squares
+
+- We are *partitioning the total variability* into different components. 
+
+- The total sum of squares measures the overall variability in the data:
+
+$$ \text{SS}_{\text{Tot}} = \sum_{i=1}^k \sum_{j=1}^n (y_{ij} - \bar{y}_{..})^2 $$
+
+- and is partitioned into SS<sub>Trt</sub> and SS<sub>E</sub>:
+
+$$\text{SS}_\text{Trt}=n \sum_{i=1}^k \left( \bar{y}_{i.}-\bar{y}_{..} \right)^2  \ \ \ \ \ \ \ \ \ \   \text{SS}_\text{E} = \sum_{i=1}^k \sum_{j=1}^n (y_{ij} - \bar{y}_{i.})^2$$
+
+## ANOVA: Degrees of Freedom
+
+- Next, we have the degrees of freedom. Each sum of square will have its own degrees of freedom.
+
+- The total df:
+
+$$\text{df}_{\text{Tot}} = n-1$$
+
+- and is partitioned into df<sub>Trt</sub> and df<sub>E</sub>:
+
+$$\text{df}_\text{Trt}=k - 1  \ \ \ \ \ \ \ \ \ \   \text{df}_\text{E} = n - k$$
+
+## ANOVA: Mean Squares and Test Statistic
+
+- To find the mean squares, we simply divide the sum of squares by the appropriate degrees of freedom,
+
+$$\text{MS}_\text{Trt}=\frac{\text{SS}_{\text{Trt}}}{\text{df}_{\text{Trt}}} \ \ \ \ \ \ \ \ \ \   \text{MS}_\text{E}=\frac{\text{SS}_{\text{E}}}{\text{df}_{\text{E}}}$$
+
+- Then, we can find our test statistic,
+
+$$F_{\text{Trt}} = \frac{\text{MS}_{\text{Trt}}}{\text{MS}_{\text{E}}}$$
+
+## ANOVA: Mean Squares and Test Statistic
+
+- Note for the future: the MS and *F* can be generalized --
+
+$$\text{MS}_\text{X}=\frac{\text{SS}_{\text{X}}}{\text{df}_{\text{X}}} \ \ \ \ \ \ \ \ \ \  F_{\text{X}} = \frac{\text{MS}_{\text{X}}}{\text{MS}_{\text{E}}}$$
+
+- When constructing a test statistic in ANOVA, we always divide by MS<sub>E</sub>.
+
+## ANOVA Tables
+
+- Revisiting the ANOVA table,
+
+<table class="anova-table">
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>df</th>
+      <th>SS</th>
+      <th>MS</th>
+      <th>F</th>
+      <th>p-value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="treatment">Treatment</td>
+      <td class="summary">df<sub>Trt</sub></td>
+      <td class="summary">SS<sub>Trt</sub></td>
+      <td class="summary">MS<sub>Trt</sub></td>
+      <td class="summary">F<sub>Trt</sub></td>
+      <td class="summary"><em>p</em><sub>Trt</sub></td>
+    </tr>
+    <tr>
+      <td class="treatment">Residuals</td>
+      <td class="summary">df<sub>E</sub></td>
+      <td class="summary">SS<sub>E</sub></td>
+      <td class="summary">MS<sub>E</sub></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="treatment">Total</td>
+      <td class="summary">df<sub>Tot</sub></td>
+      <td class="summary">SS<sub>Tot</sub></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+- Note the relationships:
+
+    - SS<sub>Trt</sub> + SS<sub>E</sub> = SS<sub>Tot</sub>
+    - df<sub>Trt</sub> + df<sub>E</sub> = df<sub>Tot</sub>
+
+## Hypothesis Test for $\mu_1 = \mu_2 = ... = \mu_k$
+
+- **Hypotheses**
+
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_k$
+    - $H_1:$ at least one mean is different.
+    
+- **Test Statistic:**
+
+    - $F_0 = \text{MS}_{\text{Trt}} / \text{MS}_{\text{E}}$
+
+## Statistical Inference on $k$ Means (`R`)
+
+- We will use the `anovas()` function from `library(ssstats)` to construct the ANOVA table.
+
+```{r}
+#| eval: false
+dataset_name |> anovas(outcome = continuous_variable, # <1>
+                       grouping = grouping_variable, # <2>
+                       alpha = alpha_level) # <3>
+```
+1. `outcome`: the continuous variable being compared across groups.
+2. `grouping`: the categorical variable defining the groups (must have at least 2 levels).
+3. `alpha`: the significance level; default is `0.05`.
+
+## Example 1: Sweet Apple Acres
+
+- Applejack has come to us: "Between the Red Delicious row, the Honeycrisp row, and that new Zap Apple row Granny Smith insisted on plantin', I reckon one of 'em oughta be doin' better than the others. Can you tell me if they're really any different, or am I just imaginin' things?"
+
+```{r}
+#| echo: false
+apple_harvest |> head(n = 3)
+```
+
+- We will use the `apple_harvest` dataset to answer the following question:
+
+    - Does apple harvest (in bushels) differ across the three orchard rows?
+    
+## Example 1
+
+- What are the levels in our factor (`row`)?
+
+```{r}
+apple_harvest |> n_pct(row)
+```
+
+## Example 1
+
+- What are the summary statistics by level of `row`?
+
+```{r}
+apple_harvest |> group_by(row) |> mean_median(bushels)
+```
+
+## Example 1
+
+- Constructing the ANOVA table,
+
+```{r}
+apple_harvest |> anovas(outcome = bushels,
+                        grouping = row)
+```
+
+## Example 1
+
+- **Hypotheses**
+
+    - $H_0: \mu_{\text{HC}} = \mu_{\text{RD}} = \mu_{\text{ZA}}$
+    - $H_1:$ at least one mean is different.
+    
+- **Test Statistic and *p*-Value:**
+
+    - $F_0 = 2.468$
+    - $p = 0.095$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion / Interpretation**
+
+    - Fail to reject $H_0$. There is not sufficient evidence to suggest that the production of the rows are different.
+
+## Example 2: Rarity's Boutique
+
+- Rarity flits between racks of fabric: "Darling, I need your professional opinion. Between my Canterlot Couture line, my everyday Ponyville Casual line, and my absolutely *dazzling* Gala Elegance line, I use wildly different amounts of gemstones. Is the difference really as dramatic as I think?"
+
+```{r}
+#| echo: false
+boutique_gems |> head(n = 3)
+```
+
+- We will use the `boutique_gems` dataset to answer the following question:
+
+    - Does the number of gems used per dress differ across the three collections?
+    
+## Example 2
+
+- What are the levels in our factor (`collection`)?
+
+```{r}
+boutique_gems |> n_pct(collection)
+```
+
+## Example 2
+
+- What are the summary statistics by level of `collection`?
+
+```{r}
+boutique_gems |> group_by(collection) |> mean_median(gem_count)
+```
+
+## Example 2
+
+- Constructing the ANOVA table,
+
+```{r}
+boutique_gems |> anovas(outcome = gem_count,
+                       grouping = collection)
+```
+
+## Example 2
+
+- **Hypotheses**
+
+    - $H_0: \mu_{\text{CC}} = \mu_{\text{PC}} = \mu_{\text{GE}}$
+    - $H_1:$ at least one mean is different.
+    
+- **Test Statistic and *p*-Value:**
+
+    - $F_0 = 311.11$
+    - $p < 0.001$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion / Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence to suggest that the number of gems are different between the fashion lines.
+    
+## Example 3: Ponyville Diner
+
+- Sunny Skies wipes down the counter after the lunch rush: "Feels like Caramel always walks away with better tips than me and Lyra put together. Before I start complainin' to the manager, can you check if there's actually a difference in how much we're bringing in?"
+
+```{r}
+#| echo: false
+ponyville_diner_tips |> head(n = 3)
+```
+
+- We will use the `ponyville_diner_tips` dataset to answer the following question:
+
+    - Does tip amount differ across the three servers?
+
+## Example 3
+
+- What are the levels in our factor (`server`)?
+
+```{r}
+ponyville_diner_tips |> n_pct(server)
+```
+
+## Example 3
+
+- What are the summary statistics by level of `server`?
+
+```{r}
+ponyville_diner_tips |> group_by(server) |> mean_median(tip_bits)
+```
+
+## Example 3
+
+- Constructing the ANOVA table,
+
+```{r}
+ponyville_diner_tips |> anovas(outcome = tip_bits,
+                       grouping = server)
+```
+
+## Example 3
+
+- **Hypotheses**
+
+    - $H_0: \mu_{\text{C}} = \mu_{\text{LH}} = \mu_{\text{SS}}$
+    - $H_1:$ at least one mean is different.
+    
+- **Test Statistic and *p*-Value:**
+
+    - $F_0 = 1.356$
+    - $p = 0.265$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion / Interpretation**
+
+    - Fail to reject $H_0$. There is not sufficient evidence to suggest that the servers are earning different tips.
+    
+## ANOVA Assumptions
+
+- We can represent ANOVA with the following model:
+
+$$y_{ij} = \mu + \tau_i + \varepsilon_{ij}$$
+
+- where:
+
+    - $y_{ij}$ is the $j^{\text{th}}$ observation in the $i^{\text{th}}$ group,
+    - $\mu$ is the overall (grand) mean,
+    - $\tau_i$ is the treatment effect for group $i$, and
+    - $\varepsilon_{ij}$ is the error term for the $j^{\text{th}}$ observation in the $i^{\text{th}}$ group.
+    
+## ANOVA Assumptions
+
+- We assume that the error term follows a normal distribution with mean 0 and a constant variance, $\sigma^2$. i.e.,
+
+$$\varepsilon_{ij} \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
+
+- Very important note: **the assumption is on the error term** ($\varepsilon_{ij}$) and NOT on the outcome ($y_{ij}$)!
+
+## ANOVA Assumptions
+
+- We will use the residual (the difference between the observed value and the predicted value) to assess assumptions:
+
+$$e_{ij} = y_{ij} - \hat{y}_{ij}$$
+
+- Note that in the case of one-way ANOVA, the predicted value of $y$ is the *group mean*.
+
+## ANOVA Assumptions: Graphical Assessment
+    
+- **Normality**: quantile-quantile plot
+
+    - Should have points close to the 45$^\circ$ line
+    - We will focus on the "center" portion of the plot
+    
+- **Variance**: scatterplot of the residuals against the predicted values
+
+    - Should be "equal spread" between the groups
+    - No "pattern"
+
+## Graphical Assessment of Assumptions (`R`)
+
+- We will use the `anova_check()` function from `library(ssstats)` to assess normality.
+
+```{r}
+#| eval: false
+dataset_name |> anova_check(outcome = continuous_variable, # <1>
+                       grouping = grouping_variable) # <2>
+```
+1. `outcome`: the continuous variable being compared across groups.
+2. `grouping`: the categorical variable defining the groups (must have at least 2 levels).
+
+- This will provide the the Q-Q plots and variance scatterplot necessary to assess the ANOVA assumptions.    
+    
+## Example 1
+
+- Checking the normality of our Sweet Apple Acres dataset,
+
+```{r}
+apple_harvest |> anova_check(outcome = bushels,
+                             grouping = row)  
+```
+    
+## Example 2
+
+- Checking the normality of Rarity's dataset,
+
+```{r}
+boutique_gems |> anova_check(outcome = gem_count,
+                             grouping = collection)
+```
+
+## Example 3
+
+- Checking the normality of the Ponyville Diner dataset,
+
+```{r}
+ponyville_diner_tips |> anova_check(outcome = tip_bits,
+                                    grouping = server)
+```
+    
+## Kruskal-Wallis
+
+- If we break *either* ANOVA assumption, we should implement the nonparametric version, the Kruskal-Wallis.
+
+    - The Kruskal-Wallis is an extension of the Wilcoxon rank sum (as ANOVA is an extension of the two-sample *t*-test).
+
+- The Kruskal-Wallis test determines if $k$ independent samples come from populations with the same distribution. 
+
+- Note: we can transform the data to make the variance "behave"
+
+    - Box-Cox, or power, transformation
+
+
+## Hypothesis Test for $M_1 = M_2 = ... = M_k$
+
+- **Hypotheses**
+
+    - $H_0: M_1 = ... = M_k$
+    - $H_1:$ at least one $M_i$ is different
+
+## Hypothesis Testing: Kruskal-Wallis
+
+- **Test Statistic**
+
+$$\chi^2_0 = \frac{12}{n(n+1)} \sum_{i=1}^k \frac{R_i^2}{n_i} - 3(n+1)  \sim \chi^2_{\text{df}}$$ 
+
+- where
+    
+    - $R_i$ is the sum of the ranks for group $i$,
+    - $n_i$ is the sample size for group $i$,
+    - $n = \sum_{i=1}^k n_i$ = total sample size,
+    - $k$ is the number of groups, and
+    - $\text{df} = k-1$
+
+## Statistical Inference on $k$ Medians (`R`)
+
+- We will use the `kruskal_wallis()` function from `library(ssstats)` to perform the Kruskal-Wallis test.
+
+```{r}
+#| eval: false
+dataset_name |> kruskal_wallis(outcome = continuous_variable, # <1>
+                               grouping = grouping_variable, # <2>
+                               alpha = specified_alpha) # <3>
+```
+1. `outcome`: the continuous variable you want to compare across the groups.
+2. `grouping`: the categorical variable that splits your data into groups.
+3. `alpha`: the significance level; default is 0.05.
+
+## Example 1
+
+- Applying the Kruskal-Wallis to this example,
+
+```{r}
+apple_harvest |> kruskal_wallis(outcome = bushels,
+                                grouping = row)
+```
+
+## Example 1
+
+- **Hypotheses**
+
+    - $H_0: \mu_{\text{HC}} = \mu_{\text{RD}} = \mu_{\text{ZA}}$
+    - $H_1:$ at least one mean is different.
+    
+- **Test Statistic and *p*-Value:**
+
+    - $F_0 = 5.953$
+    - $p = 0.051$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion / Interpretation**
+
+    - Fail to reject $H_0$. There is not sufficient evidence to suggest that the production of the rows are different.
+
+## Example 3
+
+- Applying the Kruskal-Wallis to this example,
+
+```{r}
+ponyville_diner_tips |> kruskal_wallis(outcome = tip_bits,
+                       grouping = server)
+```
+
+## Example 3
+
+- **Hypotheses**
+
+    - $H_0: M_{\text{C}} = M_{\text{LH}} = M_{\text{SS}}$
+    - $H_1:$ at least one median is different.
+    
+- **Test Statistic and *p*-Value:**
+
+    - $\chi^2_0 = 4.235$
+    - $p = 0.120$
+    
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion / Interpretation**
+
+    - Fail to reject $H_0$. There is not sufficient evidence to suggest that the servers are earning different tips.
+
+## Let's Practice! Wonderbolts Academy
+
+- Fleetfoot drops a stack of stopwatch printouts on the table: "Command wants to know if lap times actually differ across our four training squads: Thunderhead, Stormwing, Skybolt, and Downburst."
+
+```{r}
+#| echo: false
+wonderbolts_laptimes |> head(n = 3)
+```
+
+- We will use the `wonderbolts_laptimes` dataset to answer the following question:
+
+    - Do lap times differ across the four training squads?
+
+## Let's Practice!: Klugetown Bazaar
+
+- A weary trader waves you over between haggling matches: "Rustbolt, Glimmering, and Junker each swear their stall pulls in the best prices. I've got a season's worth of sale records — do the three stalls actually sell for different amounts, or is everyone just talkin' up their own wares?"
+
+```{r}
+#| echo: false
+klugetown_bazaar |> head(n = 3)
+```
+
+- We will use the `klugetown_bazaar` dataset to answer the following question:
+
+    - Does sale price differ across the three market stalls?
+
+## Let's Practice!: Baltimare Harbor
+
+- The harbormaster spreads a stack of logbooks across the table: "Four dock crews unload every ship that comes through: Anchor, Tidewater, Saltmarsh, and Driftwood. Some of the sailors have been grumbling that one crew is dragging everyone's schedule behind. Before I say anything to the crews, I want to know if unloading time actually differs across them."
+
+```{r}
+#| echo: false
+baltimare_harbor |> head(n = 3)
+```
+
+- We will use the `baltimare_harbor` dataset to answer the following question:
+
+    - Does unloading time differ across the four dock crews?
+
+## Wrap Up
+
+- This lecture introduced one-way ANOVA.
+
+    - One-way ANOVA examines the effect of a single factor.
+    
+    - (We will learn about multiple factors in the future!)
+    
+- One-way ANOVA only allows us to determine if there is an overall, or omnibus, effect.
+
+    - It does *not* tell us about pairwise differences.
+    
+- In the future:
+
+    - Posthoc testing
+    - Two-way ANOVA
+    - Profile plots

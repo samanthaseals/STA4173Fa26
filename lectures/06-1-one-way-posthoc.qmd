@@ -1,0 +1,402 @@
+---
+title: "Posthoc Testing in One-Way Analyses"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+  
+## Introduction
+  
+- Previous: one sample, two samples
+
+- Now: more than two groups, continuous outcome
+
+- One-way ANOVA
+
+- Kruskal-Wallis
+
+- posthoc testing
+
+- This lecture: posthoc testing
+
+## `R` Setup 
+
+```{r}
+library(tidyverse)
+library(ssstats)
+apple_harvest <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/apple_harvest.csv")
+baltimare_harbor <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/baltimare_harbor.csv")
+boutique_gems <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/boutique_gems.csv")
+klugetown_bazaar <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/klugetown_bazaar.csv")
+ponyville_diner_tips <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/ponyville_diner_tips.csv")
+wonderbolts_laptimes <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/wonderbolts_laptimes.csv")
+```
+
+## Posthoc Testing
+
+- Recall our hypotheses in one-way ANOVA,
+
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_k$
+    - $H_1:$ at least one $\mu_i$ is different
+
+- The $F$ test does not tell us *which* mean is different... only that a difference exists.
+
+- In theory, we could perform repeated $t$ tests to determine pairwise differences.
+    
+    - Recall that ANOVA is an extension of the $t$ test... or that the $t$ test is a special case of ANOVA.
+
+- However, this will increase the Type I error rate ($\alpha$).
+
+## Posthoc Testing
+
+- Recall that the Type I error rate, $\alpha$, is the probability of *incorrectly* rejecting $H_0$.
+
+    - i.e., we are saying there is a difference between the means when there is actually *not* a difference.
+
+- Suppose we are comparing 5 groups.
+
+    - This is 10 pairwise comparisons!! 
+  
+        - 1-2, 1-3, 1-4, 1-5, 2-3, 2-4, 2-5, 3-4, 3-5, 4-5
+
+- If we perform repeated $t$ tests under $\alpha=0.05$, we are inflating the Type I error to 0.40! 😵
+
+## Posthoc Testing
+
+- When performing posthoc comparisons, we can choose one of two paths:
+  
+    - Control the Type I (familywise) error rate.
+    
+    - Do not control the Type I error rate.
+
+- Note that controlling the Type I error rate is more conservative than when we do not control it.
+
+    - "Conservative" = more difficult to reject.
+
+- Generally, statisticians:
+  
+    - *do not* control the Type I error rate if examining the results of pilot/preliminary studies that are exploring for general relationships.
+
+    - *do* control the Type I error rate if examining the results of confirmatory studies and are attempting to confirm relationships observed in pilot/preliminary studies.
+
+## Posthoc Testing
+
+- The posthoc tests we will learn:
+  
+    - Tukey's test (ANOVA)
+    
+        - Performs all pairwise tests and controls the Type I error rate
+        
+    - Fisher's least significant difference (ANOVA)
+
+        - Performs all pairwise tests but does not control the Type I error rate
+        
+    - Dunn's test (Kruskal-Wallis)
+    
+        - Performs all pairwise tests; we can choose to control Type I error.
+
+- **Caution**: we should *only* perform posthoc tests if we have determined that a general difference exists!
+  
+    - i.e., we should have rejected with either ANOVA or Kruskal-Wallis
+
+## Posthoc Testing
+
+- We will be performing *pairwise* comparisons.
+
+- For each test performed, we are testing:
+  
+    - If using an ANOVA-based method:
+  
+        - $H_0: \ \mu_i = \mu_j$ 
+        - $H_1: \ \mu_i \ne \mu_j$
+  
+    - If using a KW-based method:
+  
+        - $H_0: \ M_i = M_j$ 
+        - $H_1: \ M_i \ne M_j$   
+  
+## Example 2: Rarity's Boutique
+
+- Rarity flits between racks of fabric: "Darling, I need your professional opinion. Between my Canterlot Couture line, my everyday Ponyville Casual line, and my absolutely *dazzling* Gala Elegance line, I use wildly different amounts of gemstones. Is the difference really as dramatic as I think?"
+
+```{r}
+#| echo: false
+boutique_gems |> head(n = 3)
+```
+
+## Example 2
+
+- Recall, we decided this data could be analyzed with ANOVA -- we saw a difference between the groups ($p<0.001$).
+
+```{r}
+boutique_gems |> anovas(outcome = gem_count,
+                        grouping = collection)
+```
+
+
+
+## Posthoc Testing: Generic (R)
+
+- We will use the `posthoc()` function from `library(ssstats)` to perform Tukey's posthoc test (resulting $p$ are adjusted for multiple comparisons).
+
+```{r}
+#| eval: false
+dataset_name |> posthoc(outcome = continuous_variable, # <1>
+                        grouping = grouping_variable, # <2>
+                        adjust = TRUE or FALSE, # <3>
+                        nonparametric = TRUE or FALSE, # <4>
+                        alpha = alpha_level) # <5>
+```
+1. `outcome`: the same continuous variable used in your ANOVA or Kruskal-Wallis test.
+2. `grouping`: the same grouping variable used in your ANOVA or Kruskal-Wallis test (must have at least 2 levels).
+3. `adjust`: whether to correct for running multiple comparisons; default is `TRUE`. For ANOVA, `TRUE` runs Tukey's HSD and `FALSE` runs Fisher's LSD. For Kruskal-Wallis, `TRUE` applies a Bonferroni correction to Dunn's test and `FALSE` leaves it unadjusted.
+4. `nonparametric`: `FALSE` for ANOVA-based methods (default); `TRUE` for Kruskal-Wallis based methods.
+5. `alpha`: the significance level; default is `0.05`.        
+    
+## Posthoc Testing: Tukey's Test (ANOVA)
+
+- Tukey's test allows us to do *all* pairwise comparisons while controlling $\alpha$.
+
+- **Hypotheses**
+
+    - $H_0: \ \mu_i = \mu_j$ 
+    - $H_1: \ \mu_i \ne \mu_j$
+    
+- **Test Statistic**
+
+$$
+Q = \frac{|\bar{y}_i - \bar{y}_j|}{\sqrt{ \frac{\text{MS}_{\text{E}}}{2} \left( \frac{1}{n_i} + \frac{1}{n_j} \right) }}
+$$
+
+
+## Posthoc Testing: Tukey's (R)
+
+- To use `posthoc()` for Tukey's test,
+
+```{r}
+#| eval: false
+dataset_name |> posthoc(outcome = continuous_variable, # <1>
+                        grouping = grouping_variable, # <2>
+                        adjust = TRUE, # <3>
+                        nonparametric = FALSE, # <4>
+                        alpha = alpha_level) # <5>
+```
+1. `outcome`: the same continuous variable used in your ANOVA or Kruskal-Wallis test.
+2. `grouping`: the same grouping variable used in your ANOVA or Kruskal-Wallis test (must have at least 2 levels).
+3. `adjust`: whether to correct for running multiple comparisons; default is `TRUE`. For ANOVA, `TRUE` runs Tukey's HSD and `FALSE` runs Fisher's LSD. For Kruskal-Wallis, `TRUE` applies a Bonferroni correction to Dunn's test and `FALSE` leaves it unadjusted.
+4. `nonparametric`: `FALSE` for ANOVA-based methods (default); `TRUE` for Kruskal-Wallis based methods.
+5. `alpha`: the significance level; default is `0.05`.   
+
+## Example 2
+
+- Examining Tukey's for our example,
+
+```{r}
+boutique_gems |> posthoc(outcome = gem_count,
+                         grouping = collection,
+                         adjust = TRUE,
+                         nonparametric = FALSE)
+```
+
+## Posthoc Testing: Fisher's Test (ANOVA)
+
+- Fisher's allows us to test *all* pairwise comparisons but *does not* control the $\alpha$.
+
+- **Hypotheses:**
+    - $H_0: \ \mu_i = \mu_j$
+    - $H_1: \ \mu_i \ne \mu_j$
+
+- **Test Statistic:**
+
+$$
+t = \frac{|\bar{y}_i - \bar{y}_j|}{\sqrt{ \text{MS}_{\text{E}} \left( \frac{1}{n_i} + \frac{1}{n_j} \right) }}
+$$
+
+## Posthoc Testing: Fisher's (R)
+
+- To use `posthoc()` for Fisher's test,
+
+```{r}
+#| eval: false
+dataset_name |> posthoc(outcome = continuous_variable, # <1>
+                        grouping = grouping_variable, # <2>
+                        adjust = FALSE, # <3>
+                        nonparametric = FALSE, # <4>
+                        alpha = alpha_level) # <5>
+```
+1. `outcome`: the same continuous variable used in your ANOVA or Kruskal-Wallis test.
+2. `grouping`: the same grouping variable used in your ANOVA or Kruskal-Wallis test (must have at least 2 levels).
+3. `adjust`: whether to correct for running multiple comparisons; default is `TRUE`. For ANOVA, `TRUE` runs Tukey's HSD and `FALSE` runs Fisher's LSD. For Kruskal-Wallis, `TRUE` applies a Bonferroni correction to Dunn's test and `FALSE` leaves it unadjusted.
+4. `nonparametric`: `FALSE` for ANOVA-based methods (default); `TRUE` for Kruskal-Wallis based methods.
+5. `alpha`: the significance level; default is `0.05`.   
+
+## Example 2
+
+- Examining Fisher's for our example,
+
+```{r}
+boutique_gems |> posthoc(outcome = gem_count,
+                         grouping = collection,
+                         adjust = FALSE,
+                         nonparametric = FALSE)
+```
+
+## Example 1: Sweet Apple Acres
+
+- Applejack has come to us: "Between the Red Delicious row, the Honeycrisp row, and that new Zap Apple row Granny Smith insisted on plantin', I reckon one of 'em oughta be doin' better than the others. Can you tell me if they're really any different, or am I just imaginin' things?"
+
+```{r}
+#| echo: false
+apple_harvest |> head(n = 3)
+```
+
+## Example 1
+
+- Recall, we analyzed the data with the Kruskal-Wallis,
+
+```{r}
+apple_harvest |> kruskal_wallis(outcome = bushels,
+                                grouping = row)
+```
+
+## Example 1
+
+- Halt!!!!
+
+- We do not perform posthoc testing when we **do not** detect a difference at the global level!
+
+- $p = 0.051$ $\to$ FTR $\to$ we did *not* detect a difference in the medians
+
+- **We do not perform posthoc testing when ANOVA or Kruskal-Wallis did *not* show an overall difference.**
+
+- ANOVA and Kruskal-Wallis are omnibus, or global, tests.
+
+    - If the omnibus test does not suggest a difference exists, we do not poke around further.
+
+## Example 4: Baltimare Harbor
+
+- The harbormaster spreads a stack of logbooks across the table: "Four dock crews unload every ship that comes through: Anchor, Tidewater, Saltmarsh, and Driftwood. Some of the sailors have been grumbling that one crew is dragging everyone's schedule behind. Before I say anything to the crews, I want to know if unloading time actually differs across them."
+
+```{r}
+#| echo: false
+baltimare_harbor |> head(n = 3)
+```
+
+## Example 4
+
+- Most students chose to analyze with the Kruskal Wallis,
+
+```{r}
+baltimare_harbor |> kruskal_wallis(outcome = unload_minutes,
+                                   grouping = crew)
+```
+
+
+## Posthoc Testing: Dunn's Test
+
+- We can also perform posthoc testing in the Kruskal-Wallis setting using Dunn's test.
+
+    - Rather than compare pairwise means, it compares pairwise average ranks.
+
+- **Hypotheses:**
+    - $H_0: \ M_{i} = M_{j}$
+    - $H_1: \ M_{i} \ne M_{j}$
+
+- **Test Statistic:**
+
+$$
+z_0 = \frac{|\bar{R}_i - \bar{R}_j|}{\sqrt{ \frac{n(n+1)}{12} \left( \frac{1}{n_i} + \frac{1}{n_j} \right) }}
+$$
+
+## Posthoc Testing: Adjusted Dunn's (R)
+
+- To use `posthoc()` for Dunn's test adjusting for the Type I error rate,
+
+```{r}
+#| eval: false
+dataset_name |> posthoc(outcome = continuous_variable, # <1>
+                        grouping = grouping_variable, # <2>
+                        adjust = TRUE, # <3>
+                        nonparametric = TRUE, # <4>
+                        alpha = alpha_level) # <5>
+```
+1. `outcome`: the same continuous variable used in your ANOVA or Kruskal-Wallis test.
+2. `grouping`: the same grouping variable used in your ANOVA or Kruskal-Wallis test (must have at least 2 levels).
+3. `adjust`: whether to correct for running multiple comparisons; default is `TRUE`. For ANOVA, `TRUE` runs Tukey's HSD and `FALSE` runs Fisher's LSD. For Kruskal-Wallis, `TRUE` applies a Bonferroni correction to Dunn's test and `FALSE` leaves it unadjusted.
+4. `nonparametric`: `FALSE` for ANOVA-based methods (default); `TRUE` for Kruskal-Wallis based methods.
+5. `alpha`: the significance level; default is `0.05`.  
+
+## Example 4
+
+- Examining adjusted Dunn's for our example,
+
+```{r}
+baltimare_harbor |> posthoc(outcome = unload_minutes,
+                            grouping = crew,
+                            adjust = TRUE,
+                            nonparametric = TRUE)
+```
+
+## Posthoc Testing: Unadjusted Dunn's (R)
+
+- To use `posthoc()` for Dunn's test without adjusting for the Type I error rate,
+
+```{r}
+#| eval: false
+dataset_name |> posthoc(outcome = continuous_variable, # <1>
+                        grouping = grouping_variable, # <2>
+                        adjust = FALSE, # <3>
+                        nonparametric = TRUE, # <4>
+                        alpha = alpha_level) # <5>
+```
+1. `outcome`: the same continuous variable used in your ANOVA or Kruskal-Wallis test.
+2. `grouping`: the same grouping variable used in your ANOVA or Kruskal-Wallis test (must have at least 2 levels).
+3. `adjust`: whether to correct for running multiple comparisons; default is `TRUE`. For ANOVA, `TRUE` runs Tukey's HSD and `FALSE` runs Fisher's LSD. For Kruskal-Wallis, `TRUE` applies a Bonferroni correction to Dunn's test and `FALSE` leaves it unadjusted.
+4. `nonparametric`: `FALSE` for ANOVA-based methods (default); `TRUE` for Kruskal-Wallis based methods.
+5. `alpha`: the significance level; default is `0.05`.  
+
+## Example 4
+
+- Examining unadjusted Dunn's for our example,
+
+```{r}
+baltimare_harbor |> posthoc(outcome = unload_minutes,
+                            grouping = crew,
+                            adjust = FALSE,
+                            nonparametric = TRUE)
+```
+
+## Wrap Up
+
+- This lecture introduced posthoc testing, the follow-up to ANOVA and Kruskal-Wallis.
+
+    - If ANOVA $\to$ Tukey's (adjusted) or Fisher's (unadjusted)
+    
+    - If Kruskal-Wallis $\to$ adjusted Dunn's or unadjusted Dunn's
+    
+- We only perform posthoc testing when the omnibus test (ANOVA or Kruskal-Wallis) has determined there is an overall difference in the means or medians.    
+
+- We also discussed the familywise error rate (FWE), $\alpha$.
+
+    - When we *adjust* to preserve the FWE, we maintain $\alpha = 0.05$, regardless of the number of tests performed.
+    
+    - When we *do not adjust* to preserve the FWE, we allow $\alpha$ to inflate; the inflation depends on number of pairwise comparisons.
+  

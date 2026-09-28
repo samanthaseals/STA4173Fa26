@@ -1,0 +1,61 @@
+participant_id,condition,confidence
+1,No Cape,75.6
+2,No Cape,59.7
+3,No Cape,67
+4,No Cape,73.1
+5,No Cape,53.1
+6,No Cape,67.6
+7,No Cape,59.9
+8,No Cape,48.5
+9,No Cape,71
+10,No Cape,55.3
+11,No Cape,62.4
+12,No Cape,67.8
+13,No Cape,71.4
+14,No Cape,61.2
+15,No Cape,67.5
+16,No Cape,54.8
+17,No Cape,61.1
+18,No Cape,57.5
+19,No Cape,48.2
+20,No Cape,59.6
+21,No Cape,74.1
+22,No Cape,73.9
+23,No Cape,54.6
+24,No Cape,61.6
+25,No Cape,49
+26,No Cape,59.1
+27,No Cape,76.6
+28,No Cape,81.1
+29,No Cape,67.2
+30,No Cape,69
+31,Cape,62.6
+32,Cape,65.9
+33,Cape,62.9
+34,Cape,48.8
+35,Cape,57.1
+36,Cape,70.9
+37,Cape,63.2
+38,Cape,58.7
+39,Cape,56.9
+40,Cape,65.6
+41,Cape,75.4
+42,Cape,69.5
+43,Cape,59.1
+44,Cape,63.6
+45,Cape,61.9
+46,Cape,66.2
+47,Cape,67.5
+48,Cape,60.8
+49,Cape,57
+50,Cape,63.7
+51,Cape,67.4
+52,Cape,59.7
+53,Cape,58.3
+54,Cape,56
+55,Cape,79.1
+56,Cape,69.2
+57,Cape,61.6
+58,Cape,65.7
+59,Cape,74.5
+60,Cape,80.8
