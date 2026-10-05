@@ -1,0 +1,73 @@
+"pony_id","treatment","pony_type","resting_heart_rate_bpm"
+"FS001","Placebo","Earth pony",63.7
+"FS002","Placebo","Earth pony",64.1
+"FS003","Placebo","Earth pony",67.5
+"FS004","Placebo","Earth pony",63.5
+"FS005","Placebo","Earth pony",58.9
+"FS006","Placebo","Earth pony",66.1
+"FS007","Placebo","Earth pony",59.4
+"FS008","Placebo","Earth pony",65.9
+"FS009","Placebo","Earth pony",66
+"FS010","Placebo","Earth pony",66.4
+"FS011","Placebo","Earth pony",70.9
+"FS012","Placebo","Earth pony",64.5
+"FS013","Placebo","Pegasus",68.3
+"FS014","Placebo","Pegasus",71.2
+"FS015","Placebo","Pegasus",73.2
+"FS016","Placebo","Pegasus",67.8
+"FS017","Placebo","Pegasus",63.3
+"FS018","Placebo","Pegasus",71.1
+"FS019","Placebo","Pegasus",69.6
+"FS020","Placebo","Pegasus",60.9
+"FS021","Placebo","Pegasus",69.5
+"FS022","Placebo","Pegasus",68.4
+"FS023","Placebo","Pegasus",73.3
+"FS024","Placebo","Pegasus",64.5
+"FS025","Placebo","Unicorn",68.5
+"FS026","Placebo","Unicorn",65.3
+"FS027","Placebo","Unicorn",64.8
+"FS028","Placebo","Unicorn",61.5
+"FS029","Placebo","Unicorn",62.6
+"FS030","Placebo","Unicorn",61
+"FS031","Placebo","Unicorn",71.1
+"FS032","Placebo","Unicorn",72
+"FS033","Placebo","Unicorn",67.4
+"FS034","Placebo","Unicorn",64.6
+"FS035","Placebo","Unicorn",64
+"FS036","Placebo","Unicorn",66.8
+"FS037","Supplement","Earth pony",55.3
+"FS038","Supplement","Earth pony",50.9
+"FS039","Supplement","Earth pony",50.5
+"FS040","Supplement","Earth pony",48.3
+"FS041","Supplement","Earth pony",62.1
+"FS042","Supplement","Earth pony",54.3
+"FS043","Supplement","Earth pony",49.4
+"FS044","Supplement","Earth pony",55.4
+"FS045","Supplement","Earth pony",53.9
+"FS046","Supplement","Earth pony",55.1
+"FS047","Supplement","Earth pony",53
+"FS048","Supplement","Earth pony",49.2
+"FS049","Supplement","Pegasus",68.3
+"FS050","Supplement","Pegasus",62.8
+"FS051","Supplement","Pegasus",72.2
+"FS052","Supplement","Pegasus",71.2
+"FS053","Supplement","Pegasus",65.9
+"FS054","Supplement","Pegasus",73.4
+"FS055","Supplement","Pegasus",66.2
+"FS056","Supplement","Pegasus",75.4
+"FS057","Supplement","Pegasus",73.1
+"FS058","Supplement","Pegasus",75.5
+"FS059","Supplement","Pegasus",74.6
+"FS060","Supplement","Pegasus",70.9
+"FS061","Supplement","Unicorn",63.4
+"FS062","Supplement","Unicorn",65.9
+"FS063","Supplement","Unicorn",69.4
+"FS064","Supplement","Unicorn",54.9
+"FS065","Supplement","Unicorn",64.8
+"FS066","Supplement","Unicorn",62.5
+"FS067","Supplement","Unicorn",66.6
+"FS068","Supplement","Unicorn",69.5
+"FS069","Supplement","Unicorn",66
+"FS070","Supplement","Unicorn",65.4
+"FS071","Supplement","Unicorn",64.7
+"FS072","Supplement","Unicorn",63.1

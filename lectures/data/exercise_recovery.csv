@@ -1,0 +1,109 @@
+"pony_id","treatment","pony_type","recovery_time_min"
+"TS001","Standard care","Earth pony",27.3
+"TS002","Standard care","Earth pony",35.8
+"TS003","Standard care","Earth pony",33.5
+"TS004","Standard care","Earth pony",29.5
+"TS005","Standard care","Earth pony",24
+"TS006","Standard care","Earth pony",36.4
+"TS007","Standard care","Earth pony",31.5
+"TS008","Standard care","Earth pony",24.8
+"TS009","Standard care","Earth pony",24
+"TS010","Standard care","Earth pony",37.9
+"TS011","Standard care","Earth pony",29
+"TS012","Standard care","Earth pony",33.5
+"TS013","Standard care","Pegasus",31.1
+"TS014","Standard care","Pegasus",33.3
+"TS015","Standard care","Pegasus",29.1
+"TS016","Standard care","Pegasus",30.1
+"TS017","Standard care","Pegasus",31
+"TS018","Standard care","Pegasus",27.7
+"TS019","Standard care","Pegasus",33.5
+"TS020","Standard care","Pegasus",31.6
+"TS021","Standard care","Pegasus",24.9
+"TS022","Standard care","Pegasus",27.7
+"TS023","Standard care","Pegasus",34.3
+"TS024","Standard care","Pegasus",30.5
+"TS025","Standard care","Unicorn",27.5
+"TS026","Standard care","Unicorn",24.7
+"TS027","Standard care","Unicorn",32.2
+"TS028","Standard care","Unicorn",29.2
+"TS029","Standard care","Unicorn",29.3
+"TS030","Standard care","Unicorn",25.2
+"TS031","Standard care","Unicorn",31.6
+"TS032","Standard care","Unicorn",18.8
+"TS033","Standard care","Unicorn",33.1
+"TS034","Standard care","Unicorn",32
+"TS035","Standard care","Unicorn",32
+"TS036","Standard care","Unicorn",38
+"TS037","New treatment","Earth pony",27.6
+"TS038","New treatment","Earth pony",28.2
+"TS039","New treatment","Earth pony",25.4
+"TS040","New treatment","Earth pony",32.6
+"TS041","New treatment","Earth pony",23
+"TS042","New treatment","Earth pony",32.7
+"TS043","New treatment","Earth pony",22.6
+"TS044","New treatment","Earth pony",19.9
+"TS045","New treatment","Earth pony",21.8
+"TS046","New treatment","Earth pony",25.1
+"TS047","New treatment","Earth pony",25.5
+"TS048","New treatment","Earth pony",31.1
+"TS049","New treatment","Pegasus",23.9
+"TS050","New treatment","Pegasus",25.8
+"TS051","New treatment","Pegasus",23.3
+"TS052","New treatment","Pegasus",14.5
+"TS053","New treatment","Pegasus",28.5
+"TS054","New treatment","Pegasus",27
+"TS055","New treatment","Pegasus",24.7
+"TS056","New treatment","Pegasus",21.8
+"TS057","New treatment","Pegasus",27.4
+"TS058","New treatment","Pegasus",25.9
+"TS059","New treatment","Pegasus",17
+"TS060","New treatment","Pegasus",21.3
+"TS061","New treatment","Unicorn",22.9
+"TS062","New treatment","Unicorn",21.5
+"TS063","New treatment","Unicorn",27
+"TS064","New treatment","Unicorn",24.5
+"TS065","New treatment","Unicorn",29.1
+"TS066","New treatment","Unicorn",26.6
+"TS067","New treatment","Unicorn",23.7
+"TS068","New treatment","Unicorn",29
+"TS069","New treatment","Unicorn",30.2
+"TS070","New treatment","Unicorn",23.6
+"TS071","New treatment","Unicorn",22.4
+"TS072","New treatment","Unicorn",25.6
+"TS073","Enhanced treatment","Earth pony",24
+"TS074","Enhanced treatment","Earth pony",17.2
+"TS075","Enhanced treatment","Earth pony",17.7
+"TS076","Enhanced treatment","Earth pony",21.6
+"TS077","Enhanced treatment","Earth pony",12.5
+"TS078","Enhanced treatment","Earth pony",11.2
+"TS079","Enhanced treatment","Earth pony",18.9
+"TS080","Enhanced treatment","Earth pony",15.8
+"TS081","Enhanced treatment","Earth pony",20.9
+"TS082","Enhanced treatment","Earth pony",14.7
+"TS083","Enhanced treatment","Earth pony",15.4
+"TS084","Enhanced treatment","Earth pony",24
+"TS085","Enhanced treatment","Pegasus",8.2
+"TS086","Enhanced treatment","Pegasus",16.5
+"TS087","Enhanced treatment","Pegasus",15.6
+"TS088","Enhanced treatment","Pegasus",20.5
+"TS089","Enhanced treatment","Pegasus",15.2
+"TS090","Enhanced treatment","Pegasus",26.5
+"TS091","Enhanced treatment","Pegasus",26.2
+"TS092","Enhanced treatment","Pegasus",15.3
+"TS093","Enhanced treatment","Pegasus",16.3
+"TS094","Enhanced treatment","Pegasus",20.6
+"TS095","Enhanced treatment","Pegasus",17.9
+"TS096","Enhanced treatment","Pegasus",16.4
+"TS097","Enhanced treatment","Unicorn",18.5
+"TS098","Enhanced treatment","Unicorn",16.1
+"TS099","Enhanced treatment","Unicorn",14.4
+"TS100","Enhanced treatment","Unicorn",20.3
+"TS101","Enhanced treatment","Unicorn",12.6
+"TS102","Enhanced treatment","Unicorn",16.8
+"TS103","Enhanced treatment","Unicorn",10.5
+"TS104","Enhanced treatment","Unicorn",19.3
+"TS105","Enhanced treatment","Unicorn",21.8
+"TS106","Enhanced treatment","Unicorn",17.8
+"TS107","Enhanced treatment","Unicorn",25
+"TS108","Enhanced treatment","Unicorn",8.6
