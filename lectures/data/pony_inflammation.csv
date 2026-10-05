@@ -1,0 +1,136 @@
+"pony_id","treatment","pony_type","inflammation_marker_mg_l"
+"IN001","Placebo","Earth pony",12.5
+"IN002","Placebo","Earth pony",14.6
+"IN003","Placebo","Earth pony",14.8
+"IN004","Placebo","Earth pony",11.9
+"IN005","Placebo","Earth pony",12.3
+"IN006","Placebo","Earth pony",12.1
+"IN007","Placebo","Earth pony",15.5
+"IN008","Placebo","Earth pony",15.9
+"IN009","Placebo","Earth pony",13.4
+"IN010","Placebo","Earth pony",14.8
+"IN011","Placebo","Earth pony",15
+"IN012","Placebo","Earth pony",12.9
+"IN013","Placebo","Earth pony",12.4
+"IN014","Placebo","Earth pony",9.6
+"IN015","Placebo","Earth pony",13.6
+"IN016","Placebo","Pegasus",14.8
+"IN017","Placebo","Pegasus",15.7
+"IN018","Placebo","Pegasus",14.9
+"IN019","Placebo","Pegasus",11
+"IN020","Placebo","Pegasus",15.6
+"IN021","Placebo","Pegasus",14.4
+"IN022","Placebo","Pegasus",11.8
+"IN023","Placebo","Pegasus",13.3
+"IN024","Placebo","Pegasus",12.5
+"IN025","Placebo","Pegasus",14.5
+"IN026","Placebo","Pegasus",15.3
+"IN027","Placebo","Pegasus",13.3
+"IN028","Placebo","Pegasus",12.5
+"IN029","Placebo","Pegasus",14.9
+"IN030","Placebo","Pegasus",16.7
+"IN031","Placebo","Unicorn",13.3
+"IN032","Placebo","Unicorn",12.8
+"IN033","Placebo","Unicorn",15.3
+"IN034","Placebo","Unicorn",15.2
+"IN035","Placebo","Unicorn",11.4
+"IN036","Placebo","Unicorn",15
+"IN037","Placebo","Unicorn",12.5
+"IN038","Placebo","Unicorn",12.8
+"IN039","Placebo","Unicorn",15.8
+"IN040","Placebo","Unicorn",13
+"IN041","Placebo","Unicorn",15.4
+"IN042","Placebo","Unicorn",15.9
+"IN043","Placebo","Unicorn",13.9
+"IN044","Placebo","Unicorn",13.4
+"IN045","Placebo","Unicorn",15.1
+"IN046","Low dose","Earth pony",11.2
+"IN047","Low dose","Earth pony",10.4
+"IN048","Low dose","Earth pony",8.7
+"IN049","Low dose","Earth pony",9.3
+"IN050","Low dose","Earth pony",10.3
+"IN051","Low dose","Earth pony",7.6
+"IN052","Low dose","Earth pony",7.1
+"IN053","Low dose","Earth pony",7.6
+"IN054","Low dose","Earth pony",8.6
+"IN055","Low dose","Earth pony",10.5
+"IN056","Low dose","Earth pony",10
+"IN057","Low dose","Earth pony",10.9
+"IN058","Low dose","Earth pony",7.9
+"IN059","Low dose","Earth pony",9.7
+"IN060","Low dose","Earth pony",11
+"IN061","Low dose","Pegasus",12
+"IN062","Low dose","Pegasus",13.7
+"IN063","Low dose","Pegasus",11.8
+"IN064","Low dose","Pegasus",12.9
+"IN065","Low dose","Pegasus",11.8
+"IN066","Low dose","Pegasus",12.4
+"IN067","Low dose","Pegasus",13.3
+"IN068","Low dose","Pegasus",13.1
+"IN069","Low dose","Pegasus",13.5
+"IN070","Low dose","Pegasus",12.9
+"IN071","Low dose","Pegasus",14.6
+"IN072","Low dose","Pegasus",11.5
+"IN073","Low dose","Pegasus",12.6
+"IN074","Low dose","Pegasus",14.8
+"IN075","Low dose","Pegasus",11.3
+"IN076","Low dose","Unicorn",11.4
+"IN077","Low dose","Unicorn",8.8
+"IN078","Low dose","Unicorn",9.7
+"IN079","Low dose","Unicorn",10.3
+"IN080","Low dose","Unicorn",9.4
+"IN081","Low dose","Unicorn",11.4
+"IN082","Low dose","Unicorn",8.8
+"IN083","Low dose","Unicorn",9.7
+"IN084","Low dose","Unicorn",11
+"IN085","Low dose","Unicorn",7.5
+"IN086","Low dose","Unicorn",11.3
+"IN087","Low dose","Unicorn",14.6
+"IN088","Low dose","Unicorn",9.2
+"IN089","Low dose","Unicorn",11
+"IN090","Low dose","Unicorn",10.4
+"IN091","High dose","Earth pony",4
+"IN092","High dose","Earth pony",2.9
+"IN093","High dose","Earth pony",4.9
+"IN094","High dose","Earth pony",6.5
+"IN095","High dose","Earth pony",7
+"IN096","High dose","Earth pony",6.2
+"IN097","High dose","Earth pony",5.6
+"IN098","High dose","Earth pony",3
+"IN099","High dose","Earth pony",3.6
+"IN100","High dose","Earth pony",4.4
+"IN101","High dose","Earth pony",6.4
+"IN102","High dose","Earth pony",7.6
+"IN103","High dose","Earth pony",4.9
+"IN104","High dose","Earth pony",2.8
+"IN105","High dose","Earth pony",3.3
+"IN106","High dose","Pegasus",11.1
+"IN107","High dose","Pegasus",11.2
+"IN108","High dose","Pegasus",12.3
+"IN109","High dose","Pegasus",13.9
+"IN110","High dose","Pegasus",9.2
+"IN111","High dose","Pegasus",12.8
+"IN112","High dose","Pegasus",12.6
+"IN113","High dose","Pegasus",11
+"IN114","High dose","Pegasus",13.8
+"IN115","High dose","Pegasus",11.5
+"IN116","High dose","Pegasus",11.4
+"IN117","High dose","Pegasus",11.8
+"IN118","High dose","Pegasus",11.6
+"IN119","High dose","Pegasus",13
+"IN120","High dose","Pegasus",14.1
+"IN121","High dose","Unicorn",15.5
+"IN122","High dose","Unicorn",14
+"IN123","High dose","Unicorn",12
+"IN124","High dose","Unicorn",11.6
+"IN125","High dose","Unicorn",11.8
+"IN126","High dose","Unicorn",10.7
+"IN127","High dose","Unicorn",12.2
+"IN128","High dose","Unicorn",14.1
+"IN129","High dose","Unicorn",11
+"IN130","High dose","Unicorn",9.8
+"IN131","High dose","Unicorn",13.9
+"IN132","High dose","Unicorn",13.1
+"IN133","High dose","Unicorn",13
+"IN134","High dose","Unicorn",14.2
+"IN135","High dose","Unicorn",14

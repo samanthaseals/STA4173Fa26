@@ -1,0 +1,136 @@
+"pony_id","treatment","pony_type","wound_closure_days"
+"WH001","Standard dressing","Earth pony",22
+"WH002","Standard dressing","Earth pony",21
+"WH003","Standard dressing","Earth pony",21.7
+"WH004","Standard dressing","Earth pony",19.8
+"WH005","Standard dressing","Earth pony",24.7
+"WH006","Standard dressing","Earth pony",21.6
+"WH007","Standard dressing","Earth pony",20
+"WH008","Standard dressing","Earth pony",20.6
+"WH009","Standard dressing","Earth pony",19.4
+"WH010","Standard dressing","Earth pony",21.7
+"WH011","Standard dressing","Earth pony",23.7
+"WH012","Standard dressing","Earth pony",19.6
+"WH013","Standard dressing","Earth pony",18.7
+"WH014","Standard dressing","Earth pony",20.3
+"WH015","Standard dressing","Earth pony",20.8
+"WH016","Standard dressing","Pegasus",22.3
+"WH017","Standard dressing","Pegasus",28.3
+"WH018","Standard dressing","Pegasus",24.2
+"WH019","Standard dressing","Pegasus",25.3
+"WH020","Standard dressing","Pegasus",24.1
+"WH021","Standard dressing","Pegasus",25.7
+"WH022","Standard dressing","Pegasus",27.4
+"WH023","Standard dressing","Pegasus",24.7
+"WH024","Standard dressing","Pegasus",25.7
+"WH025","Standard dressing","Pegasus",25.6
+"WH026","Standard dressing","Pegasus",24.7
+"WH027","Standard dressing","Pegasus",22.2
+"WH028","Standard dressing","Pegasus",27.8
+"WH029","Standard dressing","Pegasus",25.2
+"WH030","Standard dressing","Pegasus",24.6
+"WH031","Standard dressing","Unicorn",26.8
+"WH032","Standard dressing","Unicorn",27.6
+"WH033","Standard dressing","Unicorn",29.5
+"WH034","Standard dressing","Unicorn",26.5
+"WH035","Standard dressing","Unicorn",29.3
+"WH036","Standard dressing","Unicorn",28.8
+"WH037","Standard dressing","Unicorn",26.5
+"WH038","Standard dressing","Unicorn",28.2
+"WH039","Standard dressing","Unicorn",28.8
+"WH040","Standard dressing","Unicorn",26.1
+"WH041","Standard dressing","Unicorn",28.1
+"WH042","Standard dressing","Unicorn",26.8
+"WH043","Standard dressing","Unicorn",27.1
+"WH044","Standard dressing","Unicorn",29
+"WH045","Standard dressing","Unicorn",23
+"WH046","Hydrogel","Earth pony",15.3
+"WH047","Hydrogel","Earth pony",14.9
+"WH048","Hydrogel","Earth pony",18.1
+"WH049","Hydrogel","Earth pony",17.5
+"WH050","Hydrogel","Earth pony",16.5
+"WH051","Hydrogel","Earth pony",17.1
+"WH052","Hydrogel","Earth pony",16.3
+"WH053","Hydrogel","Earth pony",16.9
+"WH054","Hydrogel","Earth pony",16.5
+"WH055","Hydrogel","Earth pony",18.4
+"WH056","Hydrogel","Earth pony",17.3
+"WH057","Hydrogel","Earth pony",18.4
+"WH058","Hydrogel","Earth pony",15.2
+"WH059","Hydrogel","Earth pony",17.6
+"WH060","Hydrogel","Earth pony",18.6
+"WH061","Hydrogel","Pegasus",22.1
+"WH062","Hydrogel","Pegasus",22.4
+"WH063","Hydrogel","Pegasus",21.8
+"WH064","Hydrogel","Pegasus",18.8
+"WH065","Hydrogel","Pegasus",22.2
+"WH066","Hydrogel","Pegasus",23.4
+"WH067","Hydrogel","Pegasus",18.3
+"WH068","Hydrogel","Pegasus",22.6
+"WH069","Hydrogel","Pegasus",23.9
+"WH070","Hydrogel","Pegasus",19.5
+"WH071","Hydrogel","Pegasus",22.8
+"WH072","Hydrogel","Pegasus",20.5
+"WH073","Hydrogel","Pegasus",22
+"WH074","Hydrogel","Pegasus",21.9
+"WH075","Hydrogel","Pegasus",20.9
+"WH076","Hydrogel","Unicorn",23.9
+"WH077","Hydrogel","Unicorn",23.2
+"WH078","Hydrogel","Unicorn",23.3
+"WH079","Hydrogel","Unicorn",24.2
+"WH080","Hydrogel","Unicorn",22.3
+"WH081","Hydrogel","Unicorn",25.6
+"WH082","Hydrogel","Unicorn",23.6
+"WH083","Hydrogel","Unicorn",25.9
+"WH084","Hydrogel","Unicorn",26.7
+"WH085","Hydrogel","Unicorn",25.5
+"WH086","Hydrogel","Unicorn",21.2
+"WH087","Hydrogel","Unicorn",23.5
+"WH088","Hydrogel","Unicorn",25.7
+"WH089","Hydrogel","Unicorn",23.4
+"WH090","Hydrogel","Unicorn",19.8
+"WH091","Enhanced hydrogel","Earth pony",14.7
+"WH092","Enhanced hydrogel","Earth pony",11
+"WH093","Enhanced hydrogel","Earth pony",9.3
+"WH094","Enhanced hydrogel","Earth pony",13.6
+"WH095","Enhanced hydrogel","Earth pony",11.4
+"WH096","Enhanced hydrogel","Earth pony",14.6
+"WH097","Enhanced hydrogel","Earth pony",16.3
+"WH098","Enhanced hydrogel","Earth pony",14.9
+"WH099","Enhanced hydrogel","Earth pony",14
+"WH100","Enhanced hydrogel","Earth pony",16.4
+"WH101","Enhanced hydrogel","Earth pony",14.7
+"WH102","Enhanced hydrogel","Earth pony",14.8
+"WH103","Enhanced hydrogel","Earth pony",14.7
+"WH104","Enhanced hydrogel","Earth pony",14.1
+"WH105","Enhanced hydrogel","Earth pony",13.5
+"WH106","Enhanced hydrogel","Pegasus",16.4
+"WH107","Enhanced hydrogel","Pegasus",14.4
+"WH108","Enhanced hydrogel","Pegasus",18
+"WH109","Enhanced hydrogel","Pegasus",16.5
+"WH110","Enhanced hydrogel","Pegasus",17.3
+"WH111","Enhanced hydrogel","Pegasus",18.7
+"WH112","Enhanced hydrogel","Pegasus",18.8
+"WH113","Enhanced hydrogel","Pegasus",17.4
+"WH114","Enhanced hydrogel","Pegasus",16.8
+"WH115","Enhanced hydrogel","Pegasus",17.3
+"WH116","Enhanced hydrogel","Pegasus",19.2
+"WH117","Enhanced hydrogel","Pegasus",15.8
+"WH118","Enhanced hydrogel","Pegasus",16.8
+"WH119","Enhanced hydrogel","Pegasus",16.8
+"WH120","Enhanced hydrogel","Pegasus",17.6
+"WH121","Enhanced hydrogel","Unicorn",19.6
+"WH122","Enhanced hydrogel","Unicorn",22.6
+"WH123","Enhanced hydrogel","Unicorn",19.7
+"WH124","Enhanced hydrogel","Unicorn",19.5
+"WH125","Enhanced hydrogel","Unicorn",17.7
+"WH126","Enhanced hydrogel","Unicorn",19.4
+"WH127","Enhanced hydrogel","Unicorn",18.8
+"WH128","Enhanced hydrogel","Unicorn",19.4
+"WH129","Enhanced hydrogel","Unicorn",22.2
+"WH130","Enhanced hydrogel","Unicorn",19.3
+"WH131","Enhanced hydrogel","Unicorn",18.3
+"WH132","Enhanced hydrogel","Unicorn",21.5
+"WH133","Enhanced hydrogel","Unicorn",21.5
+"WH134","Enhanced hydrogel","Unicorn",21.3
+"WH135","Enhanced hydrogel","Unicorn",16
