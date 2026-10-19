@@ -1,0 +1,301 @@
+---
+title: "Posthoc Testing in Two-Way Analyses"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+- Recall that ANOVA allows us to compare the means of three or more groups.
+
+- In one-way ANOVA, we are only considering one factor (grouping variable). 
+
+- On Monday, we discussed two-way ANOVA, which allows us to consider a second factor (grouping variable). 
+
+- Today, we are discussing profile plots and posthoc tests in the two-way ANOVA setting.
+
+## `R` Setup 
+
+```{r}
+library(tidyverse)
+library(ssstats)
+
+supplement_heart_rate <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/supplement_heart_rate.csv") 
+exercise_recovery <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/exercise_recovery.csv") 
+```
+
+## Two-Way ANOVA: Profile Plots
+
+- We can construct profile plots to display treatment group means.
+
+    - *y*-axis: always the average outcome
+    
+    - *x*-axis: either factor A or B
+    
+    - "lines" on the plot: the factor that was not selected for the *x*-axis
+
+- Note that this is just a graph of the means! 
+
+    - It's valid to construct a profile plot regardless of significance.
+    
+## Two-Way ANOVA: Profile Plots (R)
+
+- We will use the `profile_plot()` function from `library(ssstats)` to construct basic profile plots.
+
+```{r}
+#| eval: false
+dataset_name |> profile_plot(continuous = continuous_variable,
+                              xaxis = variable_on_x,
+                              lines = variable_for_lines)
+```    
+
+## Example 1
+
+- Fluttershy asks: "Does the supplement affect every pony type in the same way?"
+
+- We used the `supplement_heart_rate` dataset to determine if the effect of treatment on resting heart rate depends on pony type.
+
+```{r}
+#| echo: false
+
+supplement_heart_rate |> head(n=3)
+```
+
+## Example 1
+
+- We want to work towards a profile plot. The first question we ask is what levels are in each variable?
+
+```{r}
+supplement_heart_rate |> count(pony_type)
+supplement_heart_rate |> count(treatment)
+```
+
+## Example 1
+
+- Neither variable has natural ordering.
+
+    - Treatment: placebo, supplement
+    - Pony type: earth, pegasus, unicorn
+    
+- My choice would be: 
+
+    - put pony type on the *x*-axis 
+    - create lines for treatment
+    
+- Why? 
+
+    - When there is no ordering, we then move to thinking about how many lines will be created. 
+    
+    - It will be much easier to draw conclusions with fewer lines (graph is less busy).
+
+## Example 1
+
+- Constructing the profile plot,
+
+```{r}
+#| fig-align: 'center'
+supplement_heart_rate |> profile_plot(outcome = resting_heart_rate_bpm,
+                              xaxis = pony_type,
+                              lines = treatment)
+``` 
+
+## Example 1
+
+- What does it look like if we switch `xaxis` and `lines`?
+
+```{r}
+#| fig-align: 'center'
+supplement_heart_rate |> profile_plot(outcome = resting_heart_rate_bpm,
+                              xaxis = treatment,
+                              lines = pony_type)
+``` 
+
+## Example 2
+
+- Twilight Sparkle asks: "Can the Ponyville clinic help ponies recover faster after exercise? Does the treatment work the same way across pony types?"
+
+- We used the `exercise_recovery` to test whether the effect of recovery treatment depends on pony type.
+
+```{r}
+#| echo: false
+exercise_recovery |> head(n=3)
+```
+
+## Example 2
+
+- What levels are in each variable?
+
+```{r}
+exercise_recovery |> count(treatment)
+exercise_recovery |> count(pony_type)
+```
+
+## Example 2
+
+- Neither variable has natural ordering.
+
+    - Treatment: enhanced, new, standard
+    - Pony type: earth, pegasus, unicorn
+    
+- My choice would be: 
+
+    - put treatment on the *x*-axis 
+    
+        - impose ordering: standard, new, enhanced
+        
+    - create lines for pony type
+
+```{r}
+exercise_recovery <- exercise_recovery |>
+  mutate(treatment = factor(treatment,
+                            levels = c("Standard care", "New treatment", "Enhanced treatment")))
+```
+
+## Example 2
+
+- Constructing the profile plot,
+
+```{r}
+#| fig-align: 'center'
+exercise_recovery |> profile_plot(outcome = recovery_time_min,
+                              xaxis = treatment,
+                              lines = pony_type)
+``` 
+
+## Example 2
+
+- What if we switch the *x*-axis and the lines?
+
+```{r}
+#| fig-align: 'center'
+exercise_recovery |> profile_plot(outcome = recovery_time_min,
+                              xaxis = pony_type,
+                              lines = treatment)
+``` 
+
+## Posthoc Testing
+
+- Recall our hypotheses for main effects,
+
+    - $H_0: \mu_1 = \mu_2 = ... = \mu_a$
+    - $H_1:$ at least one $\mu_i$ is different
+    
+- We will again turn to posthoc tests to determine pairwise differences.
+
+- Tying this to the profile plot, posthoc tests are giving us the $p$-values corresponding to pairwise differences.
+
+## Posthoc Testing (`R`)
+
+- We will again use the `posthoc()` function,
+
+```{r}
+#| eval: false
+dataset_name |> posthoc(outcome = response_variable,
+                        A = factor_A,
+                        B = factor_B,
+                        interaction = TRUE or FALSE,
+                        adjust = TRUE or FALSE)
+```
+
+## Example 1
+
+- Fluttershy asks: "Does the supplement affect every pony type in the same way?"
+
+- We used the `supplement_heart_rate` dataset to determine if the effect of treatment on resting heart rate depends on pony type.
+
+```{r}
+supplement_heart_rate |> anovas(outcome = resting_heart_rate_bpm,
+                                A = pony_type,
+                                B = treatment)
+```
+
+## Example 1
+
+- We can look at the posthoc test of the interaction term.
+
+- Treating it as confirmatory,
+
+```{r}
+supplement_heart_rate |> posthoc(outcome = resting_heart_rate_bpm,
+                                 A = pony_type,
+                                 B = treatment,
+                                 adjust = TRUE)
+```
+
+## Example 2
+
+- Twilight Sparkle asks: "Can the Ponyville clinic help ponies recover faster after exercise? Does the treatment work the same way across pony types?"
+
+- We used the `exercise_recovery` to test whether the effect of recovery treatment depends on pony type.
+
+```{r}
+exercise_recovery |> anovas(outcome = recovery_time_min,
+                            A = pony_type,
+                            B = treatment)
+```
+
+## Example 2
+
+- Twilight Sparkle asks: "Can the Ponyville clinic help ponies recover faster after exercise? Does the treatment work the same way across pony types?"
+
+- We then removed the (non-significant) interaction term,
+
+```{r}
+exercise_recovery |> anovas(outcome = recovery_time_min,
+                            A = pony_type,
+                            B = treatment,
+                            interaction = FALSE)
+```
+
+## Example 2
+
+- We now look at the posthoc test for *only* `treatment`
+
+    - We did not detect a difference between the pony types ($p = 0.530$).
+
+- Treating it as exploratory,
+
+```{r}
+exercise_recovery |> posthoc(outcome = recovery_time_min,
+                             A = pony_type,
+                             B = treatment,
+                             interaction = FALSE,
+                             adjust = FALSE)
+```
+
+## Wrap Up
+
+- In this lecture, we have covered posthoc testing and profile plots in two-way ANOVA.
+
+    - Interactions.
+    
+    - Main effects.
+    
+- We can tie the results from posthoc testing to the profile plot.
+
+    - The profile plot is allowing us to visualize the differences between factors or treatment groups.
+
+- Next week:
+
+    - Monday: `R` workshop - bring laptop!
+    
+    - Wednesday: Test 2 - ANOVA 

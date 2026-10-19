@@ -1,0 +1,501 @@
+---
+title: "Two-Way ANOVA"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+- Recall that ANOVA allows us to compare the means of three or more groups.
+
+- In one-way ANOVA, we are only considering one factor (grouping variable). 
+
+- We will now discuss two-way ANOVA, which allows us to consider a second factor (grouping variable). 
+
+## `R` Setup 
+
+```{r}
+library(tidyverse)
+library(ssstats)
+
+supplement_heart_rate <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/supplement_heart_rate.csv") 
+exercise_recovery <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/lectures/data/exercise_recovery.csv") 
+```
+
+
+```{r}
+#| include: false
+heart_fit <- aov(resting_heart_rate_bpm ~ treatment * pony_type,
+                 data = supplement_heart_rate)
+recovery_full <- aov(recovery_time_min ~ treatment * pony_type,
+                     data = exercise_recovery)
+recovery_additive <- aov(recovery_time_min ~ treatment + pony_type,
+                         data = exercise_recovery)
+heart_table <- summary(heart_fit)[[1]]
+recovery_full_table <- summary(recovery_full)[[1]]
+recovery_additive_table <- summary(recovery_additive)[[1]]
+fmt_f <- function(x) sprintf("%.3f", x)
+fmt_p <- function(x) if (x < .001) "< 0.001" else paste("=", sprintf("%.3f", x))
+```
+
+## Two-Way ANOVA
+
+- Recall in one-way ANOVA, we partitioned SS<sub>Tot</sub> into SS<sub>Trt</sub> and SS<sub>E</sub>.
+
+- Now that multiple factors are involved, we now partition the SS<sub>Trt</sub> into the different factors.
+
+    - Here, that is SS<sub>A</sub>, SS<sub>B</sub>, and SS<sub>AB</sub>.
+    
+- Recall that SS<sub>E</sub> is the "catch all" for unexplained variance. 
+
+    - When we add factors to our model, we are moving part of the SS<sub>E</sub> into the SS<sub>Trt</sub>.
+    
+## Two-Way ANOVA
+
+- Terminology in two-way ANOVA. 
+
+- Factor A has $a$ levels.
+    
+    - Supplement treatment: placebo, supplement
+
+- Factor B has $b$ levels.
+
+    - Pony type: Earth pony, Pegasus, Unicorn
+
+- There are $ab$ "treatment groups."
+
+    - Every pony belongs to one level of A and one level of B.
+    
+    - Here, $a=2$, $b=3$, and $ab=6$ treatment groups.
+
+## Interaction Effects
+
+- Fluttershy is testing whether a new dietary supplement affects resting heart rate in adult ponies.
+
+    - The outcome is resting heart rate, measured in beats per minute after a standardized rest period.
+
+- She is considering two factors:
+
+    - Treatment: Placebo or Supplement
+    - Pony type: Earth pony, Pegasus, or Unicorn
+
+- Within each pony type, ponies are randomly assigned to a treatment; each pony is measured once.
+
+## Interaction Effects
+
+- This design allows us to check for an **interaction effect**, implying the two factors don't act independently on the outcome.
+
+    — i.e., the effect of one factor on the outcome depends on the level of the other factor.
+
+- In Fluttershy's supplement study, an interaction implies both:
+
+    - The relationship between resting heart rate and treatment *depends on* pony type.
+    
+    - The relationship between resting heart rate and pony type *depends on* treatment.
+
+- Remember, these are two descriptions of the *same interaction*, not two separate effects.
+
+## Two-Way ANOVA: Table
+
+- The table we are working towards:
+
+<table class="anova-table">
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Sum of Squares</th>
+      <th>df</th>
+      <th>Mean Square</th>
+      <th><em>F</em></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="treatment">A</td>
+      <td class="summary">SS<sub>A</sub></td>
+      <td class="summary">df<sub>A</sub></td>
+      <td class="summary">MS<sub>A</sub></td>
+      <td class="summary"><em>F</em><sub>A</sub></td>
+    </tr>
+    <tr>
+      <td class="treatment">B</td>
+      <td class="summary">SS<sub>B</sub></td>
+      <td class="summary">df<sub>B</sub></td>
+      <td class="summary">MS<sub>B</sub></td>
+      <td class="summary"><em>F</em><sub>B</sub></td>
+    </tr>
+    <tr>
+      <td class="treatment">AB</td>
+      <td class="summary">SS<sub>AB</sub></td>
+      <td class="summary">df<sub>AB</sub></td>
+      <td class="summary">MS<sub>AB</sub></td>
+      <td class="summary"><em>F</em><sub>AB</sub></td>
+    </tr>
+    <tr>
+      <td class="treatment">Error</td>
+      <td class="summary">SS<sub>E</sub></td>
+      <td class="summary">df<sub>E</sub></td>
+      <td class="summary">MS<sub>E</sub></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td class="treatment">Total</td>
+      <td class="summary">SS<sub>Tot</sub></td>
+      <td class="summary">df<sub>Tot</sub></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table> 
+
+## Two-Way ANOVA: Computation
+
+- Let there be $a$ levels of factor A and $b$ levels of factor B.
+- These formulas assume a balanced, fully crossed design with $n$ independent ponies per cell. 
+
+    - $y_{ijk}$ is the observation on the $k^{th}$ experimental unit receiving the $i^{th}$ level of factor A and the $j^{th}$ level of factor B 
+    - $y_{i.}$ is the sum for all observations at the $i^{th}$ level of factor A,
+    - $y_{.j}$ is the sum for all observations at the $j^{th}$ level of factor B,
+    - $y_{ij}$ is the sum for observations at the $i^{th}$ level of factor A and the $j^{th}$ level of factor B,
+    - $y_{..}$ is the sum of all observations, 
+    - $(y^2)_{..}$ is the sum of the squared observations, 
+    - $n$ is the number in each group (of $a \times b$ treatments)
+
+## Two-Way ANOVA: Computation
+
+- To find the SS and df:
+$$
+\begin{align*}
+\text{SS}_{\text{A}} &= \frac{\sum_i y_{i.}^2}{bn}  - \frac{(y_{..})^2}{abn} & \text{df}_{\text{A}} &= a-1 \\
+\text{SS}_{\text{B}} &= \frac{\sum_j y_{.j}^2}{an} - \frac{(y_{..})^2}{abn} & \text{df}_{\text{B}} &= b-1 \\
+\text{SS}_{\text{AB}}&= \frac{\sum_{ij} y_{ij}^2}{n} - \frac{(y_{..})^2}{abn} - \text{SS}_{\text{A}} - \text{SS}_{\text{B}} & \text{df}_{\text{AB}} &= (a-1)(b-1) \\
+\text{SS}_{\text{E}} &= \text{SS}_{\text{Tot}} - \text{SS}_{\text{A}} - \text{SS}_{\text{B}} - \text{SS}_{\text{AB}} & \text{df}_{\text{E}} &= ab(n-1)  \\
+\text{SS}_{\text{Tot}} &= (y^2)_{..} - \frac{(y_{..})^2}{abn} & \text{df}_{\text{Tot}} &= abn-1
+\end{align*}  
+$$  
+
+## Two-Way ANOVA: Computation
+
+- To find the MS:
+
+$$\text{MS}_{\text{X}} = \frac{\text{SS}_{\text{X}}}{\text{df}_{\text{X}}}$$
+
+- To find the test statistics:
+
+$$\text{F}_{\text{X}} = \frac{\text{MS}_{\text{X}}}{\text{MS}_{\text{E}}}$$
+
+## Two-Way ANOVA (`R`)
+
+- To get the two-way ANOVA table in R,
+
+```{r}
+#| eval: false
+dataset_name |> anovas(outcome = response_variable, # <1>
+                       A = factor_A, # <2>
+                       B = factor_B, # <3>
+                       interaction = TRUE) # <4>
+```
+1. `outcome`: the continuous variable being compared across groups.
+2. `A`: the first grouping variable for a two-way ANOVA. 
+3. `B`: the second grouping variable for a two-way ANOVA. 
+4. `interaction`: whether to fit the interaction term along with both main effects; default is `TRUE`. `TRUE` fits `outcome ~ A * B`, displays the full ANOVA table, and reports the interaction hypothesis test; `FALSE` fits `outcome ~ A + B` (main effects only, no interaction term) and reports both main-effect tests instead.
+
+## Hypothesis Test for an Interaction
+
+- **Hypotheses**
+
+    - $H_0:$ there is not an interaction between [factor A] and [factor B]
+    
+    - $H_1:$ there is an interaction between [factor A] and [factor B]
+
+- **Test Statistic and *p*-Value**
+
+    - $F_{\text{AB}}$ 
+    - $p = P[F_{\text{df}_{\text{AB}}, \text{df}_{\text{E}}} \ge F_{\text{AB}}]$
+
+## Hypothesis Test for an Interaction (`R`)
+
+- We again use the `anovas()` function,
+
+```{r}
+#| eval: false
+dataset_name |> anovas(outcome = response_variable,
+                       A = factor_A,
+                       B = factor_B,
+                       interaction = TRUE,
+                       alpha = alpha_level)
+```
+
+## Example 1
+
+- Fluttershy asks: "Does the supplement affect every pony type in the same way?"
+
+- We will use the `supplement_heart_rate` dataset to answer:
+
+    - Does the effect of treatment on resting heart rate depend on pony type?
+
+- There are 72 adult ponies: 12 in each of the six treatment-by-type groups.
+
+## Example 1
+
+- Exploring the levels in treatment and pony type,
+
+```{r}
+supplement_heart_rate |> n_pct(treatment, pony_type)
+```
+
+## Example 1
+
+- Does the effect of treatment on resting heart rate depend on pony type?
+
+```{r}
+supplement_heart_rate |> anovas(outcome = resting_heart_rate_bpm,
+                                 A = treatment,
+                                 B = pony_type,
+                                 interaction = TRUE)
+```
+
+## Example 1
+
+- **Hypotheses**
+
+    - $H_0:$ there is no interaction between treatment and pony type
+    
+    - $H_1:$ there is an interaction between treatment and pony type
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 22.785$
+    - $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+
+- **Conclusion and Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence that the supplement's effect on mean resting heart rate depends on pony type.
+
+## Example 2
+
+- Twilight Sparkle asks: "Can the Ponyville clinic help ponies recover faster after exercise? Does the treatment work the same way across pony types?"
+
+- We will use `exercise_recovery` to test whether the effect of recovery treatment depends on pony type.
+
+- Outcome: minutes until heart rate returns to a prespecified range near the pony's baseline after a standardized exercise session.
+
+- Within each type, ponies are randomly assigned to Standard care, New treatment, or Enhanced treatment.
+
+- There are 108 different ponies: 12 in each of nine groups; each pony completes one session.
+
+## Example 2
+
+- Exploring the levels in treatment and pony type,
+
+```{r}
+exercise_recovery |> n_pct(treatment, pony_type)
+```
+
+## Example 2
+
+- Does the effect of treatment on recovery time depend on pony type?
+
+```{r}
+exercise_recovery |> anovas(outcome = recovery_time_min,
+                            A = treatment,
+                            B = pony_type,
+                            interaction = TRUE)
+```
+
+## Example 2
+
+- **Hypotheses**
+
+    - $H_0:$ there is no interaction between treatment and pony type
+    
+    - $H_1:$ there is an interaction between treatment and pony type
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 0.647$
+    
+    - $p = 0.630$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+
+- **Conclusion and Interpretation**
+
+    - Fail to reject $H_0$. There is not sufficient evidence that treatment's effect on mean recovery time depends on pony type.
+
+## Two-Way ANOVA: Testing Main Effects
+
+- What if the interaction *is not* significant?
+
+    - We *remove* the nonsignificant interaction and examine the *main effects*.
+    
+    - That is, we want to look at the individual factors.
+    
+- We will reconstruct the ANOVA table. If we were doing this by hand:
+
+    1. Rewrite ANOVA table without interaction; do not change SS, df, and MS for the main effects and total.
+    2. Update the error term: add the SS<sub>AB</sub> to SS<sub>E</sub> and df<sub>AB</sub> to df<sub>E</sub>.
+    3. Recalculate MS<sub>E</sub>.
+    4. Recalculate *F*<sub>A</sub> and *F*<sub>B</sub>, then find the corresponding *p*-values.
+
+## Hypothesis Test for Main Effects   
+
+- **Hypotheses**
+
+    - $H_0:$ $\mu_1$ = $\mu_2$ = ... = ($\mu_a$ or $\mu_b$)
+    - $H_1:$ At least one $\mu_i$ is different.
+
+- **Test Statistic and *p*-Value**
+
+    - $F_{\text{X}}$ 
+    - $p = P[F_{\text{df}_{\text{X}}, \text{df}_{\text{E}}} \ge F_{\text{X}}]$
+
+## Hypothesis Test for Main Effects (`R`)
+
+- We again use the `anovas()` function,
+
+```{r}
+#| eval: false
+dataset_name |> anovas(outcome = response_variable,
+                       A = factor_A,
+                       B = factor_B,
+                       interaction = FALSE,
+                       alpha = alpha_level)
+```
+
+## Example 2
+
+- Are either recovery treatment or pony type related to mean recovery time?
+
+```{r}
+exercise_recovery |> anovas(outcome = recovery_time_min,
+                            A = treatment,
+                            B = pony_type,
+                            interaction = FALSE)
+```
+
+## Example 2: Treatment Main Effect
+
+- **Hypotheses**
+
+    - $H_0: \mu_{\text{Standard}} = \mu_{\text{New}} = \mu_{\text{Enhanced}}$
+    - $H_1:$ at least one mean recovery time differs across treatments
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 80.254$
+    - $p < 0.001$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+
+- **Conclusion and Interpretation**
+
+    - Reject $H_0$. There is sufficient evidence that mean recovery time differs among treatments, accounting for pony type in the additive model.
+
+## Example 2: Pony-Type Main Effect
+
+- **Hypotheses**
+
+    - $H_0: \mu_{\text{Earth}} = \mu_{\text{Pegasus}} = \mu_{\text{Unicorn}}$
+    - $H_1:$ at least one mean recovery time differs across pony types
+
+- **Test Statistic and *p*-Value**
+
+    - $F_0 = 0.638$
+    - $p = 0.530$
+
+- **Rejection Region**
+
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+
+- **Conclusion and Interpretation**
+
+    - Fail to reject $H_0$. There is not sufficient evidence of a difference in mean recovery time among pony types, accounting for treatment. 
+
+## Wrap Up
+
+- In this lecture, we have covered two-way ANOVA.
+
+    - Test for interaction first.
+    
+    - If interaction significant $\to$ next lecture.
+    
+    - If interaction is not significant $\to$ remove, then reconstruct ANOVA table.
+    
+    
+- On Wednesday, we will discuss next steps after initial hypothesis testing in two-way ANOVA.    
+    
+    - posthoc testing
+    
+    - profile plots
+
+## Let's Practice 1: Applejack’s Nutrition Study
+
+- Applejack and the Ponyville clinic are studying whether a high-fiber feed changes postmeal blood glucose. Within each pony type, adult ponies are randomly assigned to Standard feed or High-fiber feed for two weeks. After a standardized meal, glucose is measured once at the same prespecified time for every pony.
+
+- Outcome: Postmeal blood glucose, in mg/dL (`postmeal_glucose_mg_dl`).
+
+- Factors: 
+
+    - treatment 
+    - pony type
+
+## Let's Practice 2: Fluttershy’s Inflammation Study
+
+- Fluttershy is testing an anti-inflammatory treatment in adult ponies with the same mild inflammatory condition. Within each pony type, ponies are randomly assigned to Placebo, Low dose, or High dose. A blood inflammation marker is measured once after seven days.
+
+- Outcome: Inflammation marker concentration, in mg/L (`inflammation_marker_mg_l`).
+
+Factors:
+
+- treatment
+- pony type
+
+## Let's Practice 3: Nurse Redheart’s Wound-Healing Study
+
+- Nurse Redheart compares dressings in adult ponies receiving care for comparable minor wounds. Within each pony type, ponies are randomly assigned to Standard dressing, Hydrogel, or Enhanced hydrogel. The clinic records the time from first dressing to complete wound closure using a common clinical criterion. Each pony contributes one wound.
+
+- Outcome: Time to wound closure, in days (`wound_closure_days`).
+
+- Factors:
+
+    - treatment
+    - pony type
+    
+## Let's Practice 4: Rainbow Dash’s Rehydration Study
+
+- Rainbow Dash helps the Ponyville clinic compare two fluid treatments after a standardized exercise session. Within each pony type, adult ponies are randomly assigned to Standard fluids or Electrolyte fluids. Time to reach a prespecified hydration target is recorded once for each pony.
+
+- Outcome: Time to reach the hydration target, in minutes (`rehydration_time_min`).
+
+- Factors:
+
+    - treatment
+    - pony type
