@@ -1,0 +1,429 @@
+---
+title: "One and Two Sample Tests for Categorical Data"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+```
+
+- Before today, we have focused on continuous outcomes.
+
+- Now we will focus on categorical (or qualitative) outcomes.
+
+- We will estimate a proportion using $\hat{p}$, 
+
+$$\hat{p} = \frac{x}{n}$$
+    
+- We will estimate the difference between two proportions using $\hat{p}_1 - \hat{p}_2$, 
+
+$$\hat{p_1}- \hat{p_2} = \frac{x_1}{n_1} - \frac{x_2}{n_2}$$
+
+```{r data simulation}
+#| echo: false
+
+library(tidyverse)
+library(ssstats)
+
+###################
+# ONE SAMPLE PROP #
+###################
+
+set.seed(1228) 
+party_data <- tibble(guest_id = 1:75,
+                     preference = sample(c("Chocolate", "Vanilla"),
+                                         size = 75,
+                                         replace = TRUE,
+                                         prob = c(0.7, 1 - 0.7)))
+
+###################
+# TWO SAMPLE PROP #
+###################
+
+set.seed(1031)
+young_data <- tibble(foal_id = paste0("Y", 1:60),
+                     age_group = "Young",
+                     shared_candy = sample(c("Yes", "No"),
+                                           size = 60,
+                                           replace = TRUE,
+                                           prob = c(0.4, 1 - 0.4)))
+
+older_data <- tibble(foal_id = paste0("O", 1:60),
+                     age_group = "Older",
+                     shared_candy = sample(c("Yes", "No"),
+                                           size = 60,
+                                           replace = TRUE,
+                                           prob = c(0.65, 1 - 0.65)))
+candy_data <- bind_rows(young_data, older_data)
+
+###################
+# GOODNESS OF FIT #
+#     UNIFORM     #
+###################
+
+set.seed(1865)
+apple_toss <- tibble(toss_id = 1:200,
+                     barrel = sample(c("Barrel 1", "Barrel 2", "Barrel 3", "Barrel 4", "Barrel 5"), 
+                                     size = 200, 
+                                     replace = TRUE, 
+                                     prob = c(0.15, 0.20, 0.30, 0.20, 0.15)))
+
+###################
+# GOODNESS OF FIT #
+#   NOT UNIFORM   #
+###################
+
+set.seed(4242)
+rarity_orders <- tibble(order_id = 1:200,
+                        item_ordered = sample(c("Dress", "Cape", "Hat", "Scarf", "Hoof Accessories"),
+                                              size = 200,
+                                              replace = TRUE,
+                                              prob = c(0.40, 0.25, 0.15, 0.10, 0.10)))
+
+################
+# INDEPENDENCE #
+################
+
+set.seed(6012) 
+roles <- c("Student", "Teacher", "Community")
+materials <- c("Spells", "History", "Fiction", "Science")
+prob_matrix <- matrix(c(0.40, 0.15, 0.15, 0.30,    # Students
+                        0.35, 0.40, 0.10, 0.15,    # Teachers
+                        0.10, 0.20, 0.50, 0.20),   # Community Members
+                      nrow = 3,
+                      byrow = TRUE,
+                      dimnames = list(roles, materials))
+n_visits <- 180
+visitors_per_group <- c(60, 60, 60)
+twilight_library <- map2_dfr(roles, visitors_per_group, function(role, n) {
+  probs <- prob_matrix[role, ]
+  tibble(
+    visitor_id = paste0(substr(role, 1, 1), 1:n),
+    role = role,
+    material = sample(materials, size = n, replace = TRUE, prob = probs)
+  )
+})
+```
+
+
+## Confidence Intervals: One-Sample Proportion
+
+$(1-\alpha)100\%$ confidence interval for $\pi$:
+
+$$\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+- where
+    - $\hat{p}$ is the sample proportion
+    - $n$ is the sample size
+
+## Confidence Intervals: One-Sample Proportion (R)
+
+- We will use the `one_proportion()` function from `library(ssstats)` to perform statistical inference.
+
+```{r}
+#| eval: false
+dataset_name |> one_proportion(outcome = variable_name,
+                               event = event_name_or_number,
+                               p = hypothesized_value,
+                               alternative = "two" | "less" | "greater",
+                               alpha = alpha_level)
+```
+
+- where
+
+    - `outcome` is the variable name of the outcome variable
+
+    - `event` is the name or number of the event of interest
+
+    - `p` is the hypothesized value of the population proportion (default = 0.05)
+
+    - `alternative` is the alternative hypothesis (default = "two")
+
+    - `alpha` is the significance level (default = 0.05)
+
+## Confidence Intervals: One-Sample Proportion
+
+- Pinkie Pie is curious if partygoers prefer chocolate cake over vanilla cake. At her latest party, she surveys 75 ponies (**party_data**). Each pony is asked which flavor they prefer (*preference*).
+
+- She ultimately wants to determine if more than 50% prefer chocolate cake.
+
+- Looking at the frequency table, 
+
+```{r}
+party_data |> n_pct(preference)
+```
+
+
+## Confidence Intervals: One-Sample Proportion
+
+- Pinkie Pie is curious if partygoers prefer chocolate cake over vanilla cake. At her latest party, she surveys 75 ponies (**party_data**). Each pony is asked which flavor they prefer (*preference*).
+
+- She ultimately wants to determine if more than 50% prefer chocolate cake.
+
+- Let's now find the 95% confidence interval for $\pi$, the population proportion of ponies that prefer chocolate cake.
+
+```{r}
+#| eval: false
+party_data |> one_proportion(outcome = preference,
+                             event = "Chocolate")
+```
+
+## Hypothesis Testing: One-Sample Proportion
+
+- **Hypotheses: Two Tailed**
+    - $H_0: \ \pi=\pi_0$
+    - $H_1: \ \pi \ne \pi_0$
+    
+- **Hypotheses: Left Tailed**    
+    - $H_0: \ \pi \ge \pi_0$
+    - $H_1: \ \pi < \pi_0$
+    
+- **Hypotheses: Right Tailed**    
+    - $H_0: \ \pi \le \pi_0$
+    - $H_1: \ \pi > \pi_0$    
+    
+## Hypothesis Testing: One-Sample Proportion
+
+- **Test Statistic**
+
+$$
+z_0 = \frac{\hat{p}-p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}
+$$
+
+- where
+
+    - $\hat{p}$ is the sample estimate of $\pi$,
+    - $p_0$ is the hypothesized value of $\pi$, and
+    - $n$ is the sample size.
+
+## Hypothesis Testing: One-Sample Proportion (R)
+
+- We will use the `one_proportion()` function from `library(ssstats)` to perform the necessary calculations for the hypothesis test.
+
+- Generic syntax:
+
+```{r}
+#| eval: false
+dataset_name |> one_proportion(outcome = binary_variable, 
+                               event = "Name of Event"
+                               p = hypothesized_value, 
+                               alternative = "alternative_direction", 
+                               alpha = specified_alpha)
+```
+
+
+## Hypothesis Testing: One-Sample Proportion
+
+- Pinkie Pie is curious if party goers prefer chocolate cake over vanilla cake. At her latest party, she surveys 75 ponies (**party_data**). Each pony is asked which flavor they prefer (*preference*).
+
+- She ultimately wants to determine if more than 50% prefer chocolate cake.
+
+## Hypothesis Testing: One-Sample Proportion
+
+- Pinkie Pie is curious if party goers prefer chocolate cake over vanilla cake. At her latest party, she surveys 75 ponies (**party_data**). Each pony is asked which flavor they prefer (*preference*).
+
+- She ultimately wants to determine if more than 50% prefer chocolate cake.
+
+- Let's now formally test her hypothesis at the $\alpha = 0.05$ level. Our updated code,
+
+```{r}
+party_data |> one_proportion(outcome = preference,
+                             event = "Chocolate",
+                             p = 0.5, 
+                             alternative = "greater", 
+                             alpha = 0.05)
+```
+
+## Hypothesis Testing: One-Sample Proportion
+
+- **Hypotheses:**
+    - $H_0: \ \pi \le 0.5$
+    - $H_1: \ \pi > 0.5$
+
+- **Test Statistic and *p*-Value**
+    - $z_0 = 3.58$, $p < 0.001$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion and interpretation**
+    - Reject $H_0$ ($p \text{ vs } \alpha \to p< 0.001 < 0.05$). There is sufficient evidence to suggest that more than half of partygoers prefer chocolate cake.
+
+## Confidence Intervals: Two-Sample Proportions
+
+$(1-\alpha)100\%$ confidence interval for $\pi_1-\pi_2$:
+
+$$(\hat{p}_1 - \hat{p}_2) \pm z_{\alpha/2} \sqrt{\frac{\hat{p}_1 (1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}$$ 
+
+- where
+
+    - $\hat{p}_i$ is the sample proportion for group $i$,
+    - $n_i$ is the sample size for group $i$
+
+## Confidence Intervals: Two-Sample Proportions (R)
+
+- We will use the `two_proportions()` function from `library(ssstats)` to find the confidence interval.
+
+- Generic syntax:
+
+```{r}
+#| eval: false
+dataset_name |> independent_proportions(outcome = binary_variable,
+                                        grouping = grouping_variable,
+                                        success = "Name of Event",
+                                        alpha = alpha_level)
+```
+
+## Confidence Intervals: Two-Sample Proportions
+
+- Fluttershy has a hunch: younger foals might be less likely to share their candy on Nightmare Night compared to older foals. To test this, she observes foals from each age group (*age_group*) and records whether each one shared their candy (*shared_candy*). The data is recorded in **candy_data**.
+
+- Let's first examine a frequency table.
+
+```{r}
+candy_data |> n_pct(age_group, shared_candy)
+```
+
+## Confidence Intervals: Two-Sample Proportions
+
+- Fluttershy has a hunch: younger foals might be less likely to share their candy on Nightmare Night compared to older foals. To test this, she observes foals from each age group (*age_group*) and records whether each one shared their candy (*shared_candy*). The data is recorded in **candy_data**.
+
+- Let's now find the 90% confidence interval for $\pi_1 - \pi_2$,
+
+```{r}
+candy_data |> independent_proportions(outcome = shared_candy,
+                                      grouping = age_group,
+                                      event = "Yes",
+                                      alpha = 0.10)
+```
+
+- Thus, the 90% CI for $\pi_{\text{O}}-\pi_{\text{Y}}$ is (0.533, 0.267).
+
+
+## Hypothesis Testing: Two-Sample Proportions
+
+- **Hypotheses: Two Tailed**
+    - $H_0: \ \pi_1-\pi_2=\pi_d$
+    - $H_1: \ \pi_1-\pi_2 \ne \pi_d$
+    
+- **Hypotheses: Left Tailed**    
+    - $H_0: \ \pi_1-\pi_2 \ge \pi_d$
+    - $H_1: \ \pi_1-\pi_2 < \pi_d$
+    
+- **Hypotheses: Right Tailed**    
+    - $H_0: \ \pi_1-\pi_2 \le \pi_d$
+    - $H_1: \ \pi_1-\pi_2 > \pi_d$   
+    
+## Hypothesis Testing: Two-Sample Proportions 
+
+- **Test Statistic**
+
+$$z_0 = \frac{\left( \hat{p}_1 - \hat{p}_2 \right)- d_0}{\sqrt{\hat{p}\left(1-\hat{p}\right)\left( \frac{1}{n_1}+\frac{1}{n_2} \right)}}$$
+
+- where 
+    - $\hat{p}_i$ is the sample proportion for group $i$,
+    - $n_i$ is the sample size for group $i$, and
+    - $\hat{p}$ is the pooled proportion, given by
+    
+$$\hat{p} = \frac{x_1+x_2}{n_1+n_2}$$
+
+## Hypothesis Testing: Two-Sample Proportions (R)
+
+- We will use the `independent_proportions()` function from `library(ssstats)` to perform the necessary calculations for the hypothesis test.
+
+- Generic syntax:
+
+```{r}
+#| eval: false
+dataset_name |> independent_proportions(outcome = binary_variable, 
+                                        grouping = grouping_variable,
+                                        event = "Name of Event"
+                                        p = hypothesized_value, 
+                                        alternative = "alternative_direction", 
+                                        alpha = specified_alpha)
+```
+
+## Hypothesis Testing: Two-Sample Proportions
+
+- Fluttershy has a hunch: younger foals might be less likely to share their candy on Nightmare Night compared to older foals. To test this, she observes foals from each age group (*age_group*) and records whether each one shared their candy (*shared_candy*). The data is recorded in **candy_data**.
+
+- Let's now test Fluttershy's hunch at the $\alpha = 0.10$ level. How should we update this code?
+
+```{r}
+#| eval: false
+dataset_name |> independent_proportions(binary = binary_variable, 
+                                        grouping = grouping_variable,
+                                        event = "Name of Event",
+                                        p = hypothesized_value, 
+                                        alternative = "alternative_direction", 
+                                        alpha = specified_alpha)
+```
+
+## Hypothesis Testing: Two-Sample Proportions
+
+- Fluttershy has a hunch: younger foals might be less likely to share their candy on Nightmare Night compared to older foals. To test this, she observes foals from each age group (*age_group*) and records whether each one shared their candy (*shared_candy*). The data is recorded in **candy_data**.
+
+- Let's now test Fluttershy's hunch at the $\alpha = 0.10$ level. Our updated code,
+
+```{r}
+candy_data |> independent_proportions(outcome = shared_candy, 
+                                      grouping = age_group,
+                                      event = "Yes",
+                                      p = 0, 
+                                      alternative = "less", 
+                                      alpha = 0.1)
+```
+
+## Hypothesis Testing: Two-Sample Proportions
+
+- **Hypotheses:**
+    - $H_0: \ \pi_{\text{Young}} - \pi_{\text{Old}} \ge 0$
+    - $H_1: \ \pi_{\text{Young}} - \pi_{\text{Old}} < 0$
+
+- **Test Statistic and *p*-Value**
+    - $z_0 = -4.94$, $p < 0.001$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha = 0.05$
+    
+- **Conclusion and interpretation**
+    - Reject $H_0$ ($p \text{ vs } \alpha \to p< 0.001 < 0.05$). There is sufficient evidence to suggest that younger foals are less likely to share their candy.
+
+
+## Wrap Up
+
+- Today we have reviewed the most common analyses used in categorical data. 
+    - One proportion $\to$ $z$ test
+    - Two proportions $\to$ $z$ test
+    - Distribution fit $\to$ goodness-of-fit
+    
+- Not covered this semester: logistic regression
+
+        - Binary logistic
+        - Ordinal logistic
+        - Nominal logistic
+        
