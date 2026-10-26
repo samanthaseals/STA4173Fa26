@@ -192,6 +192,15 @@ party_data |> one_proportion(outcome = preference,
                              event = "Chocolate")
 ```
 
+## Confidence Intervals: One-Sample Proportion
+
+- Let's now find the 95% confidence interval for $\pi$, the population proportion of ponies that prefer chocolate cake.
+
+```{r}
+party_data |> one_proportion(outcome = preference,
+                             event = "Chocolate")
+```
+
 ## Hypothesis Testing: One-Sample Proportion
 
 - **Hypotheses: Two Tailed**
@@ -394,7 +403,7 @@ candy_data |> independent_proportions(outcome = shared_candy,
                                       grouping = age_group,
                                       event = "Yes",
                                       p = 0, 
-                                      alternative = "less", 
+                                      alternative = "greater", 
                                       alpha = 0.1)
 ```
 
@@ -417,13 +426,13 @@ candy_data |> independent_proportions(outcome = shared_candy,
 ## Wrap Up
 
 - Today we have reviewed the most common analyses used in categorical data. 
+
     - One proportion $\to$ $z$ test
     - Two proportions $\to$ $z$ test
-    - Distribution fit $\to$ goodness-of-fit
     
 - Not covered this semester: logistic regression
 
-        - Binary logistic
-        - Ordinal logistic
-        - Nominal logistic
+    - Binary logistic
+    - Ordinal logistic
+    - Nominal logistic
         
