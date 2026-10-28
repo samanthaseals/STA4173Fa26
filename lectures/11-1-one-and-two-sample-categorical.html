@@ -1650,6 +1650,30 @@ margin-right: 0; }
 <span id="cb3-2"><a></a>                             <span class="at">event =</span> <span class="st">&quot;Chocolate&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+<section id="confidence-intervals-one-sample-proportion-3" class="slide level2">
+<h2>Confidence Intervals: One-Sample Proportion</h2>
+<ul>
+<li>Let’s now find the 95% confidence interval for <span class="math inline">\pi</span>, the population proportion of ponies that prefer chocolate cake.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>party_data <span class="sc">|&gt;</span> <span class="fu">one_proportion</span>(<span class="at">outcome =</span> preference,</span>
+<span id="cb4-2"><a></a>                             <span class="at">event =</span> <span class="st">&quot;Chocolate&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>One-sample proportion
+
+p̂ = 0.7067 (53/75)
+
+95% CI for π: (0.6036, 0.8097)
+
+Hypotheses:
+H₀: π = 0.5
+H₁: π ≠ 0.5
+Test statistic: z = 3.58
+p-value: &lt; 0.001
+Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.050)</code></pre>
+</div>
+</div>
+</section>
 <section id="hypothesis-testing-one-sample-proportion" class="slide level2">
 <h2>Hypothesis Testing: One-Sample Proportion</h2>
 <ul>
@@ -1694,11 +1718,11 @@ z_0 = \frac{\hat{p}-p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}
 <li><p>Generic syntax:</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">one_proportion</span>(<span class="at">outcome =</span> binary_variable, </span>
-<span id="cb4-2"><a></a>                               <span class="at">event =</span> <span class="st">&quot;Name of Event&quot;</span></span>
-<span id="cb4-3"><a></a>                               <span class="at">p =</span> hypothesized_value, </span>
-<span id="cb4-4"><a></a>                               <span class="at">alternative =</span> <span class="st">&quot;alternative_direction&quot;</span>, </span>
-<span id="cb4-5"><a></a>                               <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">one_proportion</span>(<span class="at">outcome =</span> binary_variable, </span>
+<span id="cb6-2"><a></a>                               <span class="at">event =</span> <span class="st">&quot;Name of Event&quot;</span></span>
+<span id="cb6-3"><a></a>                               <span class="at">p =</span> hypothesized_value, </span>
+<span id="cb6-4"><a></a>                               <span class="at">alternative =</span> <span class="st">&quot;alternative_direction&quot;</span>, </span>
+<span id="cb6-5"><a></a>                               <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="hypothesis-testing-one-sample-proportion-2" class="slide level2">
@@ -1716,11 +1740,11 @@ z_0 = \frac{\hat{p}-p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}
 <li><p>Let’s now formally test her hypothesis at the <span class="math inline">\alpha = 0.05</span> level. Our updated code,</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>party_data <span class="sc">|&gt;</span> <span class="fu">one_proportion</span>(<span class="at">outcome =</span> preference,</span>
-<span id="cb5-2"><a></a>                             <span class="at">event =</span> <span class="st">&quot;Chocolate&quot;</span>,</span>
-<span id="cb5-3"><a></a>                             <span class="at">p =</span> <span class="fl">0.5</span>, </span>
-<span id="cb5-4"><a></a>                             <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>, </span>
-<span id="cb5-5"><a></a>                             <span class="at">alpha =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>party_data <span class="sc">|&gt;</span> <span class="fu">one_proportion</span>(<span class="at">outcome =</span> preference,</span>
+<span id="cb7-2"><a></a>                             <span class="at">event =</span> <span class="st">&quot;Chocolate&quot;</span>,</span>
+<span id="cb7-3"><a></a>                             <span class="at">p =</span> <span class="fl">0.5</span>, </span>
+<span id="cb7-4"><a></a>                             <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>, </span>
+<span id="cb7-5"><a></a>                             <span class="at">alpha =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>One-sample proportion
 
@@ -1778,10 +1802,10 @@ Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.050)</code></
 <li><p>Generic syntax:</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> binary_variable,</span>
-<span id="cb7-2"><a></a>                                        <span class="at">grouping =</span> grouping_variable,</span>
-<span id="cb7-3"><a></a>                                        <span class="at">success =</span> <span class="st">&quot;Name of Event&quot;</span>,</span>
-<span id="cb7-4"><a></a>                                        <span class="at">alpha =</span> alpha_level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> binary_variable,</span>
+<span id="cb9-2"><a></a>                                        <span class="at">grouping =</span> grouping_variable,</span>
+<span id="cb9-3"><a></a>                                        <span class="at">success =</span> <span class="st">&quot;Name of Event&quot;</span>,</span>
+<span id="cb9-4"><a></a>                                        <span class="at">alpha =</span> alpha_level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="confidence-intervals-two-sample-proportions-1" class="slide level2">
@@ -1791,7 +1815,7 @@ Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.050)</code></
 <li><p>Let’s first examine a frequency table.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>candy_data <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(age_group, shared_candy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>candy_data <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(age_group, shared_candy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="kable-table">
 <table class="caption-top">
@@ -1826,10 +1850,10 @@ Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.050)</code></
 <li><p>Let’s now find the 90% confidence interval for <span class="math inline">\pi_1 - \pi_2</span>,</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>candy_data <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> shared_candy,</span>
-<span id="cb9-2"><a></a>                                      <span class="at">grouping =</span> age_group,</span>
-<span id="cb9-3"><a></a>                                      <span class="at">event =</span> <span class="st">&quot;Yes&quot;</span>,</span>
-<span id="cb9-4"><a></a>                                      <span class="at">alpha =</span> <span class="fl">0.10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>candy_data <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> shared_candy,</span>
+<span id="cb11-2"><a></a>                                      <span class="at">grouping =</span> age_group,</span>
+<span id="cb11-3"><a></a>                                      <span class="at">event =</span> <span class="st">&quot;Yes&quot;</span>,</span>
+<span id="cb11-4"><a></a>                                      <span class="at">alpha =</span> <span class="fl">0.10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Independent proportions
 
@@ -1894,12 +1918,12 @@ Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.100)</code></
 <li><p>Generic syntax:</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> binary_variable, </span>
-<span id="cb11-2"><a></a>                                        <span class="at">grouping =</span> grouping_variable,</span>
-<span id="cb11-3"><a></a>                                        <span class="at">event =</span> <span class="st">&quot;Name of Event&quot;</span></span>
-<span id="cb11-4"><a></a>                                        <span class="at">p =</span> hypothesized_value, </span>
-<span id="cb11-5"><a></a>                                        <span class="at">alternative =</span> <span class="st">&quot;alternative_direction&quot;</span>, </span>
-<span id="cb11-6"><a></a>                                        <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> binary_variable, </span>
+<span id="cb13-2"><a></a>                                        <span class="at">grouping =</span> grouping_variable,</span>
+<span id="cb13-3"><a></a>                                        <span class="at">event =</span> <span class="st">&quot;Name of Event&quot;</span></span>
+<span id="cb13-4"><a></a>                                        <span class="at">p =</span> hypothesized_value, </span>
+<span id="cb13-5"><a></a>                                        <span class="at">alternative =</span> <span class="st">&quot;alternative_direction&quot;</span>, </span>
+<span id="cb13-6"><a></a>                                        <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="hypothesis-testing-two-sample-proportions-2" class="slide level2">
@@ -1909,12 +1933,12 @@ Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.100)</code></
 <li><p>Let’s now test Fluttershy’s hunch at the <span class="math inline">\alpha = 0.10</span> level. How should we update this code?</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">binary =</span> binary_variable, </span>
-<span id="cb12-2"><a></a>                                        <span class="at">grouping =</span> grouping_variable,</span>
-<span id="cb12-3"><a></a>                                        <span class="at">event =</span> <span class="st">&quot;Name of Event&quot;</span>,</span>
-<span id="cb12-4"><a></a>                                        <span class="at">p =</span> hypothesized_value, </span>
-<span id="cb12-5"><a></a>                                        <span class="at">alternative =</span> <span class="st">&quot;alternative_direction&quot;</span>, </span>
-<span id="cb12-6"><a></a>                                        <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">binary =</span> binary_variable, </span>
+<span id="cb14-2"><a></a>                                        <span class="at">grouping =</span> grouping_variable,</span>
+<span id="cb14-3"><a></a>                                        <span class="at">event =</span> <span class="st">&quot;Name of Event&quot;</span>,</span>
+<span id="cb14-4"><a></a>                                        <span class="at">p =</span> hypothesized_value, </span>
+<span id="cb14-5"><a></a>                                        <span class="at">alternative =</span> <span class="st">&quot;alternative_direction&quot;</span>, </span>
+<span id="cb14-6"><a></a>                                        <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="hypothesis-testing-two-sample-proportions-3" class="slide level2">
@@ -1924,12 +1948,12 @@ Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.100)</code></
 <li><p>Let’s now test Fluttershy’s hunch at the <span class="math inline">\alpha = 0.10</span> level. Our updated code,</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>candy_data <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> shared_candy, </span>
-<span id="cb13-2"><a></a>                                      <span class="at">grouping =</span> age_group,</span>
-<span id="cb13-3"><a></a>                                      <span class="at">event =</span> <span class="st">&quot;Yes&quot;</span>,</span>
-<span id="cb13-4"><a></a>                                      <span class="at">p =</span> <span class="dv">0</span>, </span>
-<span id="cb13-5"><a></a>                                      <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>, </span>
-<span id="cb13-6"><a></a>                                      <span class="at">alpha =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>candy_data <span class="sc">|&gt;</span> <span class="fu">independent_proportions</span>(<span class="at">outcome =</span> shared_candy, </span>
+<span id="cb15-2"><a></a>                                      <span class="at">grouping =</span> age_group,</span>
+<span id="cb15-3"><a></a>                                      <span class="at">event =</span> <span class="st">&quot;Yes&quot;</span>,</span>
+<span id="cb15-4"><a></a>                                      <span class="at">p =</span> <span class="dv">0</span>, </span>
+<span id="cb15-5"><a></a>                                      <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>, </span>
+<span id="cb15-6"><a></a>                                      <span class="at">alpha =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Independent proportions
 
@@ -1940,11 +1964,11 @@ Point estimate: p̂[Older] − p̂[Young] = 0.4
 90% CI for π[Older] − π[Young]: (0.2669, 0.5331)
 
 Hypotheses:
-H₀: π[Older] − π[Young] ≥ 0
-H₁: π[Older] − π[Young] &lt; 0
+H₀: π[Older] − π[Young] ≤ 0
+H₁: π[Older] − π[Young] &gt; 0
 Test statistic: z = 4.51
-p-value: 1.000
-Conclusion: Fail to reject the null hypothesis (p = 1.000 ≥ α = 0.100)</code></pre>
+p-value: &lt; 0.001
+Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.100)</code></pre>
 </div>
 </div>
 </section>
@@ -1977,12 +2001,13 @@ Conclusion: Fail to reject the null hypothesis (p = 1.000 ≥ α = 0.100)</code>
 <ul>
 <li>One proportion <span class="math inline">\to</span> <span class="math inline">z</span> test</li>
 <li>Two proportions <span class="math inline">\to</span> <span class="math inline">z</span> test</li>
-<li>Distribution fit <span class="math inline">\to</span> goodness-of-fit</li>
 </ul></li>
 <li><p>Not covered this semester: logistic regression</p>
-<pre><code>  - Binary logistic
-  - Ordinal logistic
-  - Nominal logistic</code></pre></li>
+<ul>
+<li>Binary logistic</li>
+<li>Ordinal logistic</li>
+<li>Nominal logistic</li>
+</ul></li>
 </ul>
 
 
