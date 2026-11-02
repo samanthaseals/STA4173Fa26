@@ -1,0 +1,252 @@
+---
+title: "Workshop: Categorical Analysis"
+author: "your name here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: typst
+editor: source
+---
+
+This week, we are working with the Totally Serious Pop Culture Research Institute™ to answer six questions about pop culture. For every study, use $\alpha = 0.05$. Choose the appropriate categorical test, check its conditions, and interpret the result in context.
+
+Let's call in the packages and data we need,
+
+```{r}
+library(tidyverse)
+
+popcorn_flavor <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-popcorn_flavor.csv")
+streaming_genre <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-streaming_genre.csv")
+spoiler_platform <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-spoiler_platform.csv")
+costume_fandom <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-costume_fandom.csv")
+trailer_rewatch <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-trailer_rewatch.csv")
+meme_caption <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-meme_caption.csv")
+```
+
+
+
+# Study 1: The Movie-Night Popcorn Debate
+
+The institute surveyed 120 moviegoers, asking each person to choose one favorite popcorn flavor: Butter, Caramel, or Cheddar. A cinema chain claims these three flavors are equally popular. Do the survey responses provide evidence against that claim?
+
+Dataset: `popcorn_flavor`; variable: `flavor`.
+
+1a. Make a frequency table and report the sample percentage for each flavor.
+
+```{r}
+
+```
+
+1b. Use the appropriate hypothesis test to determine if the three flavors are equally popular.
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ 
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$.
+- There is or is not sufficient evidence to conclude...
+
+# Study 2: Which Meme Caption Gets Shared?
+
+The institute randomly assigned 200 independent volunteers to see one of two captions on the same meme image: Classic or Absurdist. Each volunteer then chose whether to share the meme. Is the share proportion different between the two caption styles?
+
+Dataset: `meme_caption`; variables: `caption_style` and `shared` (`Yes` or `No`).
+
+2a. Construct the appropriate contingency table to display this data.
+
+```{r}
+
+```
+
+2b. Use the appropriate hypothesis test to determine if the share proportion is different between the two caption styles.
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ 
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$.
+- There is or is not sufficient evidence to conclude...
+
+# Study 3: Where Did You See the Spoiler?
+
+The institute surveyed 180 fans after a television finale. Each fan named the one social platform they used most during premiere week: TikTok, Instagram, or Reddit. They also reported whether they saw a finale spoiler before watching the episode. Is spoiler exposure associated with a fan's primary platform?
+
+Dataset: `spoiler_platform`; variables: `platform` and `saw_spoiler`.
+
+3a. Construct the appropriate contingency table to describe this data.
+
+```{r}
+
+```
+
+3b. Use the appropriate hypothesis test to determine if spoiler exposure depends on the fan's primary platform.
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ 
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$.
+- There is or is not sufficient evidence to conclude...
+
+
+# Study 4: A Streaming Genre Prediction
+
+A streaming service predicts that 20% of viewers will choose Comedy, 30% Drama, 20% Reality, and 30% Sci-Fi as their favorite genre. The institute independently surveyed 140 viewers, each of whom chose one genre. Do their choices follow the service's predicted distribution?
+
+Dataset: `streaming_genre`; variable: `genre`.
+
+4a. Make a frequency table of the observed data.
+
+```{r}
+
+```
+
+4b. Use the appropriate hypothesis test to determine if the choices follow the service's predicted distribution.
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ 
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$.
+- There is or is not sufficient evidence to conclude...
+
+
+# Study 5: The Trailer Rewatch Claim
+
+A movie studio claims that more than 60% of viewers would rewatch its new trailer. The institute asked 120 independently selected viewers whether they would watch it again. Does the survey support the studio's claim?
+
+Dataset: `trailer_rewatch`; variable: `rewatch` (`Yes` or `No`).
+
+5a. Construct a frequency table to describe this data.
+
+```{r}
+
+```
+
+5b. Use the appropriate hypothesis test to determine if more than 60% of viewers would rewatch the new trailer.
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ 
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$.
+- There is or is not sufficient evidence to conclude...
+
+# Study 6: Convention Costume Choices
+
+At a fan convention, the institute surveyed 180 attendees. Each person chose one primary fandom—Superhero, Fantasy, or Sci-Fi—and described their costume as Hero, Villain, or Sidekick. Is costume choice associated with primary fandom among these attendees?
+
+Dataset: `costume_fandom`; variables: `fandom` and `costume_choice`.
+
+6a. Construct the appropriate contingency table to describe this data.
+
+```{r}
+
+```
+
+6b. Use the appropriate hypothesis test to determine if costume choice and primary fandom are related.
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ 
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$.
+- There is or is not sufficient evidence to conclude...
