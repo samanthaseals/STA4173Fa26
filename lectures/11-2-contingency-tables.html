@@ -1749,10 +1749,40 @@ Conclusion: Reject the null hypothesis (p = 0.002 &lt; α = 0.050)</code></pre>
 <li>Let’s first look at a frequency table.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>rarity_orders <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(item_ordered, <span class="at">rows=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error in `n_pct()`:
-! unused argument (rows = 5)</code></pre>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>rarity_orders <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(item_ordered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">item_ordered</th>
+<th style="text-align: left;">n (pct)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cape</td>
+<td style="text-align: left;">45 (22.5%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dress</td>
+<td style="text-align: left;">77 (38.5%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hat</td>
+<td style="text-align: left;">36 (18.0%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hoof Accessories</td>
+<td style="text-align: left;">17 (8.5%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Scarf</td>
+<td style="text-align: left;">25 (12.5%)</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </section>
@@ -1803,11 +1833,11 @@ Conclusion: Reject the null hypothesis (p = 0.002 &lt; α = 0.050)</code></pre>
 <li><p>Generic syntax (not assuming uniform distribution):</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">goodness_of_fit</span>(<span class="at">categorical =</span> categorical_variable,</span>
-<span id="cb7-2"><a></a>                                <span class="at">expected =</span> <span class="fu">c</span>(<span class="st">&quot;Category 1&quot;</span> <span class="ot">=</span> proportion_1,</span>
-<span id="cb7-3"><a></a>                                             <span class="st">&quot;Category 2&quot;</span> <span class="ot">=</span> proportion_2,</span>
-<span id="cb7-4"><a></a>                                             ... etc ...),</span>
-<span id="cb7-5"><a></a>                                <span class="at">alpha =</span> alpha_level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">goodness_of_fit</span>(<span class="at">categorical =</span> categorical_variable,</span>
+<span id="cb6-2"><a></a>                                <span class="at">expected =</span> <span class="fu">c</span>(<span class="st">&quot;Category 1&quot;</span> <span class="ot">=</span> proportion_1,</span>
+<span id="cb6-3"><a></a>                                             <span class="st">&quot;Category 2&quot;</span> <span class="ot">=</span> proportion_2,</span>
+<span id="cb6-4"><a></a>                                             ... etc ...),</span>
+<span id="cb6-5"><a></a>                                <span class="at">alpha =</span> alpha_level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="hypothesis-testing-goodness-of-fit-9" class="slide level2">
@@ -1816,12 +1846,12 @@ Conclusion: Reject the null hypothesis (p = 0.002 &lt; α = 0.050)</code></pre>
 <li>Rarity reviews 200 orders from this season and wants to determine if the sales are deviating from the historic pattern.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>rarity_orders <span class="sc">|&gt;</span> <span class="fu">goodness_of_fit</span>(<span class="at">outcome =</span> item_ordered,</span>
-<span id="cb8-2"><a></a>                                 <span class="at">expected =</span> <span class="fu">c</span>(<span class="st">&quot;Dress&quot;</span> <span class="ot">=</span> <span class="fl">0.40</span>,</span>
-<span id="cb8-3"><a></a>                                              <span class="st">&quot;Cape&quot;</span> <span class="ot">=</span> <span class="fl">0.25</span>,</span>
-<span id="cb8-4"><a></a>                                              <span class="st">&quot;Hat&quot;</span> <span class="ot">=</span> <span class="fl">0.15</span>,</span>
-<span id="cb8-5"><a></a>                                              <span class="st">&quot;Scarf&quot;</span> <span class="ot">=</span> <span class="fl">0.10</span>,</span>
-<span id="cb8-6"><a></a>                                              <span class="st">&quot;Hoof Accessories&quot;</span> <span class="ot">=</span> <span class="fl">0.10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>rarity_orders <span class="sc">|&gt;</span> <span class="fu">goodness_of_fit</span>(<span class="at">outcome =</span> item_ordered,</span>
+<span id="cb7-2"><a></a>                                 <span class="at">expected =</span> <span class="fu">c</span>(<span class="st">&quot;Dress&quot;</span> <span class="ot">=</span> <span class="fl">0.40</span>,</span>
+<span id="cb7-3"><a></a>                                              <span class="st">&quot;Cape&quot;</span> <span class="ot">=</span> <span class="fl">0.25</span>,</span>
+<span id="cb7-4"><a></a>                                              <span class="st">&quot;Hat&quot;</span> <span class="ot">=</span> <span class="fl">0.15</span>,</span>
+<span id="cb7-5"><a></a>                                              <span class="st">&quot;Scarf&quot;</span> <span class="ot">=</span> <span class="fl">0.10</span>,</span>
+<span id="cb7-6"><a></a>                                              <span class="st">&quot;Hoof Accessories&quot;</span> <span class="ot">=</span> <span class="fl">0.10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Chi-square goodness-of-fit test
 
@@ -1895,9 +1925,9 @@ Conclusion: Fail to reject the null hypothesis (p = 0.476 ≥ α = 0.050)</code>
 <li><p>Generic syntax:</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independence</span>(<span class="at">col1 =</span> first_variable,</span>
-<span id="cb10-2"><a></a>                             <span class="at">col2 =</span> second_variable,</span>
-<span id="cb10-3"><a></a>                             <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>dataset_name <span class="sc">|&gt;</span> <span class="fu">independence</span>(<span class="at">col1 =</span> first_variable,</span>
+<span id="cb9-2"><a></a>                             <span class="at">col2 =</span> second_variable,</span>
+<span id="cb9-3"><a></a>                             <span class="at">alpha =</span> specified_alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="hypothesis-testing-test-for-independence-2" class="slide level2">
@@ -1914,7 +1944,7 @@ Conclusion: Fail to reject the null hypothesis (p = 0.476 ≥ α = 0.050)</code>
 <li>Looking at the contingency tables,</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(role, material)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(role, material)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="kable-table">
 <table class="caption-top">
@@ -1961,7 +1991,7 @@ Conclusion: Fail to reject the null hypothesis (p = 0.476 ≥ α = 0.050)</code>
 <li>Looking at the contingency tables,</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(material, role)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">n_pct</span>(material, role)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="kable-table">
 <table class="caption-top">
@@ -2018,8 +2048,8 @@ Conclusion: Fail to reject the null hypothesis (p = 0.476 ≥ α = 0.050)</code>
 <li>Running the code,</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">independence</span>(<span class="at">col1 =</span> role,</span>
-<span id="cb13-2"><a></a>                                 <span class="at">col2 =</span> material)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">independence</span>(<span class="at">col1 =</span> role,</span>
+<span id="cb12-2"><a></a>                                 <span class="at">col2 =</span> material)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Chi-square test of independence
 
@@ -2038,8 +2068,8 @@ Conclusion: Reject the null hypothesis (p = &lt; 0.001 &lt; α = 0.050)</code></
 <li>Running the code &amp; switching the variable order,</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">independence</span>(<span class="at">col1 =</span> material,</span>
-<span id="cb15-2"><a></a>                                 <span class="at">col2 =</span> role)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>twilight_library <span class="sc">|&gt;</span> <span class="fu">independence</span>(<span class="at">col1 =</span> material,</span>
+<span id="cb14-2"><a></a>                                 <span class="at">col2 =</span> role)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Chi-square test of independence
 
