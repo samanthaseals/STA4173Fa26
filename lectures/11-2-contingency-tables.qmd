@@ -1,0 +1,410 @@
+---
+title: "Goodness of Fit and Contingency Tables"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+
+## Introduction
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ssstats)
+```
+
+- On Monday, we discussed:
+
+    - Test for $\pi$
+    
+    - Test for $\pi_1-\pi_2$
+
+- Now we will expand to:
+
+    - Goodness-of-fit
+    
+    - Test for independence
+
+## Hypothesis Testing: Goodness-of-Fit
+
+```{r data simulation}
+#| echo: false
+
+library(tidyverse)
+library(ssstats)
+
+###################
+# ONE SAMPLE PROP #
+###################
+
+set.seed(1228) 
+party_data <- tibble(guest_id = 1:75,
+                     preference = sample(c("Chocolate", "Vanilla"),
+                                         size = 75,
+                                         replace = TRUE,
+                                         prob = c(0.7, 1 - 0.7)))
+
+###################
+# TWO SAMPLE PROP #
+###################
+
+set.seed(1031)
+young_data <- tibble(foal_id = paste0("Y", 1:60),
+                     age_group = "Young",
+                     shared_candy = sample(c("Yes", "No"),
+                                           size = 60,
+                                           replace = TRUE,
+                                           prob = c(0.4, 1 - 0.4)))
+
+older_data <- tibble(foal_id = paste0("O", 1:60),
+                     age_group = "Older",
+                     shared_candy = sample(c("Yes", "No"),
+                                           size = 60,
+                                           replace = TRUE,
+                                           prob = c(0.65, 1 - 0.65)))
+candy_data <- bind_rows(young_data, older_data)
+
+###################
+# GOODNESS OF FIT #
+#     UNIFORM     #
+###################
+
+set.seed(1865)
+apple_toss <- tibble(toss_id = 1:200,
+                     barrel = sample(c("Barrel 1", "Barrel 2", "Barrel 3", "Barrel 4", "Barrel 5"), 
+                                     size = 200, 
+                                     replace = TRUE, 
+                                     prob = c(0.15, 0.20, 0.30, 0.20, 0.15)))
+
+###################
+# GOODNESS OF FIT #
+#   NOT UNIFORM   #
+###################
+
+set.seed(4242)
+rarity_orders <- tibble(order_id = 1:200,
+                        item_ordered = sample(c("Dress", "Cape", "Hat", "Scarf", "Hoof Accessories"),
+                                              size = 200,
+                                              replace = TRUE,
+                                              prob = c(0.40, 0.25, 0.15, 0.10, 0.10)))
+
+################
+# INDEPENDENCE #
+################
+
+set.seed(6012) 
+roles <- c("Student", "Teacher", "Community")
+materials <- c("Spells", "History", "Fiction", "Science")
+prob_matrix <- matrix(c(0.40, 0.15, 0.15, 0.30,    # Students
+                        0.35, 0.40, 0.10, 0.15,    # Teachers
+                        0.10, 0.20, 0.50, 0.20),   # Community Members
+                      nrow = 3,
+                      byrow = TRUE,
+                      dimnames = list(roles, materials))
+n_visits <- 180
+visitors_per_group <- c(60, 60, 60)
+twilight_library <- map2_dfr(roles, visitors_per_group, function(role, n) {
+  probs <- prob_matrix[role, ]
+  tibble(
+    visitor_id = paste0(substr(role, 1, 1), 1:n),
+    role = role,
+    material = sample(materials, size = n, replace = TRUE, prob = probs)
+  )
+})
+```
+
+- The goodness-of-fit test allows us to determine if a frequency distribution follows a specific distribution.
+
+    - This could be a named distribution (e.g., normal)
+
+    - It could also be a distribution without a name (e.g., the probabilities are specified)
+
+- Before we can perform the goodness-of-fit test, we must compute expected counts.$$E_i = n p_i$$
+
+    - e.g., suppose that we expect 25\% of Skittles to be red; if we have 100 Skittles, we then expect 25 of them to be red.
+    
+## Hypothesis Testing: Goodness-of-Fit
+
+- **Hypotheses**
+
+    - $H_0:$ The random variable follows the specified distribution.
+    - $H_1:$ The random variable does not follow the specified distribution.
+
+- **Test Statistic**
+
+$$\chi^2_0 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}$$ 
+
+- where $k$ = number of categories, $O_i$ = observed count and  $E_i$ = expected count
+
+## Hypothesis Testing: Goodness-of-Fit (R)
+
+- We will use the `goodness_of_fit()` function from `library(ssstats)` to find the confidence interval.
+
+- Generic syntax (assuming uniform distribution):
+
+```{r}
+#| eval: false
+dataset_name |> goodness_of_fit(outcome = categorical_variable,
+                                alpha = specified_alpha)
+```
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- At the annual Ponyville Harvest Festival, Applejack runs a game called "Barrel Toss," where players toss apples into one of five barrels lined up across the field. Applejack believes the barrels are evenly spaced and equally likely to receive apples if the game is fair.
+
+- However, after watching several rounds, she suspects something might be off... maybe the barrels aren't truly equal. She records (**apple_toss**) the number of apples that landed in each barrel during the day (*barrel*) and wants to test whether they are uniformly distributed, as expected under fairness.
+
+- Let's first look at the frequency table.
+
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- Let's first look at the frequency table.
+
+```{r}
+apple_toss |> n_pct(barrel)
+```
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- Running the code,
+
+```{r}
+apple_toss |> goodness_of_fit(outcome = barrel)
+```
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- **Hypotheses**
+    - $H_0: \ \pi_1 = \pi_2 = \pi_3 = \pi_4 = \pi_5 = 0.20.$
+    - $H_1:$ At least one $\pi_i$ is different.
+
+- **Test Statistic and *p*-Value**
+    - $\chi^2_0 = 17.1$; $p = 0.002$
+    
+- **Rejection Region**
+  - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+
+- **Conclusion/Interpretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that at least one proportion is different.
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- Rarity tracks customer orders from her boutique (**rarity_orders**) across five product categories. She knows that sales typically follow this distribution:
+
+| Product | Proportion |
+|:---|--:|
+| Dresses | 0.40 |
+| Capes | 0.25 |
+| Hats | 0.15 |
+| Scarves | 0.10 |
+| Hoof Accessories | 0.10 |
+
+- This season, something feels off. Rarity reviews 200 orders from this season and wants to determine if the sales (*item_ordered*) are deviating from the historic pattern. 
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- Let's first look at a frequency table.
+
+```{r}
+rarity_orders |> n_pct(item_ordered)
+```
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- Rarity tracks customer orders from her boutique (**rarity_orders**) across five product categories. She knows that sales typically follow this distribution:
+
+| Product | Proportion |
+|:---|--:|
+| Dresses | 0.40 |
+| Capes | 0.25 |
+| Hats | 0.15 |
+| Scarves | 0.10 |
+| Hoof Accessories | 0.10 |
+
+- This season, something feels off. Rarity reviews 200 orders from this season and wants to determine if the sales (*item_ordered*) are deviating from the historic pattern. 
+
+- Let's now consider the hypothesis test. Except... this is not a uniform distribution.
+
+## Hypothesis Testing: Goodness-of-Fit (R)
+
+- We will use the `goodness_of_fit()` function from `library(ssstats)` to find the confidence interval.
+
+- Generic syntax (not assuming uniform distribution):
+
+```{r}
+#| eval: false
+dataset_name |> goodness_of_fit(categorical = categorical_variable,
+                                expected = c("Category 1" = proportion_1,
+                                             "Category 2" = proportion_2,
+                                             ... etc ...),
+                                alpha = alpha_level)
+```
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- Rarity reviews 200 orders from this season and wants to determine if the sales are deviating from the historic pattern. 
+
+```{r}
+rarity_orders |> goodness_of_fit(outcome = item_ordered,
+                                 expected = c("Dress" = 0.40,
+                                              "Cape" = 0.25,
+                                              "Hat" = 0.15,
+                                              "Scarf" = 0.10,
+                                              "Hoof Accessories" = 0.10))
+```
+
+## Hypothesis Testing: Goodness-of-Fit
+
+- **Hypotheses**
+    - $H_0:$ This year's sales follow the historical pattern.
+    - $H_1:$ This year's sales do not follow the historical pattern.
+
+- **Test Statistic and *p*-Value**
+    - $\chi^2_0 = 3.51$; $p = 0.476$
+    
+- **Rejection Region**
+  - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+
+- **Conclusion/Interpretation**
+    - Fail to reject $H_0$. There is not sufficient evidence to suggest that this year's sales do not follow the historical pattern.
+
+## Hypothesis Testing: Test for Independence
+
+- Let us now discuss testing two categorical variables to determine if a relationship exists. 
+    - This involves using a contingency table.
+    - We can generate them using `n_pct(row_var, col_var)`.
+
+- Like in the goodness-of-fit test, we will first compute expected values,
+
+$$E_{ij} = \frac{R_i C_j}{n}$$ 
+
+- where 
+    - $R_i$ is the total for row $i$, 
+    - $C_j$ is the total for column $j$, and 
+    - $n$ is the total sample size
+    
+## Hypothesis Testing: Test for Independence
+
+- **Hypotheses**
+    - $H_0$: There is not a relationship between [var 1] and [var 2].
+    - $H_1$: There is a relationship between [var 1] and [var 2].
+
+- **Test Statistic**
+
+$$\chi_0^2 = \sum_{i=1}^k \frac{(O_i-E_i)^2}{E_i}$$
+
+## Hypothesis Testing: Test for Independence (R)
+
+- We will use the `goodness_of_fit()` function from `library(ssstats)` to find the confidence interval.
+
+- Generic syntax:
+
+```{r}
+#| eval: false
+dataset_name |> independence(col1 = first_variable,
+                             col2 = second_variable,
+                             alpha = specified_alpha)
+```
+
+
+## Hypothesis Testing: Test for Independence
+
+- Twilight Sparkle notices that her public library in Ponyville is visited by a variety of ponies: students, teachers, and general community members. She's curious whether the type of reading material ponies check out depends on their role in the community.
+
+- She records each visitor's role (*role*; student, teacher, and community member) and the type of material they check out (*material*; spells, history, fiction, and science). 
+
+- Twilight wants to test whether the type of material checked out is independent of visitor role, or if certain roles are more likely to favor particular genres.
+
+
+## Hypothesis Testing: Test for Independence
+
+- Looking at the contingency tables,
+
+```{r}
+twilight_library |> n_pct(role, material)
+```
+
+## Hypothesis Testing: Test for Independence
+
+- Looking at the contingency tables,
+
+```{r}
+twilight_library |> n_pct(material, role)
+```
+
+## Hypothesis Testing: Test for Independence
+
+- Twilight Sparkle notices that her public library in Ponyville is visited by a variety of ponies: students, teachers, and general community members. She's curious whether the type of reading material ponies check out depends on their role in the community.
+
+- She records each visitor's role (*role*; student, teacher, and community member) and the type of material they check out (*material*; spells, history, fiction, and science). 
+
+- Twilight wants to test whether the type of material checked out is independent of visitor role, or if certain roles are more likely to favor particular genres. Assume $\alpha = 0.05$. 
+
+## Hypothesis Testing: Test for Independence
+
+- Running the code,
+
+```{r}
+twilight_library |> independence(col1 = role,
+                                 col2 = material)
+```
+
+## Hypothesis Testing: Test for Independence
+
+- Running the code & switching the variable order,
+
+```{r}
+twilight_library |> independence(col1 = material,
+                                 col2 = role)
+```
+
+## Hypothesis Testing: Test for Independence
+
+- **Hypotheses**
+    - $H_0:$ Material and role are independent of one another.
+    - $H_1:$ Material and role depend on one another.
+
+- **Test Statistic and *p*-Value**
+    - $\chi^2_0 = 57.55$; $p < 0.001$
+
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$
+
+- **Conclusion/Interpretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that the what type of material is checked out depends on the role of the visitor.
+    
+   
+## Wrap Up
+
+- This concludes our categorical analysis journey.
+
+    - There are more advanced methods (e.g., logistic regression analysis) available.
+
+- We often use these methods to analyze survey data.
+
+- Next week:
+
+    - Monday: lab
+    
+    - Wednesday: test
+    
+- Next module: regression for continuous outcomes.    
