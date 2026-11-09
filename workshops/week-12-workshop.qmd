@@ -16,6 +16,7 @@ Let's call in the packages and data we need,
 
 ```{r}
 library(tidyverse)
+library(ssstats)
 
 popcorn_flavor <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-popcorn_flavor.csv")
 streaming_genre <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M3-streaming_genre.csv")
