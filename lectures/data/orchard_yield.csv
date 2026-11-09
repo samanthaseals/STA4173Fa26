@@ -1,0 +1,33 @@
+tree_id,sunlight_hours,water_liters_per_day,compost,apple_yield_kg
+T01,7.5,5.5,No compost,8.5
+T02,4.0,9.0,Compost,10.2
+T03,8.5,5.0,No compost,9.5
+T04,5.0,8.5,Compost,11.6
+T05,9.5,4.5,No compost,8.8
+T06,6.0,8.0,Compost,12.6
+T07,10.5,4.0,No compost,8.4
+T08,7.0,7.5,Compost,13.8
+T09,3.5,3.5,No compost,7.3
+T10,8.0,7.0,Compost,13.8
+T11,4.5,3.0,No compost,7.6
+T12,9.0,6.5,Compost,13.1
+T13,5.5,2.5,No compost,4.4
+T14,10.0,6.0,Compost,11.9
+T15,6.5,2.0,No compost,5.3
+T16,3.0,5.5,Compost,9.8
+T17,7.5,9.0,No compost,11.9
+T18,4.0,5.0,Compost,7.8
+T19,8.5,8.5,No compost,10.1
+T20,5.0,4.5,Compost,9.9
+T21,9.5,8.0,No compost,13.0
+T22,6.0,4.0,Compost,9.7
+T23,10.5,7.5,No compost,11.4
+T24,7.0,3.5,Compost,10.9
+T25,3.5,7.0,No compost,7.3
+T26,8.0,3.0,Compost,9.6
+T27,4.5,6.5,No compost,9.8
+T28,9.0,2.5,Compost,9.6
+T29,5.5,6.0,No compost,9.4
+T30,10.0,2.0,Compost,11.4
+T31,6.5,5.5,No compost,8.3
+T32,3.0,9.0,Compost,10.3
