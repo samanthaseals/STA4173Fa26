@@ -1,0 +1,738 @@
+---
+title: "Correlation and Simple Linear Regression"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format:
+  revealjs:
+    theme: simple
+    css: style_lecture.css
+    self-contained: true
+    slide-number: true
+    center: false
+    width: 1600
+    height: 900
+    df-print: kable
+    html-math-method: katex
+    code-fold: false
+    code-tools: false
+    code-annotations: hover
+    incremental: false
+editor: source
+---
+
+
+
+## Introduction
+
+- Before today, we discussed methods for comparing continuous outcomes across two or more <u>groups</u>.
+
+- We now will begin exploring the relationships between two *continuous* variables. 
+
+- We will first focus on data visualization and the corresponding correlation.
+
+- The we will quantify the relationship using regression analysis.
+
+    - Note! We are only scratching the surface with regression analysis.
+
+
+## Scatterplot: Introduction
+
+- **Scatterplot or scatter diagram**:
+
+    - A graph that shows the relationship between two quantitative variables measured on the same subject.
+    
+- Each individual in the dataset is represented by a point on the scatterplot. 
+
+- The explanatory variable is on the $x$-axis and the response variable is on the $y$-axis.
+
+- It is super important for us to plot the data! 
+
+    - Plotting the data is a first step in identifying issues or potential relationships.
+    
+## Scatterplot: Introduction
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+set.seed(54678)
+
+library(tidyverse)
+library(ssstats)
+library(broom)
+
+trend_data <- tibble(
+  x = rep(1:20, times = 2),
+  relationship = rep(c("Positive relationship", "Negative relationship"), each = 20),
+  y = c(
+    2 + 1.5 * (1:20) + rnorm(20, mean = 0, sd = 5),
+    42 - 1.5 * (1:20) + rnorm(20, mean = 0, sd = 5)
+  )
+)
+
+ggplot(trend_data, aes(x, y)) +
+  geom_point(size = 3, color = "#6A4C93") +
+  facet_wrap(~ relationship, nrow = 1, scales = "fixed") +
+  labs(
+    x = "x",
+    y = "y"
+  ) +
+  theme_minimal(base_size = 20)
+```
+
+- **Negative relationship**: As $x$ increases, $y$ decreases.
+
+- **Positive relationship**: As $x$ increases, $y$ increases.
+
+## Scatterplot: Introduction
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+set.seed(4786342)
+
+x_values <- 1:20
+
+trend_data_extra <- tibble(
+  x = rep(x_values, times = 2),
+  relationship = rep(c("No clear relationship", "Nonlinear relationship"), each = length(x_values)),
+  y = c(
+    rnorm(length(x_values), mean = 50, sd = 8),
+    50 + 0.8 * (x_values - 10.5)^2 + rnorm(length(x_values), mean = 0, sd = 5)
+  )
+)
+
+ggplot(trend_data_extra, aes(x, y)) +
+  geom_point(size = 3, color = "#6A4C93") +
+  facet_wrap(~ relationship, nrow = 1, scales = "fixed") +
+  labs(
+    x = "x",
+    y = "y"
+  ) +
+  theme_minimal(base_size = 20)
+```
+
+- **No relationship**: As $x$ increases, $y$ stays the same.
+
+- **Non-linear relationship**: The relationship between $x$ and $y$ is not linear.
+
+## Scatterplot (R)
+
+- Like we have done before, we will graph using the `ggplot()` function from `library(tidyverse)` (or `library(ggplot2)`).
+
+```{r}
+#| eval: false
+dataset_name |> ggplot(aes(x = x_variable, y = y_variable)) + # specify x and y
+  geom_point() + # plot points
+  labs(x = "x-axis label", # edit x-axis label
+       y = "y-axis label") + # edit y-axis label
+  theme_minimal() # change theme of graph
+```
+
+## Example 1
+
+- Rainbow Dash wants to know whether more flight practice tends to go with a higher score on the Wonderbolts obstacle course.
+
+- Our observational unit is a pony. For each pony we have:
+
+    - `practice_hours`: hours spent practicing
+    - `course_score`: score on the course, from 0 to 100
+
+```{r}
+flight <- read_csv("data/flight_practice_score.csv")
+head(flight, n = 3)
+```
+
+## Example 1
+
+- Let's examine the scatterplot,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+flight |> ggplot(aes(x = practice_hours, y = course_score)) +
+  geom_point(size = 3, color = "#6A4C93") +
+  labs(x = "Flight practice (hours)", y = "Obstacle-course score") +
+  theme_minimal(base_size = 20)
+```
+
+- Is there anything unusual?
+
+- What kind of relationship is this?
+
+## Correlation: Introduction
+
+- Creating the scatterplot allows us to visualize a potential relationship.
+
+    - e.g., As practice time increases, obstacle course score also increased.
+    
+- Now, let's discuss *quantifying* that relationship.
+
+    - Initial quantification: correlation.
+    
+    - Further quantification: regression.
+
+## Correlation: Definition
+
+- **Pearson's Correlation**: A *unitless* measure of the strength and direction of the *linear relationship* between two *quantitative* variables. 
+
+    - $\rho$ represents the population correlation coefficient.
+    
+    - $r$ represents the sample correlation coefficient. 
+
+- Correlation is bounded to $[-1, 1]$.
+
+    - $r=-1$ represents perfect negative correlation.
+    
+    - $r=1$ represents perfect positive correlation.
+    
+    - $r=0$ represents no correlation.
+
+## Correlation: Pearson's Correlation
+
+- Pearson's correlation coefficient: 
+
+$$r = \frac{\sum_{i=1}^n \left( \frac{x_i - \bar{x}}{s_x} \right)\left( \frac{y_i - \bar{y}}{s_y} \right)}{n-1}$$ 
+
+- $x_i$ is the *i*^th^ observation of $x$; $y_i$ is the *i*^th^ observation of $y$
+- $\bar{x}$ is the sample mean of $x$; $\bar{y}$ is the sample mean of $y$
+- $s_x$ is the sample standard deviation of $x$; $s_y$ is the sample standard deviation of $y$
+- $n$ is the sample size (number of paired observations)
+
+## Correlation: Pearson's Correlation (R)
+
+- We will use the `correlation()` function from `library(ssstats)` to examine correlation.
+
+- For a single pairwise correlation,
+
+```{r}
+#| eval: false
+dataset_name |> correlation(x = variable_1, y = variable_2)
+```
+
+- For all pairwise correlations,
+
+```{r}
+#| eval: false
+dataset_name |> correlation()
+```
+
+## Example 1
+
+- Looking at the correlation,
+
+```{r}
+flight |> correlation() 
+```
+
+- The correlation is 0.995.
+
+## Example 2
+
+- Twilight measures a spell's glow after a potion is cast. The glow rises, peaks, and fades.
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+curve_data <- read_csv("data/potion_response.csv", show_col_types = FALSE)
+ggplot(curve_data, aes(minutes_after_potion, glow_measure)) +
+  geom_point(size = 3, color = "#6A4C93") +
+  labs(x = "Minutes after potion", y = "Glow measure") +
+  theme_minimal(base_size = 20)
+```
+
+- Would one straight line describe this pattern well? 
+
+## Example 3
+
+- In Ponyville, Pinkie Pie is curious about how Gummy's snack satisfaction (0 to 100) relates to the duration of chew time (in seconds) he spends on crunchy treats. She suspects that Gummy enjoys snacks more the longer he chews them.
+
+- Pinkie Pie records both the chew time (*chew_time*) and Gummy's satisfaction level (*satisfaction*) of the last 300 snacks given to Gummy (**gummy_data**).
+
+```{r}
+#| echo: false
+set.seed(17856)
+gummy_data <- tibble(
+  chew_time = round(runif(300, min = 5, max = 60), 1)
+) |>
+  mutate(
+    snack_crunch = round(50 + 0.5 * chew_time + rnorm(300, sd = 5),1),   # Crunchier with longer chew
+    nap_time = round(10 + 0.3 * chew_time + rnorm(300, sd = 4),1),       # Tired after chewing
+    satisfaction = round(20 + 0.9 * chew_time + rnorm(300, sd = 8))    # Original outcome
+  )
+
+gummy_data %>% head(n = 3)
+```
+
+## Example 3
+
+- Examining the scatterplot,
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+gummy_data %>% ggplot(aes(x = chew_time, y = satisfaction)) + # specify x and y
+  geom_point(size = 3, color = "#6A4C93") + # plot points
+  labs(x = "Chew Time (minutes)", # edit x-axis label
+       y = "Gummy's Satisfaction") + # edit y-axis label
+  theme_minimal(base_size = 20) # change theme of graph
+```
+
+## Example 3
+
+- Examining the correlation,
+
+```{r}
+gummy_data |> correlation(x = chew_time, y = satisfaction)
+```
+
+## Hypothesis Testing: Pearson's Correlation
+
+- We can determine if the correlation is significantly different from 0 (i.e., a relationship exists)
+
+- **Hypotheses:**
+    - $H_0: \ \rho_{\text{P}} = 0$
+    - $H_1: \ \rho_{\text{P}} \ne 0$
+    
+- **Test Statistic and *p*-Value**
+    - $t_0 = \frac{r \sqrt{n-2}}{\sqrt{1-r^2}}$
+    - $p = 2 \times P[t_{n-2}\ge t_0]$
+    
+- *This is default output in our `correlation()` function.*  
+
+## Example 3
+
+- Pinkie Pie records both the chew time (*chew_time*) and Gummy's satisfaction level (*satisfaction*) of the last 300 snacks given to Gummy (**gummy_data**).
+
+- Looking at correlation results for this specific relationship,
+
+```{r}
+gummy_data %>% correlation(x = chew_time, y = satisfaction)
+```
+
+## Example 3
+
+- **Hypotheses:**
+    - $H_0: \ \rho_{\text{P}} = 0$
+    - $H_1: \ \rho_{\text{P}} \ne 0$
+    
+- **Test Statistic and *p*-Value**
+    - $t_0 = 29.561$
+    - $p < 0.001$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$.
+    
+- **Conclusion and Intepretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that the correlation is different from zero.
+    
+## Correlation: Pearson's Assumptions (R)
+
+- The assumption for Pearson's correlation is that both *x* and *y* are normally distributed. 
+
+- We will use the `correlation_qq()` function from `library(ssstats)` to examine the normality of *x* and *y*.
+
+```{r}
+#| eval: false
+dataset_name |> correlation_qq(x = x_variable, y = y_variable)
+```
+
+## Example 3
+
+- Let's now check the assumption that both satisfaction level and the chew time are normally distributed. 
+
+```{r}
+#| fig-align: 'center'
+gummy_data |> correlation_qq(x = chew_time, y = satisfaction)
+```
+
+## Correlation: Spearman's Correlation
+
+- What do we do when we do not meet the normality assumption?
+
+- **Spearman's Correlation**: A *unitless* measure of the strength and direction of the *monotone relationship* between two variables. 
+
+    - Spearman's correlation only assumes that the data is ordinal. 
+    
+    - It does not work for nominal data!
+
+- Spearman's correlation is interpreted the same as Pearson's correlation.
+
+- To find Spearman's correlation, the following algorithm is followed:
+
+    1. Rank the $x$ and $y$ values. 
+        - ($x$, $y$) $\to$ ($R_x$, $R_y$)
+        
+    2. Find Pearson's correlation for the ranked data. 
+
+## Correlation: Spearman's Correlation (R)
+
+- We will use the `correlation()` function from `library(ssstats)` to examine correlation.
+
+- For a single pairwise correlation,
+
+```{r}
+#| eval: false
+dataset_name |> correlation(x = variable_1, y = variable_2, 
+                            method = "spearman")
+```
+
+- For all pairwise correlations,
+
+```{r}
+#| eval: false
+dataset_name |> correlation(method = "spearman")
+```
+
+## Example 3
+
+- Pinkie Pie suspects that Gummy enjoys snacks more the longer he chews them. Let's now explore Spearman's correlation,
+
+```{r}
+gummy_data %>% correlation(x = chew_time, y = satisfaction,
+                           method = "spearman")
+```
+
+## Hypothesis Testing: Spearman's Correlation
+
+- We can determine if the correlation is significantly different from 0 (i.e., a relationship exists)
+
+- **Hypotheses:**
+    - $H_0: \ \rho_{\text{S}} = 0$
+    - $H_1: \ \rho_{\text{S}} \ne 0$
+    
+- **Test Statistic and *p*-Value**
+    - $t_0 = \frac{r \sqrt{n-2}}{\sqrt{1-r^2}}$
+    - $p = 2 \times P[t_{n-2}\ge t_0]$
+    
+- *This is default output in our `correlation()` function.* 
+
+## Example 3
+
+- Pinkie Pie records both the chew time (*chew_time*) and Gummy's satisfaction level (*satisfaction*) of the last 300 snacks given to Gummy (**gummy_data**).
+
+- Looking at Spearman's correlation results for this specific relationship,
+
+```{r}
+gummy_data %>% correlation(x = chew_time, y = satisfaction,
+                           method = "spearman")
+```
+
+## Example 3
+
+- **Hypotheses:**
+    - $H_0: \ \rho_{\text{S}} = 0$
+    - $H_1: \ \rho_{\text{S}} \ne 0$
+    
+- **Test Statistic and *p*-Value**
+    - $t_0 = 570768$
+    - $p < 0.001$
+    
+- **Rejection Region**
+    - Reject $H_0$ if $p < \alpha$; $\alpha=0.05$.
+    
+- **Conclusion and Intepretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that the correlation is different from zero. 
+
+
+## Correlation: Pearson vs. Spearman
+
+- Comparing the two side-by-side,
+
+```{r}
+gummy_data |> correlation(x = chew_time, y = satisfaction, method = "pearson")
+gummy_data |> correlation(x = chew_time, y = satisfaction, method = "spearman")
+```
+
+## Linear Regression: Introduction
+    
+- Now we will discuss a different way of representing/quantifying the relationship.
+
+    - We will now construct a line of best fit, called the ordinary least squares (OLS) regression line. 
+
+- Using simple linear regression, we will model *y* (the outcome) as a function of *x* (the predictor).
+
+    - This is called simple linear regression becaause there is only one predictor.
+
+## Linear Regression: Definition
+
+- **Population regression line**: 
+
+$$ y = \beta_0 + \beta_1 x + \varepsilon $$
+
+- $\beta_0$ is the $y$-intercept.
+
+- $\beta_1$ is the slope describing the relationship between $x$ and $y$.
+    
+- $\varepsilon$ (estimated by $e$) is the error term; remember, from ANOVA (😱): 
+
+$$\varepsilon \overset{\text{iid}}{\sim} N(0, \sigma^2)$$
+    
+## Linear Regression: Definition
+
+- **Population regression line**: 
+
+$$ y = \beta_0 + \beta_1 x + \varepsilon $$
+    
+- **Sample regression line**: 
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x + e$$
+
+- $\hat{y}$ estimates $y$.
+
+- $\hat{\beta}_0$ estimates $\beta_0$.
+
+- $\hat{\beta}_1$ estimates $\beta_1$.
+    
+- $e$ estimates $\varepsilon$.
+
+## Linear Regression: Estimation
+
+- We first calculate the slope, $\hat{\beta}_1$
+
+$$ \hat{\beta}_1 = \frac{\sum_{i=1}^n x_i y_i - \frac{\sum_{i=1}^n x_i \sum_{i=1}^n y_i}{n}}{\sum_{i=1}^n x_i^2 - \frac{\left(\sum_{i=1}^n x_i\right)^2}{n}} = r \frac{s_y}{s_x} $$
+
+- $r$ is the Pearson correlation,
+- $s_x$ is the standard deviation of $x$, and
+- $s_y$ is the standard deviation of $y$
+  
+## Linear Regression: Estimation
+
+- Then we can calculate the intercept, $\hat{\beta}_0$ 
+
+$$ \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$ where
+
+  - $\bar{x}$ is the mean of $x$, and
+  - $\bar{y}$ is the mean of $y$. 
+
+## Linear Regression: Estimation (R)
+
+- We will use the `glm()` function from base `R` to construct our regression model. 
+
+- In the case of simple linear regression,
+
+```{r}
+#| eval: false
+m <- glm(y ~ x,
+         data = dataset_name,
+         family = "gaussian")
+```
+
+- Peek in the future: in the case of multiple linear regression,
+
+```{r}
+#| eval: false
+m <- glm(y ~ x_1 + x_2 + ... + x_k,
+         data = dataset_name,
+         family = "gaussian")
+```
+
+- We can see the results of our regression with `tidy()` from `broom`.
+
+```{r}
+#| eval: false
+m |> tidy()
+```
+
+## Example 1
+
+- Rainbow Dash wants to know whether more flight practice tends to go with a higher score on the Wonderbolts obstacle course.
+
+```{r}
+m1 <- glm(course_score ~ practice_hours, data = flight)
+m1 |> tidy()
+```
+
+$$\hat{\text{score}} =  40.4 + 4.4 \text{ hours}$$
+
+## Example 3
+
+- Pinkie Pie suspects that Gummy enjoys snacks more the longer he chews them. 
+
+```{r}
+m3 <- glm(satisfaction ~ chew_time, data = gummy_data)
+m3 |> tidy()
+```
+
+$$\hat{\text{satisfaction}} =  21.1 + 0.9 \text{ chew time}$$
+
+
+## Linear Regression: Interpretations
+
+- **Interpretation of the slope, $\hat{\beta}_1$**
+    - For a [$k$] [units of *x*] increase in [*x*], we expect [*y*] to [increase or decrease] by [$k \times |\hat{\beta}_1|$] [units of *y*].
+
+- **Interpretation of the $y$-intercept, $\hat{\beta}_0$**
+    - When [*x*] is 0, we expect the mean of [*y*] to be [$\hat{\beta}_0$].
+    - Caveat:
+        - It does not always make sense for *x* = 0. In this situation, we do not interpret the *y*-intercept.
+        - Some applications (e.g., psychology) will center the $x$ variable around its mean. 
+            - Then, when *x* = 0, we are interpreting in terms of the "average value of *x*."
+
+## Example 1
+
+- Rainbow Dash wants to know whether more flight practice tends to go with a higher score on the Wonderbolts obstacle course.
+
+- Recall the regression line we constructed, 
+
+$$\hat{\text{score}} =  40.4 + 4.4 \text{ hours}$$
+
+- Before considering practice time, we expect the average obstacle course score to be 40.4. 
+
+- For every hour increase in practice time, we expect the obstacle course score to increase by 4.4 points.
+
+## Example 3
+
+- Pinkie Pie suspects that Gummy enjoys snacks more the longer he chews them. 
+
+- Recall the regression line we constructed, 
+
+$$\hat{\text{satisfaction}} = 21.1 + 0.90 \text{ chew time}$$
+
+- Before considering chew time, Gummy's base level of satisfaction is 21.1.
+
+- For a 1 minute increase in chewing time, the satisfaction Gummy feels increases by 0.9 points.
+
+## Linear Regression: Confidence Interval for $\beta_i$
+
+- Like all statistics, we can put a confidence interval on $\beta_i$.
+
+    - When reporting regression results, I *always* include the corresponding CI.
+    
+$$\hat{\beta}_i \pm t_{\alpha/2, n-k-1} \text{ SE}_{\hat{\beta}_i}$$
+
+- *We can request this from `tidy()`,*
+
+```{r}
+#| eval: false
+m |> tidy(conf.int = TRUE)
+```
+
+## Example 1
+
+- Looking at our output,
+
+```{r}
+m1 |> tidy(conf.int = TRUE)
+```
+
+- The 95% CI for practice hours is (4.21, 4.63)
+
+    - We are 95% confident that the true slope is between 4.21 and 4.63.
+
+## Example 3
+
+- Looking at our output,
+
+```{r}
+m3 |> tidy(conf.int = TRUE)
+```
+
+- The 95% CI for chew time is (0.83, 0.95)
+
+    - We are 95% confident that the true slope is between 0.83 and 0.95.
+    
+
+## Hypothesis Testing: Significance of $\beta_i$
+
+- **Hypotheses**
+
+    - $H_0: \ \beta_i = 0$ 
+    - $H_1: \ \beta_i \ne 0$
+
+- **Test Statistic**
+
+    - $t_0 = \frac{\hat{\beta}_i}{s_{\hat{\beta}_i}} = \frac{\hat{\beta}_i}{\text{SE of }\hat{\beta}_i}$
+
+- ***p*-Value**
+
+    - $p = 2 \times P[t_{n-k-1} \ge |t_0|]$
+    
+- *This is default output in `tidy()`.*
+
+## Example 1
+
+- Rainbow Dash wants to know whether more flight practice tends to go with a higher score on the Wonderbolts obstacle course.
+
+```{r}
+m1 |> tidy()
+```
+    
+## Example 1
+
+- **Hypotheses**
+    - $H_0: \ \beta_{\text{practice\_hours}} = 0$ 
+    - $H_1: \ \beta_{\text{practice\_hours}} \ne 0$
+
+- **Test Statistic and *p*-Value**
+    - $t_0 = 40.70$; $p < 0.001$
+
+- **Rejection Region**
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$
+    
+- **Conclusion and Interpretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that the slope of practice hours is non-zero.
+
+## Example 3
+
+- Pinkie Pie suspects that Gummy enjoys snacks more the longer he chews them. 
+
+```{r}
+m3 |> tidy()
+```
+
+## Example 3
+
+- **Hypotheses**
+    - $H_0: \ \beta_{\text{chew\_time}} = 0$ 
+    - $H_1: \ \beta_{\text{chew\_time}} \ne 0$
+
+- **Test Statistic and *p*-Value**
+    - $t_0 = 29.56$; $p < 0.001$
+
+- **Rejection Region**
+    - Reject $H_0$ if $p<\alpha$; $\alpha=0.05$
+    
+- **Conclusion and Interpretation**
+    - Reject $H_0$. There is sufficient evidence to suggest that the slope of time chewed is non-zero.
+    
+
+## Correlation vs. Regression
+
+- When do we use either approach?
+
+    - Remember that correlation tells us the *strength* of the relationship.
+    
+    - Regression allows us to *quantify* that relationship on the original scale. 
+    
+- What is the difference between the tests?
+
+    - In simple linear regression, testing $\rho$ is equivalent to testing $\beta$.
+
+## Example 1
+
+```{r}
+flight |> correlation()
+m1 |> tidy()
+```
+
+## Example 3
+
+```{r}
+gummy_data |> correlation(x = chew_time, y = satisfaction)
+m3 |> tidy()
+```
+
+## Wrap Up
+
+- Next time:
+
+    - Multiple regression with more than one predictor
+    
+    - Categorical predictors
+    
+    - Assumptions on the linear model
+
+    - Visualizations that help explain model results
