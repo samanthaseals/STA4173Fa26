@@ -1,0 +1,138 @@
+---
+title: "Workshop: Regression Analysis"
+author: "your name here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: typst
+editor: source
+---
+
+A Jedi Academy instructor is studying which learning habits are associated with Padawans' scores on a 120-point practice exam. Each row represents one Padawan. 
+
+### Variables
+
+| Variable | Meaning | Type / units |
+|---|---|---|
+| `padawan_id` | Anonymous row identifier | ID; do not use as a predictor |
+| `exam_score_points` | Practice exam score (out of 120) | Continuous, points |
+| `study_hours` | Hours spent studying in the prior week | Continuous, hours |
+| `practice_questions` | Practice questions completed | Count |
+| `hint_requests` | Hints requested during practice | Count |
+| `sleep_hours` | Average nightly sleep during the prior week | Continuous, hours/night |
+| `attendance_pct` | Academy classes attended | Continuous, percent |
+| `study_group` | Participated in a study group | Binary: 0 = no, 1 = yes |
+
+
+
+Let's call in the packages and data we need,
+
+```{r}
+library(tidyverse)
+library(ssstats)
+
+
+```
+
+Fit a multiple linear regression with `exam_score_points` as the outcome and all six listed predictors. Explore the data, interpret slopes while holding the other predictors constant, and check the usual linear-model diagnostics. Discuss how you would represent `hint_requests` in the model: it is a count with integer values, so treating it as a numeric linear predictor is a modeling choice students should evaluate. `study_group` is coded 0 = no and 1 = yes.
+
+1a. Model `exam_score_points` as a function of `study_hours`,  `practice_questions`, and `attendance_pct`.
+
+```{r}
+
+```
+
+1b. State the resulting model.
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k$$
+
+1c. Provide a brief interpretation of the $y$-intercept.
+
+Your answer here.
+
+1d. Provide a brief interpretation of the slope for `study_hours`.
+
+Your answer here.
+
+1e. Provide a brief interpretation of the slope for `practice_questions`.
+
+Your answer here.
+
+1f. Provide a brief interpretation of the slope for `attendance_pct`.
+
+Your answer here.
+
+1g. Use the appropriate hypothesis test to determine if this is a significant regression line.
+
+```{r}
+
+```
+
+**Hypotheses**:
+
+- $H_0:$
+- $H_1:$
+
+**Test Statistic and $p$-value**
+
+- $statistic =$ 
+- $p=$
+
+**Rejection Region**
+
+- Reject $H_0$ if ...
+
+**Conclusion and Interpretation**
+
+- Reject or fail to reject $H_0$.
+- There is or is not sufficient evidence to conclude...
+
+
+1g. Which, if any, are significant predictors of `exam_score_points`? You do not need to write out the formal hypothesis tests, but you must back up your claims statistically.
+
+Your answer(s) here.
+
+
+
+
+2a. Model `exam_score_points` as a function of `study_hours`,  `practice_questions`, `attendance_pct`, `sleep_hours`, and `study_group`.
+
+2b. State the resulting model.
+
+$$\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + ... + \hat{\beta}_k$$
+
+2c. Did the interpretations for `study_hours`, `practice_questions`, and `attendance_pct` change after adding `sleep_hours` and `study_group` to the model? You must support your claim using information from the models in both 1a and 1b.
+
+Your answer here.
+
+2d. CHALLENGE AND EXTRA CREDIT: provide an interpretation for `study_group`. <!-- look up how to interpret categorical predictors -->
+
+Your answer here.
+
+
+2e. Which, if any, are significant predictors of `exam_score_points`? You do not need to write out the formal hypothesis tests, but you must back up your claims statistically.
+
+Your answer(s) here.
+
+
+3a. Determine how lines 1a and 2a fit using the adjusted $R^2$ value.
+
+```{r}
+
+```
+
+3b. Provide interpretations of the adjusted $R^2$ values.
+
+Your answer here.
+
+3c. Which line fits the best? You must support your claim statistically.
+
+Your answer here.
+
+4. Construct a data visualization to display model results. You must have a scatterplot plus a line of best fit as demonstrated in class.
+
+```{r}
+
+```

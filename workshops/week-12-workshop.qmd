@@ -1,5 +1,5 @@
 ---
-title: "Workshop: Categorical Analysis"
+title: "Workshop: Regression Analysis"
 author: "your name here"
 execute:
   echo: true
