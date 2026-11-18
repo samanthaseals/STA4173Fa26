@@ -33,7 +33,7 @@ Let's call in the packages and data we need,
 library(tidyverse)
 library(ssstats)
 
-
+jedi <- read_csv("https://raw.githubusercontent.com/samanthaseals/STA4173Fa26/refs/heads/main/workshops/data/M4-jedi-training.csv")
 ```
 
 Fit a multiple linear regression with `exam_score_points` as the outcome and all six listed predictors. Explore the data, interpret slopes while holding the other predictors constant, and check the usual linear-model diagnostics. Discuss how you would represent `hint_requests` in the model: it is a count with integer values, so treating it as a numeric linear predictor is a modeling choice students should evaluate. `study_group` is coded 0 = no and 1 = yes.
